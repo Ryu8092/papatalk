@@ -17,6 +17,7 @@ public class HelloTeam extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<h1>====== チーム制作 動作確認 ======</h1>");
         out.println("<p>GitHubとの連携テスト用ページです。</p>");
+        out.println("");
     }
 }
 
