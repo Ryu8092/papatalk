@@ -1,129 +1,77 @@
-```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>パパトーク｜ログイン</title>
+<title>パパトーク</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+body {
+    font-family: "Meiryo", sans-serif;
+    text-align: center;
+    background-color: white;
+}
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Meiryo", sans-serif;
-        background: #f2f8f7;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #30434a;
-    }
+h1 {
+    margin-top: 60px;
+    margin-bottom: 75px;
+    font-size: 24px;
+}
 
-    .login-container {
-        width: 100%;
-        max-width: 420px;
-        padding: 40px 35px;
-        margin: 20px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 8px 25px rgba(40, 80, 75, 0.10);
-        text-align: center;
-    }
+input {
+    display: block;
+    width: 300px;
+    height: 45px;
+    margin: 15px auto;
+    padding: 0 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 18px;
+}
 
-    h1 {
-        margin: 0 0 10px;
-        color: #278b83;
-        font-size: 32px;
-    }
+button {
+    width: 150px;
+    height: 48px;
+    margin-top: 8px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
 
-    .subtitle {
-        margin-bottom: 30px;
-        color: #71827f;
-        font-size: 14px;
-    }
-
-    .input-group {
-        margin-bottom: 18px;
-        text-align: left;
-    }
-
-    .input-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .input-group input {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #ccdcd9;
-        border-radius: 10px;
-        font-size: 16px;
-        outline: none;
-    }
-
-    .input-group input:focus {
-        border-color: #278b83;
-        box-shadow: 0 0 0 3px rgba(39, 139, 131, 0.12);
-    }
-
-    .login-button {
-        width: 100%;
-        padding: 14px;
-        margin-top: 8px;
-        border: none;
-        border-radius: 10px;
-        background: #278b83;
-        color: white;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .login-button:hover {
-        background: #20766f;
-    }
-
-    .signup-button {
-        display: block;
-        width: 100%;
-        padding: 13px;
-        margin-top: 15px;
-        border: 1px solid #278b83;
-        border-radius: 10px;
-        color: #278b83;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .signup-button:hover {
-        background: #edf8f6;
-    }
-
-    .error-message {
-        margin-bottom: 18px;
-        padding: 12px;
-        border-radius: 8px;
-        background: #fff0ef;
-        color: #c0392b;
-        font-size: 14px;
-    }
+.signup {
+    display: block;
+    width: 210px;
+    margin: 40px auto 0;
+    padding: 14px 0;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+}
 </style>
 </head>
 
 <body>
 
-    <div class="login-container">
+    <h1>パパトーク</h1>
 
-        <h1>パパトーク</h1>
-        <p class="subtitle">おかえりなさい！ログインしてください</p>
+    <form action="LoginExecute.action" method="post">
 
-        <% if (request.getAttribute("comment") != null) { %>
-            <div class="error-message">
-                <%= request.getAttribute("comment") %>
-            </div>
+        <input type="text" name="user_name"
+               placeholder="ユーザーネーム" required>
+
+        <input type="password" name="password"
+               placeholder="パスワード" required>
+
+        <button type="submit">ログイン</button>
+
+    </form>
+
+    <a href="Signup.action" class="signup">新規会員登録</a>
+
+</body>
+</html>
