@@ -52,12 +52,24 @@ button {
     text-decoration: none;
     font-size: 18px;
 }
+
+.error-message {
+    margin: -50px auto 20px;
+    color: red;
+    font-size: 14px;
+}
 </style>
 </head>
 
 <body>
 
     <h1>パパトーク</h1>
+
+    <% if (request.getAttribute("comment") != null) { %>
+        <p class="error-message">
+            <%= request.getAttribute("comment") %>
+        </p>
+    <% } %>
 
     <form action="LoginExecute.action" method="post">
 

@@ -45,7 +45,7 @@ public class LoginExecuteAction extends Action {
                 "ユーザーネームまたはパスワードに異なりがあります"
         );
 
-        request.getRequestDispatcher("login.jsp")
+        request.getRequestDispatcher("/scoremanager/login.jsp")
                 .forward(request, response);
     }
 }
