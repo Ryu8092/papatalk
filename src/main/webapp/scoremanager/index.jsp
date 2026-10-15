@@ -11,5 +11,5 @@ location.href="/papatalk/scoremanager/Login.action";
 </script>
 </head>
 <body>
-</body>	
+</body>		
 </html>
