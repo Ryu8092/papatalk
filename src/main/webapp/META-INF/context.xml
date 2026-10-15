@@ -3,12 +3,12 @@
     <session-timeout>240</session-timeout> <!-- 60分に設定 -->
 </session-config>
 	<Resource
-		name="jdbc/exam"
+		name="jdbc/papa"
 		auth="Container"
 		type="javax.sql.DataSource"
 		driverClassName="org.h2.Driver"
-		url="jdbc:h2:tcp://localhost/~/exam"
-		username="sa"
+		url="jdbc:h2:tcp://localhost/~/papa"
+		username="pa"
 		password=""
 		/>
 		</Context>
