@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" charset="text/html; charset=UTF-8">
-<title></title>
+<title>aaa</title>
 <script>
 //ログインページにリダイレクト
 location.href="/papatalk/scoremanager/Login.action";
