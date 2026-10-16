@@ -34,4 +34,17 @@ public class UserDao extends Dao {
 
         return null;
     }
+    public int updateStatus(String user_name) throws Exception {
+
+        String sql = "UPDATE user SET user_status = ? WHERE user_name = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setString(1, "deleted");
+            st.setString(2, user_name);
+
+            return st.executeUpdate();
+        }
+    }
 }

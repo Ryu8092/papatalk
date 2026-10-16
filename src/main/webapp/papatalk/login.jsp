@@ -1,11 +1,11 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>パパトーク</title>
-
+<title>パパトーク ログイン</title>
 <style>
 body {
     font-family: "Meiryo", sans-serif;
@@ -28,6 +28,7 @@ input {
     border: 2px solid black;
     border-radius: 10px;
     font-size: 18px;
+    box-sizing: border-box;
 }
 
 button {
@@ -40,50 +41,27 @@ button {
     font-size: 18px;
     cursor: pointer;
 }
-
-.signup {
-    display: block;
-    width: 210px;
-    margin: 40px auto 0;
-    padding: 14px 0;
-    border: 2px solid black;
-    border-radius: 10px;
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.error-message {
-    margin: -50px auto 20px;
-    color: red;
-    font-size: 14px;
-}
 </style>
 </head>
-
 <body>
 
-    <h1>パパトーク</h1>
+<h1>パパトーク</h1>
 
-    <% if (request.getAttribute("comment") != null) { %>
-        <p class="error-message">
-            <%= request.getAttribute("comment") %>
-        </p>
-    <% } %>
+<% if (request.getAttribute("errorMessage") != null) { %>
+    <p style="color:red;">
+        <%= request.getAttribute("errorMessage") %>
+    </p>
+<% } %>
 
-    <form action="LoginExecute.action" method="post">
+<form action="LoginSelectAction.action" method="post">
+    <input type="text" name="user_name"
+           placeholder="ユーザーネーム">
 
-        <input type="text" name="user_name"
-               placeholder="ユーザーネーム" required>
+    <input type="password" name="password"
+           placeholder="パスワード">
 
-        <input type="password" name="password"
-               placeholder="パスワード" required>
-
-        <button type="submit">ログイン</button>
-
-    </form>
-
-    <a href="Signup.action" class="signup">新規会員登録</a>
+    <button type="submit">ログイン</button>
+</form>
 
 </body>
 </html>
