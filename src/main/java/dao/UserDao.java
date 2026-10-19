@@ -61,7 +61,7 @@ public class UserDao extends Dao {
         return null;
     }
 
-    // 新規登録
+    
     public int insert(User user) throws Exception {
 
         String sql = "insert into users "
