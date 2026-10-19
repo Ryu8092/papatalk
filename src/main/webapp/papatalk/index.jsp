@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+mosi<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" charset="text/html; charset=UTF-8">
-<title>aaa</title>
+<title></title>
 <script>
 //ログインページにリダイレクト
-location.href="/papatalk/scoremanager/Login.action";
+location.href="Login.action";
 </script>
 </head>
 <body>
