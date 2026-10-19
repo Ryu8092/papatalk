@@ -14,7 +14,7 @@ public class UserDao extends Dao {
 
         User user = null;
 
-        String sql = "select * from user where password=? and user_name=?";
+        String sql = "select * from users where password=? and user_name=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -27,6 +27,7 @@ public class UserDao extends Dao {
                     user = new User();
                     user.setPassword(rs.getString("password"));
                     user.setUser_name(rs.getString("user_name"));
+
                     return user;
                 }
             }
@@ -40,7 +41,7 @@ public class UserDao extends Dao {
 
         User user = null;
 
-        String sql = "select * from user where email=?";
+        String sql = "select * from users where email=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -51,6 +52,7 @@ public class UserDao extends Dao {
                 if (rs.next()) {
                     user = new User();
                     user.setEmail(rs.getString("email"));
+
                     return user;
                 }
             }
@@ -62,11 +64,11 @@ public class UserDao extends Dao {
     // 新規登録
     public int insert(User user) throws Exception {
 
-        String sql = "insert into user "
+        String sql = "insert into users "
                 + "(user_name, user_age, nickname, password, email, tel, "
-                + "postal_code, prefecture, city, address1, address2, "
+                + "postal_code, prefecture, city, address1, "
                 + "child_age, child_gender, user_status) "
-                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -92,12 +94,12 @@ public class UserDao extends Dao {
     // アカウント削除
     public int updateStatus(String user_name) throws Exception {
 
-        String sql = "UPDATE user SET user_status = ? WHERE user_name = ?";
+        String sql = "UPDATE users SET user_status = ? WHERE user_name = ?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
 
-            st.setInt(1, 0);
+            st.setString(1, "deleted");
             st.setString(2, user_name);
 
             return st.executeUpdate();
