@@ -61,7 +61,7 @@ public class UserDao extends Dao {
         return null;
     }
 
-    ////aaaaaa
+    
     public int insert(User user) throws Exception {
 
         String sql = "insert into users "
