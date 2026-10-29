@@ -1,7 +1,4 @@
 <Context reloadable="true">
-<session-config>
-    <session-timeout>240</session-timeout> <!-- 60分に設定 -->
-</session-config>
 	<Resource
 		name="jdbc/papa"
 		auth="Container"
