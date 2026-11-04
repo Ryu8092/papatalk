@@ -19,6 +19,7 @@ public class User implements java.io.Serializable {
     private String child_gender;
     private java.sql.Date created_at;
     private int user_status;
+    private String comment;
 
     // ゲッター
     public int getUser_id() { return user_id; }
@@ -37,6 +38,7 @@ public class User implements java.io.Serializable {
     public String getChild_gender() { return child_gender; }
     public java.sql.Date getCreated_at() { return created_at; }
     public int getUser_status() { return user_status; }
+    public String getComment() { return comment; }
 
     // セッター
     public void setUser_id(int user_id) {
@@ -101,5 +103,8 @@ public class User implements java.io.Serializable {
 
     public void setUser_status(int user_status) {
         this.user_status = user_status;
+    }
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
