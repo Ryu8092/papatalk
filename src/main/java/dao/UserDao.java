@@ -9,27 +9,28 @@ import java.util.List;
 import bean.User;
  
 public class UserDao extends Dao {
+	
  
-    // ログイン確認
+	// ログイン確認
     public User select(String password, String user_name)
             throws Exception {
- 
         User user = null;
-        String sql = "select * from users where password=? and user_name=?";
- 
+        String sql = "SELECT * FROM users "
+                + "WHERE password = ? "
+                + "AND user_name = ? "
+                + "AND user_status != 1";
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
- 
             st.setString(1, password);
             st.setString(2, user_name);
- 
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     user = new User();
-                    user.setUser_id(rs.getInt("user_id"));
+                    user.setUser_id(rs.getInt("user_id")); 
                     user.setPassword(rs.getString("password"));
                     user.setUser_name(rs.getString("user_name"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setUser_status(rs.getInt("user_status"));
                     return user;
                 }
             }
@@ -59,21 +60,7 @@ public class UserDao extends Dao {
         return null;
     }
  
-    // アカウント削除
-    public int updateStatus(String user_id) throws Exception {
- 
-        String sql = "UPDATE users SET user_status = ? WHERE user_id = ?";
- 
-        try (Connection con = getConnection();
-             PreparedStatement st = con.prepareStatement(sql)) {
- 
-            st.setString(1, "deleted");
-            st.setString(2, user_id);
- 
-            return st.executeUpdate();
-        }
-    }
- 
+
     // 新規登録
     public int insert(User user) throws Exception {
  
@@ -98,11 +85,13 @@ public class UserDao extends Dao {
             st.setString(10, user.getAddress1());
             st.setInt(11, user.getChild_age());
             st.setString(12, user.getChild_gender());
-            st.setInt(13, 1);
+            st.setInt(13, 0);
  
             return st.executeUpdate();
         }
     }
+    
+    // アカウント削除
     public int updateStatus(int user_id) throws Exception {
  
         String sql = "UPDATE users SET user_status = ? WHERE user_id = ?";

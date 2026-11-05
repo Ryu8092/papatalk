@@ -51,7 +51,7 @@ public class DeleteFavoritesAction extends Action {
             // お気に入りを削除
             MatchingFavoriteDAO dao = new MatchingFavoriteDAO();
 
-            dao.delete(user.getUser_id(), targetUserId);
+            dao.deleteAction(user.getUser_id(), targetUserId);
 
             // 一覧画面に戻る
             res.sendRedirect(

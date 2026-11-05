@@ -196,7 +196,7 @@
 						href="${pageContext.request.contextPath}/scoremanager/main/GetFavoriteNotifications.action">
 						<span>お気に入り通知確認</span> <span class="menu-arrow">›</span>
 					</a> <a
-						href="${pageContext.request.contextPath}/scoremanager/main/matching_list.jsp">
+						href="${pageContext.request.contextPath}/scoremanager/main/MatchingList.action">
 						<span>マッチング中一覧</span> <span class="menu-arrow">›</span>
 					</a>
 
