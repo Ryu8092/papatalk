@@ -86,9 +86,7 @@ public class FavoriteAddAction extends Action {
  
         // JSPにユーザー一覧を渡す
         request.setAttribute("userList", userList);
-        System.out.println(count);
         if (count == 1) {
-        	System.out.println("aaa");
             // 登録結果をJSPに渡す
         	request.setAttribute("insertCount", count);
         }

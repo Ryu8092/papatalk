@@ -408,6 +408,7 @@
                                 </option>
                             </select>
                         </div>
+                        
 
                         <!-- 趣味 -->
                         <h3 class="account-section-title">趣味</h3>

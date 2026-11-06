@@ -26,11 +26,23 @@ public class UserDao extends Dao {
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     user = new User();
-                    user.setUser_id(rs.getInt("user_id")); 
-                    user.setPassword(rs.getString("password"));
+                    
+                    user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
                     user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
                     return user;
                 }
             }
