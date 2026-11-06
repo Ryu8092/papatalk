@@ -17,7 +17,7 @@ public class MailSender {
             String toEmail, String code) throws Exception {
 
         String fromEmail = "ryuichiro0704@gmail.com";
-        String appPassword = "mlgd irdb mjxo ogmd";
+        String appPassword = "auvx rczb ilpy rxnb";
 
         if (fromEmail == null || appPassword == null
                 || fromEmail.isBlank() || appPassword.isBlank()) {

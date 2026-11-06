@@ -245,7 +245,7 @@
 
         <div class="notice-message">
             あなたに興味を持っている人がいます<br>
-            すでにマッチングすることができます
+            すぐにマッチングすることができます
         </div>
 
         <div class="notice-list">
