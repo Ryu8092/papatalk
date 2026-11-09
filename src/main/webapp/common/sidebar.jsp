@@ -134,7 +134,7 @@
 
         <!-- イベント -->
         <li>
-            <c:url value="/scoremanager/main/event_list.jsp"
+            <c:url value="/scoremanager/main/RetrievePosts.action"
                 var="url_event_list" />
             <a href="${url_event_list}">
                 <span class="sidebar-icon">📅</span>

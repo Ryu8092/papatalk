@@ -198,7 +198,7 @@
  
                 <%-- 投稿フォーム --%>
                 <form class="newpost-form"
-                      action="${pageContext.request.contextPath}/scoremanager/main/NewRegistrationRegistration.action"
+                      action="${pageContext.request.contextPath}/scoremanager/main/NewRegistrationDone.action"
                       method="post"
                       accept-charset="UTF-8">
  

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.User;
  
@@ -463,5 +465,84 @@ public class UserDao extends Dao {
     	}
     	return null;
     }
+    
+ // 通報履歴を取得
+    public List<Map<String, Object>> selectReportHistory() throws Exception {
+ 
+        List<Map<String, Object>> list = new ArrayList<>();
+ 
+        String sql = "SELECT "
+                + "R.REPORT_ID, "
+                + "R.REPORTER_USER_ID, "
+                + "R.REPORTED_USER_ID, "
+                + "R.REPORT_CONTENT_ID, "
+                + "R.REPORT_REASON_ID, "
+                + "RR.REPORT_REASON_NAME, "
+                + "R.REPORT_CONTENT, "
+                + "R.CONTENT, "
+                + "R.CREATED_AT, "
+                + "R.STATE "
+                + "FROM REPORTS R "
+                + "INNER JOIN REPORT_REASONS RR "
+                + "ON R.REPORT_REASON_ID = RR.REPORT_REASON_ID "
+                + "ORDER BY R.CREATED_AT DESC";
+ 
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+ 
+            while (rs.next()) {
+ 
+                Map<String, Object> report = new HashMap<>();
+ 
+                report.put("report_id", rs.getInt("REPORT_ID"));
+                report.put("reporter_user_id", rs.getInt("REPORTER_USER_ID"));
+                report.put("reported_user_id", rs.getInt("REPORTED_USER_ID"));
+                report.put("report_content_id", rs.getInt("REPORT_CONTENT_ID"));
+                report.put("report_reason_id", rs.getInt("REPORT_REASON_ID"));
+                report.put("report_reason_name", rs.getString("REPORT_REASON_NAME"));
+                report.put("report_content", rs.getString("REPORT_CONTENT"));
+                report.put("content", rs.getString("CONTENT"));
+                report.put("created_at", rs.getTimestamp("CREATED_AT"));
+                report.put("state", rs.getString("STATE"));
+ 
+                list.add(report);
+            }
+        }
+ 
+        return list;
+    }
+// BANされたユーザーを取得
+    public List<User> select(int user_status) throws Exception {
+ 
+        List<User> list = new ArrayList<>();
+ 
+        String sql = "SELECT user_id, user_name, user_status "
+                + "FROM users "
+                + "WHERE user_status = ?";
+ 
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+ 
+            st.setInt(1, user_status);
+ 
+            try (ResultSet rs = st.executeQuery()) {
+ 
+                while (rs.next()) {
+ 
+                    User user = new User();
+ 
+                    user.setUser_id(rs.getInt("user_id"));
+                    user.setUser_name(rs.getString("user_name"));
+                    user.setUser_status(rs.getInt("user_status"));
+ 
+                    list.add(user);
+                }
+            }
+        }
+ 
+        return list;
+    }
+
 
 }
