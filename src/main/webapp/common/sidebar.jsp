@@ -132,15 +132,25 @@
             </a>
         </li>
 
-        <!-- イベント -->
+        <!-- 掲示板 -->
         <li>
             <c:url value="/scoremanager/main/RetrievePosts.action"
                 var="url_event_list" />
             <a href="${url_event_list}">
-                <span class="sidebar-icon">📅</span>
+                <span class="sidebar-icon">📋</span>
                 <span>掲示板</span>
             </a>
         </li>
+        
+        <!-- イベント -->
+		<li>
+		    <c:url value="/scoremanager/main/RetrieveEvents.action"
+		        var="url_events" />
+		    <a href="${url_events}">
+		        <span class="sidebar-icon">📅</span>
+		        <span>イベント</span>
+		    </a>
+		</li>
 
         <!-- おさがり -->
         <li>
@@ -171,6 +181,7 @@
                 <span>アカウント</span>
             </a>
         </li>
+
 
         <!-- ログアウト -->
         <li class="sidebar-logout">

@@ -435,35 +435,45 @@ public class UserDao extends Dao {
         return list;
     }
     
-    public User selectUser(int user_id) throws Exception{
-    	
-    	String sql = "SELECT * FROM users WHERE user_id = ? ";
-    	try (Connection con = getConnection();
-                PreparedStatement st = con.prepareStatement(sql);
-                ResultSet rs = st.executeQuery()) {
-    		while (rs.next()) {
-    			User user = new User();
-    			 user.setUser_id(rs.getInt("user_id"));
-                 user.setUser_name(rs.getString("user_name"));
-                 user.setUser_age(rs.getInt("user_age"));
-                 user.setNickname(rs.getString("nickname"));
-                 user.setPassword(rs.getString("password"));
-                 user.setEmail(rs.getString("email"));
-                 user.setTel(rs.getString("tel"));
-                 user.setPostal_code(rs.getString("postal_code"));
-                 user.setPrefecture(rs.getString("prefecture"));
-                 user.setCity(rs.getString("city"));
-                 user.setAddress1(rs.getString("address1"));
-                 user.setAddress2(rs.getString("address2"));
-                 user.setChild_age(rs.getInt("child_age"));
-                 user.setChild_gender(rs.getString("child_gender"));
-                 user.setUser_status(rs.getInt("user_status"));
-                 user.setComment(rs.getString("comment"));
-                 return user;
-    			
-    		}
-    	}
-    	return null;
+    public User selectUser(int user_id) throws Exception {
+
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, user_id);
+
+
+            try (ResultSet rs = st.executeQuery()) {
+
+                if (rs.next()) {
+
+                    User user = new User();
+
+                    user.setUser_id(rs.getInt("user_id"));
+                    user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
+                    user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+
+                    return user;
+                }
+            }
+        }
+
+        return null;
     }
     
  // 通報履歴を取得

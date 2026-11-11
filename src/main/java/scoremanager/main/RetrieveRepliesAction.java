@@ -46,22 +46,10 @@ public class RetrieveRepliesAction extends Action {
             }
  
  
-            // 投稿一覧から対象の投稿を取得
             PostDAO postsDAO = new PostDAO();
- 
-            List<Post> allPosts = postsDAO.getAll();
- 
-            Post selectedPost = null;
- 
-            for (Post post : allPosts) {
- 
-                if (post.getPost_id() == postId) {
-                    selectedPost = post;
-                    break;
-                }
-            }
- 
-            // 投稿が存在しない場合
+
+            Post selectedPost = postsDAO.selectId(postId);
+
             if (selectedPost == null) {
                 throw new ServletException("指定された投稿が見つかりません。");
             }

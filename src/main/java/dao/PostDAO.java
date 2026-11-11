@@ -156,5 +156,35 @@ public class PostDAO extends Dao {
  
         return list;
     }
+    
+    public Post selectId(int post_id) throws Exception {
+
+        String sql = "SELECT * FROM posts WHERE post_id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, post_id);
+
+            try (ResultSet rs = st.executeQuery()) {
+
+                if (rs.next()) {
+
+                    Post post = new Post();
+
+                    post.setPost_id(rs.getInt("POST_ID"));
+                    post.setUser_id(rs.getInt("POST_USER_ID"));
+                    post.setPost_title(rs.getString("TITLE"));
+                    post.setPost_content(rs.getString("CONTENT"));
+                    post.setPost_date(rs.getTimestamp("CREATE_AT"));
+
+
+                    return post;
+                }
+            }
+        }
+
+        return null;
+    }
  
 }
