@@ -1,7 +1,7 @@
 package bean;
  
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
  
 public class Replies implements Serializable {
  
@@ -29,7 +29,7 @@ public class Replies implements Serializable {
  
     // 返信日時
 
-    private Timestamp reply_date;
+    private LocalDateTime reply_date;
  
  
     // 返信ID
@@ -109,15 +109,15 @@ public class Replies implements Serializable {
  
     // 返信日時
 
-    public Timestamp getReply_date() {
+    public LocalDateTime getReply_date() {
 
         return reply_date;
 
     }
  
-    public void setReply_date(Timestamp reply_date) {
+    public void setReply_date(LocalDateTime localDateTime) {
 
-        this.reply_date = reply_date;
+        this.reply_date = localDateTime;
 
     }
 

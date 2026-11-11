@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Post;
+import bean.ReportReason;
 import dao.PostDAO;
+import dao.ReportReasonDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,51 +21,47 @@ public class RetrievePostsAction extends Action {
  
         req.setCharacterEncoding("UTF-8");
  
-        // ログイン確認
         HttpSession session = req.getSession(false);
- 
         if (session == null || session.getAttribute("user") == null) {
             res.sendRedirect(req.getContextPath() + "/scoremanager/Login.action");
             return;
         }
  
+        // セッションに保存されている通報完了メッセージがあれば取得してリクエスト属性にセットし、セッションからは削除する
+        String reportMessage = (String) session.getAttribute("reportMessage");
+        if (reportMessage != null) {
+            req.setAttribute("reportMessage", reportMessage);
+            session.removeAttribute("reportMessage");
+        }
+ 
         try {
- 
-            // DAOを使って投稿一覧を取得
             PostDAO dao = new PostDAO();
- 
             List<Post> allPosts = dao.getAll();
- 
             List<Post> postList = new ArrayList<>();
  
-            // 閲覧期限を確認
             for (Post post : allPosts) {
- 
                 if (post.getView_limit() != null
                         && post.getView_limit().getTime() < System.currentTimeMillis()) {
- 
                     continue;
                 }
- 
                 postList.add(post);
             }
  
-            // JSPに投稿一覧を渡す
             req.setAttribute("postList", postList);
  
-            // 掲示板トップ画面へ移動
+            // DBから通報理由一覧を取得してリクエスト属性にセット
+            ReportReasonDAO reportReasonDao = new ReportReasonDAO();
+            List<ReportReason> reportReasons = reportReasonDao.getAll();
+            req.setAttribute("reportReasons", reportReasons);
+ 
+            // シーケンス図通りのforward処理
             req.getRequestDispatcher(
                 "/scoremanager/main/bulletinboard_top.jsp"
             ).forward(req, res);
  
         } catch (Exception e) {
- 
             e.printStackTrace();
- 
-            throw new ServletException(
-                "掲示板の投稿一覧の取得に失敗しました。",
-                e
-            );
+            throw new ServletException("掲示板の投稿一覧の取得に失敗しました。", e);
         }
     }
 }

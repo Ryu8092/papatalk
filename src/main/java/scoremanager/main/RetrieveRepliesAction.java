@@ -4,8 +4,10 @@ import java.util.List;
 
 import bean.Post;
 import bean.Replies;
+import bean.ReportReason;
 import dao.PostDAO;
 import dao.RepliesDAO;
+import dao.ReportReasonDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,75 +22,54 @@ public class RetrieveRepliesAction extends Action {
  
         req.setCharacterEncoding("UTF-8");
  
-        // ログイン確認
         HttpSession session = req.getSession(false);
- 
         if (session == null || session.getAttribute("user") == null) {
             res.sendRedirect(req.getContextPath() + "/scoremanager/Login.action");
             return;
         }
  
+        // セッションから通報完了メッセージがあれば取得してリクエスト属性にセットし、セッションからは削除する
+        String reportMessage = (String) session.getAttribute("reportMessage");
+        if (reportMessage != null) {
+            req.setAttribute("reportMessage", reportMessage);
+            session.removeAttribute("reportMessage");
+        }
+        
+ 
         try {
- 
-            // クリックされた投稿IDを取得
-            String postIdText = req.getParameter("post_id");
- 
-            // 投稿IDが送られていない場合
-            if (postIdText == null || postIdText.trim().isEmpty()) {
-                throw new ServletException("投稿IDが指定されていません。");
+            String postIdStr = req.getParameter("post_id");
+            
+            if (postIdStr == null || postIdStr.isEmpty()) {
+                res.sendRedirect(req.getContextPath() + "/scoremanager/main/RetrievePosts.action");
+                return;
             }
  
-            int postId = Integer.parseInt(postIdText);
+            int postId = Integer.parseInt(postIdStr);
  
-            // 投稿IDの値を確認
-            if (postId <= 0) {
-                throw new ServletException("正しい投稿IDを指定してください。");
-            }
+            // 投稿詳細の取得
+            PostDAO postDao = new PostDAO();
+            Post post = postDao.selectId(postId);
+            req.setAttribute("post", post);
  
- 
-            PostDAO postsDAO = new PostDAO();
-
-            Post selectedPost = postsDAO.selectId(postId);
-
-            if (selectedPost == null) {
-                throw new ServletException("指定された投稿が見つかりません。");
-            }
- 
- 
-            // 返信一覧を取得
-            RepliesDAO repliesDAO = new RepliesDAO();
- 
-            List<Replies> replyList = repliesDAO.select(postId);
- 
- 
-            // JSPに投稿情報を渡す
-            req.setAttribute("post", selectedPost);
- 
-            // JSPに返信一覧を渡す
+            // 返信一覧の取得
+            RepliesDAO repliesDao = new RepliesDAO();
+            List<Replies> replyList = repliesDao.selectByPostId(postId);
             req.setAttribute("replyList", replyList);
  
+            // DBから通報理由一覧を取得してリクエストにセット
+            ReportReasonDAO reportReasonDao = new ReportReasonDAO();
+            
+            List<ReportReason> reportReasons = reportReasonDao.getAll();
+            
+            req.setAttribute("reportReasons", reportReasons);
  
-            // 返信画面へ移動
             req.getRequestDispatcher(
                 "/scoremanager/main/replay.jsp"
             ).forward(req, res);
  
- 
-        } catch (NumberFormatException e) {
- 
-            throw new ServletException(
-                "投稿IDの形式が正しくありません。",
-                e
-            );
- 
         } catch (Exception e) {
- 
             e.printStackTrace();
- 
-            throw new ServletException(
-                "投稿返信画面の取得に失敗しました。",
-                e
-            );
+            throw new ServletException("返信一覧の取得に失敗しました。", e);
         }
     }
 }
