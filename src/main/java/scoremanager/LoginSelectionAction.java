@@ -6,7 +6,7 @@ import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 import bean.User;
-import dao.SubscriptionDao;
+import dao.SubscriptionDAO;
 import dao.UserDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,8 +15,8 @@ import tool.Action;
 
 public class LoginSelectionAction extends Action {
 
-    private UserDao dao = new UserDao();
-    private SubscriptionDao subscriptionDao = new SubscriptionDao();
+    UserDao dao = new UserDao();
+    SubscriptionDAO subscriptionDao = new SubscriptionDAO();
 
     public void execute(HttpServletRequest req, HttpServletResponse res)
             throws Exception {
@@ -35,7 +35,6 @@ public class LoginSelectionAction extends Action {
         		
         	}
         }
-        
         
 
 //        User user = dao.select(password, user_name);
@@ -78,7 +77,7 @@ public class LoginSelectionAction extends Action {
             } else if (login_user.getUser_status() == 9) {
 
                 // 管理者
-                req.getRequestDispatcher("/scoremanager/admin/admin_main.jsp")
+                req.getRequestDispatcher("/scoremanager/main/ManagementScreen.action")
                         .forward(req, res);
             }
         }

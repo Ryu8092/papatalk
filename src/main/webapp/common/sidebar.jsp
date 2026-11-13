@@ -155,7 +155,7 @@
 
         <!-- おさがり -->
         <li>
-            <form action="${pageContext.request.contextPath}/scoremanager/main/assignment_list.jsp" method="get">
+            <form action="${pageContext.request.contextPath}/scoremanager/main/PlanSelect.action" method="get">
                 <button type="submit">
                     <span class="sidebar-icon">🧸</span>
                     <span>おさがり</span>
@@ -165,7 +165,7 @@
 
         <!-- サブスク限定 -->
         <li>
-            <form action="${pageContext.request.contextPath}/scoremanager/main/subscription_list.jsp" method="get">
+            <form action="${pageContext.request.contextPath}/scoremanager/main/PlanSelect.action" method="get">
                 <button type="submit">
                     <span class="sidebar-icon">⭐</span>
                     <span>サブスク限定</span>

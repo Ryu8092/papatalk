@@ -229,7 +229,7 @@
                         </button>
                     </form>
 
-                    <form action="${pageContext.request.contextPath}/scoremanager/main/FavoriteList.action"
+                    <form action="${pageContext.request.contextPath}/scoremanager/main/RetrieveFavorites.action"
                           method="get">
                         <button type="submit">
                             <span>お気に入りパパ一覧</span>

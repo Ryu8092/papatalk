@@ -43,7 +43,7 @@ public class RetrieveFavoritesAction extends Action {
 
             // お気に入り一覧画面を表示
             req.getRequestDispatcher(
-                "/scoremanager/main/favorite_list.jsp")
+                "/scoremanager/main/like_list.jsp")
                 .forward(req, res);
 
         } catch (Exception e) {

@@ -62,7 +62,7 @@ public class MatchingListAction extends Action {
             req.setAttribute("user", user);
 
             req.getRequestDispatcher(
-                "/scoremanager/main/matching_list.jsp"
+                "/scoremanager/main/chat_list.jsp"
             ).forward(req, res);
 
         } catch (Exception e) {

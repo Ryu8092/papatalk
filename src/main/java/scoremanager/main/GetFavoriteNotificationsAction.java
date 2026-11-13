@@ -54,7 +54,7 @@ public class GetFavoriteNotificationsAction extends Action {
 
             // 通知一覧画面を表示
             req.getRequestDispatcher(
-                "/scoremanager/main/favorite_notice.jsp")
+                "/scoremanager/main/like_notice.jsp")
                 .forward(req, res);
 
         } catch (Exception e) {

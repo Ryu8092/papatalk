@@ -183,7 +183,7 @@
 						href="${pageContext.request.contextPath}/scoremanager/main/Genru.action">
 						<span>マッチング設定</span> <span class="menu-arrow">›</span>
 					</a> <a
-						href="${pageContext.request.contextPath}/scoremanager/main/FavoriteList.action">
+						href="${pageContext.request.contextPath}/scoremanager/main/RetrieveFavorites.action">
 						<span>お気に入りパパ一覧</span> <span class="menu-arrow">›</span>
 					</a> <a
 						href="${pageContext.request.contextPath}/scoremanager/main/GetFavoriteNotifications.action">

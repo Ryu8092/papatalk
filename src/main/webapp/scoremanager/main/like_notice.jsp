@@ -218,7 +218,7 @@
 	        <span class="menu-arrow">›</span>
 	    </a>
 	
-	    <a href="${pageContext.request.contextPath}/scoremanager/main/FavoriteList.action">
+	    <a href="${pageContext.request.contextPath}/scoremanager/main/RetrieveFavorites.action">
 	        <span>お気に入りパパ一覧</span>
 	        <span class="menu-arrow">›</span>
 	    </a>

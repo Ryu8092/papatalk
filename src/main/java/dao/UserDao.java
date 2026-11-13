@@ -88,7 +88,6 @@ public class UserDao extends Dao {
                     user.setChild_gender(rs.getString("child_gender"));
                     user.setUser_status(rs.getInt("user_status"));
                     user.setComment(rs.getString("comment"));
-
                     list.add(user);
                 }
             }

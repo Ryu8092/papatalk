@@ -63,7 +63,7 @@ public class MatchingChatAction extends Action {
             
             // チャット画面へ遷移
             req.getRequestDispatcher(
-                "/scoremanager/main/matching_chat.jsp"
+                "/scoremanager/main/chat_match.jsp"
             ).forward(req, res);
 
         } catch (Exception e) {

@@ -215,8 +215,8 @@
 					<h2 class="setting-title">マッチング設定</h2>
 
 					<div class="header-buttons">
-						<a href="#hobby">こだわり条件</a> <a
-							href="${pageContext.request.contextPath}/scoremanager/main/match_list.jsp">戻る</a>
+
+						 <a href="${pageContext.request.contextPath}/scoremanager/main/MatchList.action">戻る</a>
 					</div>
 				</div>
 
