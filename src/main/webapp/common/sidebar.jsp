@@ -40,32 +40,43 @@
         list-style: none;
     }
 
-    .papa-sidebar li {
-        margin-bottom: 8px;
-    }
+    
+	.papa-sidebar form {
+	    margin: 0;
+	}
+	
+	.papa-sidebar button {
+	    display: flex;
+	    align-items: center;
+	    gap: 12px;
+	    width: 100%;
+	    min-height: 46px;
+	    padding: 11px 13px;
+	    box-sizing: border-box;
+	    border: none;
+	    border-radius: 9px;
+	    background: transparent;
+	    color: #f5f8fc;
+	    font-size: 14px;
+	    font-weight: 600;
+	    font-family: inherit;
+	    text-align: left;
+	    cursor: pointer;
+	    transition: background .2s, color .2s, transform .2s;
+	}
+	
+	.papa-sidebar button:hover,
+	.papa-sidebar button:focus-visible {
+	    background: #fff;
+	    color: #24476b;
+	    transform: translateX(3px);
+	    outline: none;
+	}
+	
+	.papa-sidebar .sidebar-logout button:hover {
+	    color: #b43c3c;
+	}
 
-    .papa-sidebar a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-height: 46px;
-        padding: 11px 13px;
-        box-sizing: border-box;
-        border-radius: 9px;
-        color: #f5f8fc;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: background .2s, color .2s, transform .2s;
-    }
-
-    .papa-sidebar a:hover,
-    .papa-sidebar a:focus-visible {
-        background: #fff;
-        color: #24476b;
-        transform: translateX(3px);
-        outline: none;
-    }
 
     .papa-sidebar .sidebar-icon {
         display: inline-flex;
@@ -103,9 +114,9 @@
     }
 </style>
 
+
 <nav class="papa-sidebar" aria-label="パパトークのメインメニュー">
 
-    <!-- ブランド -->
     <div class="papa-sidebar-brand">
         <h2>🗨️ ぱぱトーク</h2>
         <p>つながる、話せる、支え合える。</p>
@@ -114,84 +125,72 @@
     <ul>
         <!-- マッチング -->
         <li>
-            <c:url value="/scoremanager/main/MatchList.action"
-                var="url_match" />
-            <a href="${url_match}">
-                <span class="sidebar-icon">🤝</span>
-                <span>マッチング</span>
-            </a>
-        </li>
-
-        <!-- チャット -->
-        <li>
-            <c:url value="/scoremanager/main/chat_list.jsp"
-                var="url_chat_list" />
-            <a href="${url_chat_list}">
-                <span class="sidebar-icon">💬</span>
-                <span>チャット</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/MatchList.action" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">🤝</span>
+                    <span>マッチング</span>
+                </button>
+            </form>
         </li>
 
         <!-- 掲示板 -->
         <li>
-            <c:url value="/scoremanager/main/RetrievePosts.action"
-                var="url_event_list" />
-            <a href="${url_event_list}">
-                <span class="sidebar-icon">📋</span>
-                <span>掲示板</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/RetrievePosts.action" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">📋</span>
+                    <span>掲示板</span>
+                </button>
+            </form>
         </li>
-        
+
         <!-- イベント -->
-		<li>
-		    <c:url value="/scoremanager/main/RetrieveEvents.action"
-		        var="url_events" />
-		    <a href="${url_events}">
-		        <span class="sidebar-icon">📅</span>
-		        <span>イベント</span>
-		    </a>
-		</li>
+        <li>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/RetrieveEvents.action" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">📅</span>
+                    <span>イベント</span>
+                </button>
+            </form>
+        </li>
 
         <!-- おさがり -->
         <li>
-            <c:url value="/scoremanager/main/assignment_list.jsp"
-                var="url_assignment_list" />
-            <a href="${url_assignment_list}">
-                <span class="sidebar-icon">🧸</span>
-                <span>おさがり</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/assignment_list.jsp" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">🧸</span>
+                    <span>おさがり</span>
+                </button>
+            </form>
         </li>
 
         <!-- サブスク限定 -->
         <li>
-            <c:url value="/scoremanager/main/subscription_list.jsp"
-                var="url_subscription_list" />
-            <a href="${url_subscription_list}">
-                <span class="sidebar-icon">⭐</span>
-                <span>サブスク限定</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/subscription_list.jsp" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">⭐</span>
+                    <span>サブスク限定</span>
+                </button>
+            </form>
         </li>
 
         <!-- アカウント -->
         <li>
-            <c:url value="/scoremanager/main/AccountinFormation.action"
-                var="url_account_list" />
-            <a href="${url_account_list}">
-                <span class="sidebar-icon">👤</span>
-                <span>アカウント</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/AccountinFormation.action" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">👤</span>
+                    <span>アカウント</span>
+                </button>
+            </form>
         </li>
-
 
         <!-- ログアウト -->
         <li class="sidebar-logout">
-            <c:url value="/scoremanager/main/Logout.action"
-                var="url_logout_list" />
-            <a href="${url_logout_list}">
-                <span class="sidebar-icon">🚪</span>
-                <span>ログアウト</span>
-            </a>
+            <form action="${pageContext.request.contextPath}/scoremanager/main/Logout.action" method="get">
+                <button type="submit">
+                    <span class="sidebar-icon">🚪</span>
+                    <span>ログアウト</span>
+                </button>
+            </form>
         </li>
     </ul>
-
 </nav>

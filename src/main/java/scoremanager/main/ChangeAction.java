@@ -3,6 +3,8 @@ package scoremanager.main;
 import java.io.IOException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import bean.User;
 import dao.HobbyDao;
 import dao.UserDao;
@@ -91,7 +93,13 @@ public class ChangeAction extends Action {
 
             // パスワードは入力された場合のみ変更
             if (password != null && !password.isBlank()) {
-                user.setPassword(password);
+            	// パスワードをBCryptでハッシュ化
+                String hashedPassword = BCrypt.hashpw(
+                    password,
+                    BCrypt.gensalt(12)
+                );
+
+                user.setPassword(hashedPassword);
             }
 
             user.setEmail(email);

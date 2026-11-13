@@ -1,6 +1,8 @@
 //アカウント登録
 package scoremanager.main;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import bean.User;
 import dao.UserDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -108,7 +110,6 @@ public class RegistrationAction extends Action {
             user.setUser_name(username);
             user.setUser_age(age);
             user.setNickname(nickname);
-            user.setPassword(password);
             user.setEmail(email);
             user.setTel(tel);
             user.setPostal_code(postal_code);
@@ -118,6 +119,14 @@ public class RegistrationAction extends Action {
             user.setAddress2(address2);
             user.setChild_age(child_age);
             user.setChild_gender(child_gender);
+            
+         // パスワードをBCryptでハッシュ化
+            String hashedPassword = BCrypt.hashpw(
+                password,
+                BCrypt.gensalt(12)
+            );
+
+            user.setPassword(hashedPassword);
 
             UserDao dao = new UserDao();
             dao.insert(user);

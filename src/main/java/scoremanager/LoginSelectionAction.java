@@ -3,6 +3,8 @@ package scoremanager;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import bean.User;
 import dao.SubscriptionDao;
 import dao.UserDao;
@@ -21,10 +23,24 @@ public class LoginSelectionAction extends Action {
 
         String password = req.getParameter("password");
         String user_name = req.getParameter("user_name");
+        
+        List<User> userlist = dao.selectByUserName(user_name);
+        
+        User login_user = null;
+        
+        for (User user : userlist) {
+        	if (BCrypt.checkpw(password, user.getPassword())) {
+        		login_user = user;
+        		break;
+        		
+        	}
+        }
+        
+        
 
-        User user = dao.select(password, user_name);
+//        User user = dao.select(password, user_name);
 
-        if (user == null) {
+        if (login_user == null) {
 
             req.setAttribute("error", "ユーザー名またはパスワードが確認できませんでした。");
             req.setAttribute("user_name", user_name);
@@ -33,11 +49,11 @@ public class LoginSelectionAction extends Action {
 
         } else {
 
-            int user_id = user.getUser_id();
+            int user_id = login_user.getUser_id();
 
             // ログインしたユーザーと同じ都道府県のユーザーを取得
             List<User> userList =
-                    dao.selectByPrefecture(user.getPrefecture(), user_id);
+                    dao.selectByPrefecture(login_user.getPrefecture(), user_id);
 
             // JSPにユーザー一覧を渡す
             req.setAttribute("userList", userList);
@@ -45,7 +61,7 @@ public class LoginSelectionAction extends Action {
             HttpSession session = req.getSession();
 
             // ユーザー情報をセッションに格納
-            session.setAttribute("user", user);
+            session.setAttribute("user", login_user);
 
             // サブスク加入状態を取得
             boolean subscription = subscriptionDao.select(user_id);
@@ -53,13 +69,13 @@ public class LoginSelectionAction extends Action {
             // サブスク状態をセッションに格納
             session.setAttribute("subscription", subscription);
 
-            if (user.getUser_status() == 0) {
+            if (login_user.getUser_status() == 0) {
 
                 // 一般ユーザー
                 req.getRequestDispatcher("/scoremanager/main/match_list.jsp")
                         .forward(req, res);
 
-            } else if (user.getUser_status() == 9) {
+            } else if (login_user.getUser_status() == 9) {
 
                 // 管理者
                 req.getRequestDispatcher("/scoremanager/admin/admin_main.jsp")

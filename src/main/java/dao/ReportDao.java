@@ -10,26 +10,27 @@ public class ReportDao extends Dao {
  
     // シーケンス図通り：insert[ReportBean] に対応するメソッド
     public int insert(Report bean) throws Exception {
-        String sql =
-            "INSERT INTO reports " +
-            "(reporter_user_id, reported_user_id, report_reason_id, " +
-            "report_content_id, content, create_at, state) " +
-            "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
- 
-        try (
-            Connection con = getConnection();
-            PreparedStatement st = con.prepareStatement(sql)
-        ) {
-            st.setInt(1, bean.getReporter_user_id());
-            st.setInt(2, bean.getReported_user_id());
-            st.setInt(3, bean.getReport_reason_id());
-            st.setInt(4, bean.getReport_content_id());
-            st.setString(5, bean.getContent());
-            st.setInt(6, bean.getState());
- 
-            return st.executeUpdate();
-        }
-    }
+    	String sql =
+	        "INSERT INTO reports " +
+	        "(reporter_user_id, reported_user_id, report_reason_id, " +
+	        "report_content_id, report_content, content, create_at, state) " +
+	        "VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
+
+	    try (
+	        Connection con = getConnection();
+	        PreparedStatement st = con.prepareStatement(sql)
+	    ) {
+	        st.setInt(1, bean.getReporter_user_id());
+	        st.setInt(2, bean.getReported_user_id());
+	        st.setInt(3, bean.getReport_reason_id());
+	        st.setInt(4, bean.getReport_content_id());
+	        st.setString(5, bean.getReport_content());
+	        st.setString(6, bean.getContent());
+	        st.setInt(7, bean.getState());
+
+	        return st.executeUpdate();
+	    }
+	}
  
     // 投稿IDから投稿者のユーザーIDを取得するメソッド
     public int getUserIdByPostId(int postId) throws Exception {

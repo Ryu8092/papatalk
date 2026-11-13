@@ -51,6 +51,51 @@ public class UserDao extends Dao {
         }
         return null;
     }
+    
+    // ユーザーネームからユーザー情報を複数取得
+    public List<User> selectByUserName(String user_name) throws Exception {
+
+        List<User> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM users "
+                   + "WHERE user_name = ? "
+                   + "AND user_status != 1";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setString(1, user_name);
+
+            try (ResultSet rs = st.executeQuery()) {
+
+                while (rs.next()) {
+
+                    User user = new User();
+
+                    user.setUser_id(rs.getInt("user_id"));
+                    user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
+                    user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+
+                    list.add(user);
+                }
+            }
+        }
+
+        return list;
+    }
  
     // 新規登録用：メールアドレスの重複確認
     public User select(String email) throws Exception {
