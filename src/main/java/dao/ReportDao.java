@@ -3,10 +3,167 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.Report;
+import bean.User;
  
 public class ReportDao extends Dao {
+	// 通報内容IDからユーザー情報・通報情報を取得
+    // おさがり譲渡の場合は商品(3)とチャット(4)の両方を取得
+    public List<Report> selectByReportContentId(
+            int report_content_id) throws Exception {
+
+        List<Report> list = new ArrayList<>();
+
+        String sql =
+            "SELECT r.*, " +
+            "u.user_name, " +
+            "u.user_status, " +
+            "rr.report_reason_name " +
+            "FROM reports r " +
+            "INNER JOIN users u " +
+            "ON r.reported_user_id = u.user_id " +
+            "INNER JOIN report_reasons rr " +
+            "ON r.report_reason_id = rr.report_reason_id " +
+            "WHERE (r.report_content_id = ? " +
+            "OR (? = 3 AND r.report_content_id = 4)) " +
+            "ORDER BY r.create_at DESC";
+
+        try (
+            Connection con = getConnection();
+            PreparedStatement st = con.prepareStatement(sql)
+        ) {
+            st.setInt(1, report_content_id);
+            st.setInt(2, report_content_id);
+
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+
+                    Report bean = new Report();
+
+                    bean.setReport_id(rs.getInt("report_id"));
+                    bean.setReporter_user_id(
+                        rs.getInt("reporter_user_id"));
+                    bean.setReported_user_id(
+                        rs.getInt("reported_user_id"));
+                    bean.setReport_reason_id(
+                        rs.getInt("report_reason_id"));
+                    bean.setContent(rs.getString("content"));
+
+                    Timestamp timestamp =
+                        rs.getTimestamp("create_at");
+
+                    if (timestamp != null) {
+                        bean.setCreate_at(
+                            timestamp.toLocalDateTime());
+                    }
+
+                    bean.setState(rs.getInt("state"));
+                    bean.setReport_content(
+                        rs.getString("report_content"));
+                    bean.setReport_content_id(
+                        rs.getInt("report_content_id"));
+                    bean.setReport_reason_name(
+                        rs.getString("report_reason_name"));
+
+                    User user = new User();
+
+                    user.setUser_id(
+                        rs.getInt("reported_user_id"));
+                    user.setUser_name(
+                        rs.getString("user_name"));
+                    user.setUser_status(
+                        rs.getInt("user_status"));
+
+                    bean.setUser(user);
+
+                    list.add(bean);
+                }
+            }
+        }
+
+        return list;
+    }
+
+    // ユーザーIDからおさがりの商品・チャットの通報情報を取得
+    public List<Report> selectByUserId(
+            int user_id) throws Exception {
+
+        List<Report> list = new ArrayList<>();
+
+        String sql =
+            "SELECT r.*, " +
+            "u.user_name, " +
+            "u.user_status, " +
+            "rr.report_reason_name " +
+            "FROM reports r " +
+            "INNER JOIN users u " +
+            "ON r.reported_user_id = u.user_id " +
+            "INNER JOIN report_reasons rr " +
+            "ON r.report_reason_id = rr.report_reason_id " +
+            "WHERE r.reported_user_id = ? " +
+            "AND r.report_content_id IN (3, 4) " +
+            "ORDER BY r.create_at DESC";
+
+        try (
+            Connection con = getConnection();
+            PreparedStatement st = con.prepareStatement(sql)
+        ) {
+            st.setInt(1, user_id);
+
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+
+                    Report bean = new Report();
+
+                    bean.setReport_id(
+                        rs.getInt("report_id"));
+                    bean.setReporter_user_id(
+                        rs.getInt("reporter_user_id"));
+                    bean.setReported_user_id(
+                        rs.getInt("reported_user_id"));
+                    bean.setReport_reason_id(
+                        rs.getInt("report_reason_id"));
+                    bean.setContent(
+                        rs.getString("content"));
+
+                    Timestamp timestamp =
+                        rs.getTimestamp("create_at");
+
+                    if (timestamp != null) {
+                        bean.setCreate_at(
+                            timestamp.toLocalDateTime());
+                    }
+
+                    bean.setState(rs.getInt("state"));
+                    bean.setReport_content(
+                        rs.getString("report_content"));
+                    bean.setReport_content_id(
+                        rs.getInt("report_content_id"));
+                    bean.setReport_reason_name(
+                        rs.getString("report_reason_name"));
+
+                    User user = new User();
+
+                    user.setUser_id(
+                        rs.getInt("reported_user_id"));
+                    user.setUser_name(
+                        rs.getString("user_name"));
+                    user.setUser_status(
+                        rs.getInt("user_status"));
+
+                    bean.setUser(user);
+
+                    list.add(bean);
+                }
+            }
+        }
+
+        return list;
+    }
  
     // シーケンス図通り：insert[ReportBean] に対応するメソッド
     public int insert(Report bean) throws Exception {

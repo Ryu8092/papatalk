@@ -125,8 +125,8 @@ public class UserDao extends Dao {
         String sql = "insert into users "
                 + "(user_name, user_age, nickname, password, email, tel, "
                 + "postal_code, prefecture, city, address1, "
-                + "child_age, child_gender, user_status) "
-                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "child_age, child_gender, user_status, avatar_url) "
+                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
  
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -144,6 +144,7 @@ public class UserDao extends Dao {
             st.setInt(11, user.getChild_age());
             st.setString(12, user.getChild_gender());
             st.setInt(13, 0);
+            st.setString(14, user.getAvatar_url());
  
             return st.executeUpdate();
         }

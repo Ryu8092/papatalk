@@ -20,6 +20,7 @@ public class User implements java.io.Serializable {
     private java.sql.Date created_at;
     private int user_status;
     private String comment;
+    private String avatar_url;
 
     // ゲッター
     public int getUser_id() { return user_id; }
@@ -39,6 +40,7 @@ public class User implements java.io.Serializable {
     public java.sql.Date getCreated_at() { return created_at; }
     public int getUser_status() { return user_status; }
     public String getComment() { return comment; }
+    public String getAvatar_url() { return avatar_url; }
 
     // セッター
     public void setUser_id(int user_id) {
@@ -106,5 +108,9 @@ public class User implements java.io.Serializable {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+    
+    public void setAvatar_url(String avatar_url) {
+    	this.avatar_url = avatar_url;
     }
 }

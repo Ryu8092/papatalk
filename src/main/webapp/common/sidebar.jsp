@@ -155,7 +155,7 @@
 
         <!-- おさがり -->
         <li>
-            <form action="${pageContext.request.contextPath}/scoremanager/main/PlanSelect.action" method="get">
+            <form action="${pageContext.request.contextPath}/scoremanager/main/AssignmentTop.action" method="get">
                 <button type="submit">
                     <span class="sidebar-icon">🧸</span>
                     <span>おさがり</span>

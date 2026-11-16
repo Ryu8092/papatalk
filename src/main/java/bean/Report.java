@@ -17,9 +17,18 @@ public class Report implements Serializable {
     private String report_reason_name;
     // DAOで取得するユーザー名
     private String user_name;
- 
+    private User user;
     // getter / setter
  
+    // UserBeanの取得・設定
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     public int getReport_id() {
         return report_id;
     }

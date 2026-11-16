@@ -120,7 +120,7 @@ button:hover {
         <p class="message"><c:out value="${message}" /></p>
     </c:if>
 
-    <form action="/papatalk/scoremanager/main/Registration.action" method="post">
+    <form action="/papatalk/scoremanager/main/Registration.action" method="post" enctype="multipart/form-data">
 
         <label>名前</label>
         <input type="text" name="username"
@@ -211,6 +211,12 @@ button:hover {
             <option value="女子"
                 ${param.child_gender == 'female' ? 'selected' : ''}>女の子</option>
         </select>
+        
+        <label>プロフィール画像</label>
+		<input type="file" name="avatar"
+		       accept="image/jpeg,image/png,image/gif"
+		       required>
+		       
         <c:if test="${not empty childGenderError}">
             <p class="error-message"><c:out value="${childGenderError}"/></p>
         </c:if>

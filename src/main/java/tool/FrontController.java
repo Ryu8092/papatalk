@@ -3,12 +3,17 @@ package tool;
 import java.io.IOException;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = { "*.action" })
+@MultipartConfig(
+    maxFileSize = 5 * 1024 * 1024,
+    maxRequestSize = 6 * 1024 * 1024
+)
 public class FrontController extends HttpServlet {
 
 	@Override

@@ -115,6 +115,46 @@
             .account-delete {
                 background: #e85d5d;
             }
+            
+            /* プロフィール画像 */
+			.account-profile {
+			    display: flex;
+			    align-items: center;
+			    gap: 20px;
+			    margin-bottom: 25px;
+			    padding: 20px;
+			    background: #f8fafc;
+			    border-radius: 12px;
+			}
+			
+			.account-profile-image {
+			    width: 110px;
+			    height: 110px;
+			    border-radius: 50%;
+			    object-fit: cover;
+			    border: 3px solid #dce5ed;
+			}
+			
+			.account-profile-form {
+			    display: flex;
+			    flex-direction: column;
+			    gap: 10px;
+			}
+			
+			.account-profile-form input {
+			    max-width: 260px;
+			}
+			
+			.account-profile-button {
+			    width: fit-content;
+			    padding: 10px 18px;
+			    border: none;
+			    border-radius: 8px;
+			    background: #00b9c7;
+			    color: white;
+			    font-weight: 600;
+			    cursor: pointer;
+			}
 
             @media (max-width: 768px) {
                 .account-layout {

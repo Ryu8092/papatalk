@@ -34,7 +34,7 @@ public class FavoriteListAction extends Action {
         req.setAttribute("favoriteList", favoriteList);
  
         req.getRequestDispatcher(
-            "/scoremanager/main/favorite_list.jsp"
+            "/scoremanager/main/like_list.jsp"
         ).forward(req, res);
     }
 }
