@@ -131,6 +131,7 @@
     background: #fff;
 }
 
+
 .notice-photo {
     width: 100%;
     height: 180px;
@@ -141,7 +142,15 @@
     margin-bottom: 16px;
     color: #718096;
     border-radius: 10px;
+    overflow: hidden;
 }
+
+.notice-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 .notice-info {
     text-align: left;
@@ -258,7 +267,19 @@
 
                         <div class="notice-card">
 
-                            <div class="notice-photo">写真</div>
+                            
+							<div class="notice-photo">
+							    <c:choose>
+							        <c:when test="${not empty favorite.avatar_url}">
+							            <img src="<c:out value='${pageContext.request.contextPath}${favorite.avatar_url}'/>"
+							                 alt="プロフィール画像">
+							        </c:when>
+							        <c:otherwise>
+							            <span>画像なし</span>
+							        </c:otherwise>
+							    </c:choose>
+							</div>
+
 
                             <div class="notice-info">
 

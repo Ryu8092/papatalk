@@ -99,15 +99,22 @@
 }
 
 .user-photo {
-	width: 100%;
-	height: 180px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: #f1f5f9;
-	border-radius: 10px;
-	margin-bottom: 16px;
-	color: #718096;
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    color: #718096;
+    overflow: hidden;
+}
+
+.user-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .user-card p {
@@ -216,7 +223,18 @@
 
 								<div class="user-card">
 
-									<div class="user-photo">写真</div>
+									<div class="user-photo">
+									    <c:choose>
+									        <c:when test="${not empty user.avatar_url}">
+									            <img
+									                src="${pageContext.request.contextPath}${user.avatar_url}"
+									                alt="プロフィール画像">
+									        </c:when>
+									        <c:otherwise>
+									            写真なし
+									        </c:otherwise>
+									    </c:choose>
+									</div>
 
 									<p>
 										ユーザーID：

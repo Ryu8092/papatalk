@@ -45,6 +45,7 @@ public class UserDao extends Dao {
                     user.setChild_gender(rs.getString("child_gender"));
                     user.setUser_status(rs.getInt("user_status"));
                     user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
                     return user;
                 }
             }
@@ -88,6 +89,7 @@ public class UserDao extends Dao {
                     user.setChild_gender(rs.getString("child_gender"));
                     user.setUser_status(rs.getInt("user_status"));
                     user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
                     list.add(user);
                 }
             }
@@ -200,6 +202,7 @@ public class UserDao extends Dao {
             st.setInt(12, user.getChild_age());
             st.setString(13, user.getChild_gender());
             st.setInt(14, user.getUser_id());
+            
  
             return st.executeUpdate();
         }
@@ -211,7 +214,7 @@ public class UserDao extends Dao {
  
         List<User> list = new ArrayList<>();
  
-        String sql = "SELECT user_id, prefecture FROM users "
+        String sql = "SELECT * FROM users "
                 + "WHERE prefecture = ? AND user_id <> ?";
  
         try (Connection con = getConnection();
@@ -224,7 +227,22 @@ public class UserDao extends Dao {
                 while (rs.next()) {
                     User user = new User();
                     user.setUser_id(rs.getInt("user_id"));
+                    user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
                     list.add(user);
                 }
             }
@@ -512,6 +530,7 @@ public class UserDao extends Dao {
                     user.setChild_gender(rs.getString("child_gender"));
                     user.setUser_status(rs.getInt("user_status"));
                     user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
 
                     return user;
                 }

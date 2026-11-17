@@ -11,44 +11,60 @@ import bean.User;
  
 public class MatchingFavoriteDAO extends Dao {
  
-    // お気に入りパパ一覧を取得
-    public List<User> select(int loginUserId) {
- 
-        List<User> favoriteList = new ArrayList<>();
- 
-        String sql =
-            "SELECT u.user_id, u.user_name, u.prefecture " +
-            "FROM MATCHING_FAVORITES f " +
-            "JOIN USERS u ON f.TARGET_USER_ID = u.user_id " +
-            "WHERE f.ACTION_USER_ID = ?";
- 
-        try (
-            Connection con = getConnection();
-            PreparedStatement ps = con.prepareStatement(sql)
-        ) {
- 
-            ps.setInt(1, loginUserId);
- 
-            try (ResultSet rs = ps.executeQuery()) {
- 
-                while (rs.next()) {
- 
-                    User user = new User();
- 
+
+	// お気に入りパパ一覧を取得
+	public List<User> select(int loginUserId) {
+
+	    List<User> favoriteList = new ArrayList<>();
+
+	    String sql =
+	        "SELECT * " +
+	        "FROM MATCHING_FAVORITES f " +
+	        "JOIN USERS u ON f.TARGET_USER_ID = u.user_id " +
+	        "WHERE f.ACTION_USER_ID = ?";
+
+	    try (
+	        Connection con = getConnection();
+	        PreparedStatement ps = con.prepareStatement(sql)
+	    ) {
+
+	        ps.setInt(1, loginUserId);
+
+	        try (ResultSet rs = ps.executeQuery()) {
+
+	            while (rs.next()) {
+
+	                User user = new User();
+
                     user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
- 
-                    favoriteList.add(user);
-                }
-            }
- 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
- 
-        return favoriteList;
-    }
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
+
+	                favoriteList.add(user);
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return favoriteList;
+	}
+
  
  
     // お気に入りを登録
@@ -146,7 +162,7 @@ public class MatchingFavoriteDAO extends Dao {
         List<User> notificationList = new ArrayList<>();
  
         String sql =
-            "SELECT u.user_id, u.user_name, u.prefecture " +
+            "SELECT * " +
             "FROM MATCHING_FAVORITES f " +
             "JOIN USERS u ON f.ACTION_USER_ID = u.user_id " +
             "WHERE f.TARGET_USER_ID = ?";
@@ -166,7 +182,21 @@ public class MatchingFavoriteDAO extends Dao {
  
                     user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
+                    user.setUser_age(rs.getInt("user_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
  
                     notificationList.add(user);
                 }
