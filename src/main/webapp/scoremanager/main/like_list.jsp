@@ -7,6 +7,7 @@
     <c:param name="scripts"></c:param>
  
     <c:param name="content">
+ 
         <style>
             .matching-layout {
                 display: flex;
@@ -184,14 +185,23 @@
         </style>
  
         <div class="matching-layout">
+ 
             <aside class="matching-sidebar">
                 <jsp:include page="/common/sidebar.jsp" />
             </aside>
  
             <main class="matching-main">
  
+                <!-- ページタイトル -->
+                <h2 class="matching-title">お気に入りパパ一覧</h2>
+ 
+                <p class="matching-description">
+                    お気に入りに登録したパパを確認できます。
+                </p>
+ 
                 <!-- 4つの機能ボタン -->
                 <div class="matching-menu">
+ 
                     <a href="${pageContext.request.contextPath}/scoremanager/main/Genru.action">
                         <span>マッチング設定</span>
                         <span class="menu-arrow">›</span>
@@ -211,51 +221,58 @@
                         <span>マッチング中一覧</span>
                         <span class="menu-arrow">›</span>
                     </a>
+ 
                 </div>
  
                 <!-- お気に入り一覧 -->
-                <h2 class="matching-title">お気に入りパパ一覧</h2>
- 
-                <p class="matching-description">
-                    お気に入りに登録したパパを確認できます。
-                </p>
- 
                 <div class="user-list">
+ 
                     <c:choose>
+ 
                         <c:when test="${not empty favoriteList}">
+ 
                             <c:forEach var="user" items="${favoriteList}">
+ 
                                 <div class="user-card">
  
                                     <!-- プロフィール写真 -->
                                     <div class="user-photo">
+ 
                                         <c:choose>
+ 
                                             <c:when test="${not empty user.avatar_url}">
                                                 <img
                                                     src="${pageContext.request.contextPath}${user.avatar_url}"
                                                     alt="プロフィール画像">
                                             </c:when>
+ 
                                             <c:otherwise>
                                                 写真なし
                                             </c:otherwise>
+ 
                                         </c:choose>
+ 
                                     </div>
  
-                                   <p>
-                                   名前：
-                                   <c:out value="${user.user_name}" />
-                                   </p>
-                                   <p>
-                                   年齢：
-                                   <c:out value="${user.user_age}" />歳
-                                   </p>
-                                   <p>
-                                   都道府県：
-                                   <c:out value="${user.prefecture}" />
-                                   </p>
-                                   <p>
-                                   コメント：
-                                   <c:out value="${user.comment}" />
-                                   </p>
+                                    <p>
+                                    ニックネーム：
+                                    <c:out value="${user.nickname}" />
+                                    </p>
+ 
+                                    <p>
+                                        年齢：
+                                        <c:out value="${user.user_age}" />歳
+                                    </p>
+ 
+                                    <p>
+                                        都道府県：
+                                        <c:out value="${user.prefecture}" />
+                                    </p>
+ 
+                                    <p>
+                                        コメント：
+                                        <c:out value="${user.comment}" />
+                                    </p>
  
                                     <!-- お気に入り解除ボタン -->
                                     <form class="delete-form"
@@ -269,22 +286,30 @@
                                         <button type="submit" class="delete-button">
                                             お気に入り解除
                                         </button>
+ 
                                     </form>
  
                                 </div>
+ 
                             </c:forEach>
+ 
                         </c:when>
  
                         <c:otherwise>
+ 
                             <p class="empty-message">
                                 お気に入りに登録したパパはいません。
                             </p>
+ 
                         </c:otherwise>
+ 
                     </c:choose>
+ 
                 </div>
  
             </main>
+ 
         </div>
+ 
     </c:param>
 </c:import>
- 

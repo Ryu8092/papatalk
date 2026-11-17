@@ -171,7 +171,7 @@
                         <input type="hidden" name="plan" value="1">
  
                         <button type="submit" class="plan-button">
-                            <div class="plan-period">1日（24時間）</div>
+                            <div class="plan-period">1日</div>
                             <div class="plan-price">300円</div>
                         </button>
  
@@ -184,7 +184,7 @@
                         <input type="hidden" name="plan" value="2">
  
                         <button type="submit" class="plan-button">
-                            <div class="plan-period">1か月（30日間）</div>
+                            <div class="plan-period">1か月</div>
                             <div class="plan-price">600円</div>
                         </button>
  
@@ -197,7 +197,7 @@
                         <input type="hidden" name="plan" value="3">
  
                         <button type="submit" class="plan-button">
-                            <div class="plan-period">3か月（90日間）</div>
+                            <div class="plan-period">3か月</div>
                             <div class="plan-price">1500円</div>
                         </button>
  

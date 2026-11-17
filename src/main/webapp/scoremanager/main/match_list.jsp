@@ -238,8 +238,8 @@
                             <%-- ユーザーIDは画面に表示しない --%>
  
                             <p>
-                                名前：
-                                <c:out value="${user.user_name}" />
+                            ニックネーム：
+                            <c:out value="${user.nickname}" />
                             </p>
  
                             <p>

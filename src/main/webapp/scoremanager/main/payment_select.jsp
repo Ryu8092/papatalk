@@ -104,21 +104,36 @@
                 width: 75%;
                 margin: 18px auto;
                 color: #334155;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
             }
  
             .payment-method label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
                 cursor: pointer;
             }
  
-            .payment-method input {
-                margin-right: 8px;
+            .payment-method input[type="radio"] {
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                flex: 0 0 18px;
+                margin: 0;
+                border: 1.5px solid #888;
+                border-radius: 50%;
+                box-sizing: border-box;
+                cursor: pointer;
             }
  
-            .error-message {
-                width: 75%;
-                margin: 10px auto;
-                color: red;
-                font-weight: bold;
+            .payment-method input[type="radio"]:checked {
+                background: radial-gradient(
+                    circle,
+                    #24476b 0 4px,
+                    transparent 4.5px
+                );
             }
  
             .next-button {
@@ -156,8 +171,7 @@
  
                 .purchase-box,
                 .payment-method-title,
-                .payment-method,
-                .error-message {
+                .payment-method {
                     width: 100%;
                 }
  
@@ -170,12 +184,10 @@
  
         <div class="payment-layout">
  
-            <!-- サイドバー -->
             <aside class="payment-sidebar">
                 <jsp:include page="/common/sidebar.jsp" />
             </aside>
  
-            <!-- メイン画面 -->
             <main class="payment-main">
  
                 <div class="payment-top">
@@ -188,24 +200,25 @@
                 <div class="purchase-box">
                     <div>ご購入内容</div>
  
-                    <p>（本日の日付）</p>
- 
                     <c:choose>
                         <c:when test="${plan == '1'}">
-                            <p>1日　24時間</p>
+                            <p>1日</p>
                             <p>300円</p>
                         </c:when>
  
                         <c:when test="${plan == '2'}">
-                            <p>1か月　30日間</p>
+                            <p>1か月</p>
                             <p>600円</p>
                         </c:when>
  
                         <c:when test="${plan == '3'}">
-                            <p>3か月　90日間</p>
+                            <p>3か月</p>
                             <p>1500円</p>
                         </c:when>
                     </c:choose>
+ 
+                    <p>開始予定日：${startDate}</p>
+                    <p>終了予定日：${endDate}</p>
                 </div>
  
                 <div class="payment-method-title">
@@ -215,22 +228,42 @@
                 <form
                     action="${pageContext.request.contextPath}/scoremanager/main/CardInput.action"
                     method="get"
-                    onsubmit="return checkPaymentMethod()">
+                    id="paymentForm">
  
                     <input type="hidden" name="plan" value="${plan}">
  
                     <div class="payment-method">
+ 
                         <label>
-                            <input type="radio" name="payment_method"
-                                value="credit_card">
+                            <input type="radio"
+                                name="payment_method"
+                                value="credit_card"
+                                required>
                             クレジットカード
                         </label>
-                    </div>
  
-                    <p id="error-message" class="error-message"
-                        style="display: none;">
-                        お支払い方法を選択してください
-                    </p>
+                        <label>
+                            <input type="radio"
+                                name="payment_method"
+                                value="paypay">
+                            PayPay
+                        </label>
+ 
+                        <label>
+                            <input type="radio"
+                                name="payment_method"
+                                value="convenience">
+                            コンビニ払い
+                        </label>
+ 
+                        <label>
+                            <input type="radio"
+                                name="payment_method"
+                                value="bank">
+                            銀行振込
+                        </label>
+ 
+                    </div>
  
                     <button type="submit" class="next-button">
                         次へ
@@ -242,22 +275,44 @@
         </div>
  
         <script>
-            function checkPaymentMethod() {
+            const paymentRadios = document.querySelectorAll(
+                'input[name="payment_method"]'
+            );
  
-                const paymentMethod =
-                    document.querySelector(
-                        'input[name="payment_method"]:checked'
-                    );
+            const paymentForm = document.getElementById("paymentForm");
  
-                if (!paymentMethod) {
-                    document.getElementById("error-message")
-                        .style.display = "block";
+            let selectedRadio = null;
  
-                    return false;
+            // 選択中のボタンをもう一度押したら解除
+            paymentRadios.forEach(function(radio) {
+ 
+                radio.addEventListener("click", function() {
+ 
+                    if (selectedRadio === this) {
+                        this.checked = false;
+                        selectedRadio = null;
+                    } else {
+                        selectedRadio = this;
+                    }
+ 
+                });
+ 
+            });
+ 
+            // クレジットカード以外は次へ進ませない
+            paymentForm.addEventListener("submit", function(event) {
+ 
+                const checkedRadio = document.querySelector(
+                    'input[name="payment_method"]:checked'
+                );
+ 
+                if (!checkedRadio ||
+                    checkedRadio.value !== "credit_card") {
+ 
+                    event.preventDefault();
                 }
  
-                return true;
-            }
+            });
         </script>
  
     </c:param>
