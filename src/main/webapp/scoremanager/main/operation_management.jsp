@@ -165,7 +165,7 @@
                     </a>
  
                     <!-- 通報履歴 -->
-                    <a href="/papatalk/scoremanager/main/Acquisition.action"
+                    <a href="/papatalk/scoremanager/main/BanList.action"
                        class="operation-button">
                         通報履歴
                     </a>

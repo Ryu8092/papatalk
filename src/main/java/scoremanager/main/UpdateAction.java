@@ -24,7 +24,7 @@ public class UpdateAction extends Action {
         }
 
         // 通報されたユーザーIDを取得
-        String reportedUserId = request.getParameter("reported_user_id");
+        String reportedUserId = request.getParameter("user_id");
 
         if (reportedUserId == null || reportedUserId.isEmpty()) {
 
@@ -62,7 +62,7 @@ public class UpdateAction extends Action {
         UserDao dao = new UserDao();
 
         // アカウント停止
-        int result = dao.updateStatus(reported_user_id);
+        int result = dao.releaseBan(reported_user_id);
 
         if (result > 0) {
 

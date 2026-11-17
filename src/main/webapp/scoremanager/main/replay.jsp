@@ -290,7 +290,23 @@
                         <c:forEach var="reply" items="${replyList}" varStatus="status">
                             <article class="reply-card">
                                 <div class="reply-info">
-                                    <span>名前：<c:out value="${reply.user_name}" /></span>
+                                    <span>
+									    名前：
+									    <form action="${pageContext.request.contextPath}/scoremanager/main/UserDetail.action"
+									          method="post"
+									          style="display: inline;">
+									
+									        <input type="hidden" name="user_id"
+									               value="${reply.user_id}">
+									
+									        <input type="hidden" name="post_id"
+									               value="${post.post_id}">
+									
+									        <button type="submit" class="user-name-button">
+									            <c:out value="${reply.user_name}" />
+									        </button>
+									    </form>
+									</span>
                                     <span>返信日：<c:out value="${reply.reply_date}" /></span>
                                 </div>
                                 <div class="reply-content">

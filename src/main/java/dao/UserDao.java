@@ -166,6 +166,19 @@ public class UserDao extends Dao {
             return st.executeUpdate();
         }
     }
+    
+    public int releaseBan(int user_id) throws Exception {
+    	 String sql = "UPDATE users SET user_status = ? WHERE user_id = ?";
+    	 
+         try (Connection con = getConnection();
+              PreparedStatement st = con.prepareStatement(sql)) {
+  
+             st.setInt(1,0);
+             st.setInt(2, user_id);
+  
+             return st.executeUpdate();
+         }
+    }
     // アカウント情報の更新
     public int update(User user) throws Exception {
  
@@ -304,11 +317,25 @@ public class UserDao extends Dao {
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     User user = new User();
+                    
                     user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
                     user.setUser_age(rs.getInt("user_age"));
-                    user.setChild_age(rs.getInt("child_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
+                    
                     list.add(user);
                 }
             }
@@ -318,7 +345,7 @@ public class UserDao extends Dao {
     }
  
  
-    // マッチング設定の条件でユーザーを検索
+ // マッチング設定の条件でユーザーを検索
     public List<User> select(
             String childAge,
             String fatherAge,
@@ -326,156 +353,188 @@ public class UserDao extends Dao {
             String destination,
             String hobbies,
             int loginUserId) throws Exception {
- 
+
         List<User> list = new ArrayList<>();
- 
+
         StringBuilder sql = new StringBuilder(
                 "SELECT DISTINCT users.user_id, users.user_name, "
                 + "users.user_age, users.child_age, users.prefecture "
                 + "FROM users "
                 + "WHERE users.user_id <> ? "
-                + "AND users.user_status = 0");
- 
+                + "AND users.user_status = 0"
+        );
+
         List<Object> params = new ArrayList<>();
         params.add(loginUserId);
- 
-        // 子どもの年齢
+
+        // =====================================
+        // 子どもの年齢で絞り込む
+        // =====================================
         if (childAge != null && !childAge.isEmpty()
                 && childAge.matches("\\d+")) {
+
             sql.append(" AND users.child_age = ?");
             params.add(Integer.parseInt(childAge));
         }
- 
-        // パパの年齢
+
+        // =====================================
+        // パパの年齢で絞り込む
+        // =====================================
         if (fatherAge != null && !fatherAge.isEmpty()) {
+
             if ("20代".equals(fatherAge)) {
                 sql.append(" AND users.user_age BETWEEN 20 AND 29");
+
             } else if ("30代".equals(fatherAge)) {
                 sql.append(" AND users.user_age BETWEEN 30 AND 39");
+
             } else if ("40代".equals(fatherAge)) {
                 sql.append(" AND users.user_age BETWEEN 40 AND 49");
+
             } else if ("50代以上".equals(fatherAge)) {
                 sql.append(" AND users.user_age >= 50");
             }
         }
- 
+
+        // =====================================
         // お住まいの地域で絞り込む
+        // =====================================
         if (region != null && !region.isEmpty()
                 && !"指定なし".equals(region)) {
- 
+
             String[] prefectures = null;
- 
+
             if ("北海道".equals(region)) {
-                prefectures = new String[]{"北海道"};
- 
+                prefectures = new String[]{
+                    "北海道"
+                };
+
             } else if ("東北".equals(region)) {
                 prefectures = new String[]{
                     "青森県", "岩手県", "宮城県",
                     "秋田県", "山形県", "福島県"
                 };
- 
+
             } else if ("関東".equals(region)) {
                 prefectures = new String[]{
                     "東京都", "神奈川県", "埼玉県",
                     "千葉県", "茨城県", "栃木県", "群馬県"
                 };
- 
+
             } else if ("中部".equals(region)) {
                 prefectures = new String[]{
                     "新潟県", "富山県", "石川県", "福井県",
                     "山梨県", "長野県", "岐阜県",
                     "静岡県", "愛知県"
                 };
- 
+
             } else if ("近畿".equals(region)) {
                 prefectures = new String[]{
                     "三重県", "滋賀県", "京都府", "大阪府",
                     "兵庫県", "奈良県", "和歌山県"
                 };
- 
+
             } else if ("中国".equals(region)) {
                 prefectures = new String[]{
                     "鳥取県", "島根県", "岡山県",
                     "広島県", "山口県"
                 };
- 
+
             } else if ("四国".equals(region)) {
                 prefectures = new String[]{
                     "徳島県", "香川県", "愛媛県", "高知県"
                 };
- 
+
             } else if ("九州・沖縄".equals(region)) {
                 prefectures = new String[]{
                     "福岡県", "佐賀県", "長崎県", "熊本県",
                     "大分県", "宮崎県", "鹿児島県", "沖縄県"
                 };
             }
- 
+
             if (prefectures != null) {
+
                 sql.append(" AND users.prefecture IN (");
- 
+
                 for (int i = 0; i < prefectures.length; i++) {
+
                     if (i > 0) {
                         sql.append(",");
                     }
+
                     sql.append("?");
                     params.add(prefectures[i]);
                 }
- 
+
                 sql.append(")");
             }
         }
- 
+
+        // =====================================
         // 都道府県で絞り込む
+        // =====================================
         if (destination != null && !destination.isEmpty()
                 && !"指定なし".equals(destination)) {
+
             sql.append(" AND users.prefecture = ?");
             params.add(destination);
         }
- 
-        // 趣味で絞り込む（選択した趣味のうち1つでも一致）
+
+        // =====================================
+        // 趣味で絞り込む
+        // 選択した趣味のうち1つでも一致すれば表示
+        // =====================================
         if (hobbies != null && !hobbies.trim().isEmpty()) {
- 
+
             String[] hobbyNames = hobbies.split(",");
- 
+
             sql.append(" AND EXISTS (");
-            sql.append("SELECT 1 FROM USER_HOBBIES uh ");
-            sql.append("INNER JOIN HOBBIES h ");
-            sql.append("ON uh.HOBBY_ID = h.HOBBY_ID ");
-            sql.append("WHERE uh.USER_ID = users.USER_ID ");
-            sql.append("AND h.HOBBY_NAME IN (");
- 
+            sql.append(" SELECT 1 ");
+            sql.append(" FROM USER_HOBBIES uh ");
+            sql.append(" INNER JOIN HOBBIES h ");
+            sql.append(" ON uh.HOBBY_ID = h.HOBBY_ID ");
+            sql.append(" WHERE uh.USER_ID = users.USER_ID ");
+            sql.append(" AND h.HOBBY_NAME IN (");
+
             for (int i = 0; i < hobbyNames.length; i++) {
+
                 if (i > 0) {
                     sql.append(",");
                 }
+
                 sql.append("?");
                 params.add(hobbyNames[i].trim());
             }
- 
+
             sql.append("))");
         }
- 
+
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql.toString())) {
- 
+
+            // パラメータを設定
             for (int i = 0; i < params.size(); i++) {
                 st.setObject(i + 1, params.get(i));
             }
- 
+
+            // 検索結果を取得
             try (ResultSet rs = st.executeQuery()) {
+
                 while (rs.next()) {
+
                     User user = new User();
+
                     user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
                     user.setUser_age(rs.getInt("user_age"));
                     user.setChild_age(rs.getInt("child_age"));
                     user.setPrefecture(rs.getString("prefecture"));
+
                     list.add(user);
                 }
             }
         }
- 
+
         return list;
     }
  
@@ -617,6 +676,9 @@ public class UserDao extends Dao {
  
         return list;
     }
+
+    
+
 
 
 }

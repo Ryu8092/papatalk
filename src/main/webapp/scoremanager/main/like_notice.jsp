@@ -1,13 +1,12 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-
+ 
 <c:import url="/common/base.jsp">
     <c:param name="title">パパトークシステム</c:param>
     <c:param name="scripts"></c:param>
     <c:param name="content">
-
+ 
 <style>
 .notice-layout {
     display: flex;
@@ -20,7 +19,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
 }
-
+ 
 .matching-menu a {
     display: flex;
     justify-content: space-between;
@@ -34,16 +33,16 @@
     font-size: 13px;
     font-weight: bold;
 }
-
+ 
 .matching-menu a:hover {
     background: #f2f5fa;
 }
-
+ 
 .menu-arrow {
     color: #718096;
     font-size: 18px;
 }
-
+ 
 .notice-sidebar {
     flex: 0 0 240px;
     background: #fff;
@@ -51,7 +50,7 @@
     box-shadow: 0 4px 16px rgba(31, 55, 85, .08);
     padding: 20px;
 }
-
+ 
 .notice-main {
     flex: 1;
     min-width: 0;
@@ -60,7 +59,7 @@
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(31, 55, 85, .08);
 }
-
+ 
 .notice-title {
     color: #24476b;
     font-size: 26px;
@@ -69,7 +68,7 @@
     border-bottom: 3px solid #ed9145;
     margin-bottom: 24px;
 }
-
+ 
 /* 戻るボタン */
 .back-button {
     display: block;
@@ -86,11 +85,11 @@
     font-weight: 600;
     transition: background .2s;
 }
-
+ 
 .back-button:hover {
     background: #f2f5fa;
 }
-
+ 
 /* 通知メッセージ */
 .notice-message {
     text-align: center;
@@ -102,7 +101,7 @@
     color: #555;
     background: #f8fafc;
 }
-
+ 
 /* マッチング完了メッセージ */
 .success-message {
     text-align: center;
@@ -115,14 +114,14 @@
     font-weight: bold;
     font-size: 16px;
 }
-
+ 
 /* 通知一覧 */
 .notice-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
 }
-
+ 
 .notice-card {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
@@ -130,8 +129,7 @@
     text-align: center;
     background: #fff;
 }
-
-
+ 
 .notice-photo {
     width: 100%;
     height: 180px;
@@ -142,23 +140,15 @@
     margin-bottom: 16px;
     color: #718096;
     border-radius: 10px;
-    overflow: hidden;
 }
-
-.notice-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-
+ 
 .notice-info {
     text-align: left;
     line-height: 1.8;
     margin-bottom: 16px;
     overflow-wrap: anywhere;
 }
-
+ 
 /* マッチングボタン */
 .matching-button {
     display: block;
@@ -174,11 +164,11 @@
     font-size: 14px;
     transition: background .2s;
 }
-
+ 
 .matching-button:hover {
     background: #d97c30;
 }
-
+ 
 /* 通知がない場合 */
 .empty-message {
     grid-column: 1 / -1;
@@ -188,38 +178,38 @@
     color: #718096;
     border-radius: 10px;
 }
-
+ 
 @media (max-width: 768px) {
     .notice-layout {
         flex-direction: column;
     }
-
+ 
     .notice-sidebar {
         width: 100%;
         flex-basis: auto;
         box-sizing: border-box;
     }
-
+ 
     .notice-main {
         width: 100%;
         padding: 20px;
         box-sizing: border-box;
     }
-
+ 
     .notice-list {
         grid-template-columns: 1fr;
     }
 }
 </style>
-
+ 
 <div class="notice-layout">
-
+ 
     <aside class="notice-sidebar">
         <jsp:include page="/common/sidebar.jsp" />
     </aside>
-
+ 
     <main class="notice-main">
-
+ 
 	        <!-- 4つの機能ボタン -->
 	<div class="matching-menu">
 	    <a href="${pageContext.request.contextPath}/scoremanager/main/Genru.action">
@@ -242,99 +232,87 @@
 	        <span class="menu-arrow">›</span>
 	    </a>
 	</div>
-
+ 
         <%-- マッチング完了メッセージ --%>
         <c:if test="${not empty matchingMessage}">
             <div class="success-message">
                 <c:out value="${matchingMessage}" />
             </div>
         </c:if>
-
+ 
         <h2 class="notice-title">お気に入り通知一覧</h2>
-
+ 
         <div class="notice-message">
             あなたに興味を持っている人がいます<br>
             すぐにマッチングすることができます
         </div>
-
+ 
         <div class="notice-list">
-
+ 
             <c:choose>
-
+ 
                 <c:when test="${not empty notificationList}">
-
+ 
                     <c:forEach var="favorite" items="${notificationList}">
-
+ 
                         <div class="notice-card">
-
-                            
-							<div class="notice-photo">
-							    <c:choose>
-							        <c:when test="${not empty favorite.avatar_url}">
-							            <img src="<c:out value='${pageContext.request.contextPath}${favorite.avatar_url}'/>"
-							                 alt="プロフィール画像">
-							        </c:when>
-							        <c:otherwise>
-							            <span>画像なし</span>
-							        </c:otherwise>
-							    </c:choose>
-							</div>
-
-
+ 
+                            <div class="notice-photo">写真</div>
+ 
                             <div class="notice-info">
-
+ 
                                 名前：
                                 <c:out value="${favorite.user_name}" />
                                 <br>
-
+ 
                                 年齢：
                                 <c:out value="${favorite.user_age}" />
                                 <br>
-
+ 
                                 住所：
                                 <c:out value="${favorite.prefecture}" />
                                 <br>
-
+ 
                                 コメント：
                                 <c:out value="${favorite.comment}" />
-
+ 
                             </div>
-
+ 
                             <%-- マッチング登録 --%>
                             <form
                                 action="${pageContext.request.contextPath}/scoremanager/main/MatchingAdd.action"
                                 method="post">
-
+ 
                                 <input type="hidden" name="target_user_id"
                                     value="${favorite.user_id}">
-
+ 
                                 <button type="submit" class="matching-button">
                                     マッチングする
                                 </button>
-
+ 
                             </form>
-
+ 
                         </div>
-
+ 
                     </c:forEach>
-
+ 
                 </c:when>
-
+ 
                 <c:otherwise>
-
+ 
                     <p class="empty-message">
                         お気に入り通知がありません。
                     </p>
-
+ 
                 </c:otherwise>
-
+ 
             </c:choose>
-
+ 
         </div>
-
+ 
     </main>
-
+ 
 </div>
-
+ 
     </c:param>
 </c:import>
