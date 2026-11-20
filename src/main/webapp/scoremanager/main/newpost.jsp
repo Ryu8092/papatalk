@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
- 
+
 <c:import url="/common/base.jsp">
     <c:param name="title">新規投稿｜パパトークシステム</c:param>
- 
     <c:param name="scripts"></c:param>
- 
+
     <c:param name="content">
- 
+
         <style>
             /* 全体レイアウト */
             .newpost-layout {
@@ -17,7 +16,7 @@
                 align-items: flex-start;
                 min-height: 70vh;
             }
- 
+
             /* サイドバー */
             .newpost-sidebar {
                 flex: 0 0 240px;
@@ -26,7 +25,7 @@
                 box-shadow: 0 4px 16px rgba(31,55,85,.08);
                 padding: 20px;
             }
- 
+
             /* メイン画面 */
             .newpost-main {
                 flex: 1;
@@ -36,7 +35,7 @@
                 border-radius: 14px;
                 box-shadow: 0 4px 16px rgba(31,55,85,.08);
             }
- 
+
             /* タイトル */
             .newpost-title {
                 color: #24476b;
@@ -46,32 +45,32 @@
                 border-bottom: 3px solid #ed9145;
                 margin-bottom: 16px;
             }
- 
+
             .newpost-description {
                 color: #718096;
                 font-size: 14px;
                 margin-bottom: 28px;
             }
- 
+
             /* 入力フォーム */
             .newpost-form {
                 display: flex;
                 flex-direction: column;
                 gap: 22px;
             }
- 
+
             .form-group {
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
             }
- 
+
             .form-label {
                 color: #24476b;
                 font-weight: bold;
                 font-size: 15px;
             }
- 
+
             .form-input {
                 width: 100%;
                 box-sizing: border-box;
@@ -81,12 +80,12 @@
                 font-size: 15px;
                 outline: none;
             }
- 
+
             .form-input:focus {
                 border-color: #ed9145;
                 box-shadow: 0 0 0 2px rgba(237,145,69,.15);
             }
- 
+
             .form-textarea {
                 width: 100%;
                 min-height: 250px;
@@ -99,12 +98,12 @@
                 line-height: 1.7;
                 outline: none;
             }
- 
+
             .form-textarea:focus {
                 border-color: #ed9145;
                 box-shadow: 0 0 0 2px rgba(237,145,69,.15);
             }
- 
+
             /* ボタン */
             .newpost-buttons {
                 display: flex;
@@ -113,7 +112,7 @@
                 margin-top: 10px;
                 flex-wrap: wrap;
             }
- 
+
             .submit-button {
                 padding: 12px 35px;
                 background: #ed9145;
@@ -124,26 +123,27 @@
                 font-weight: bold;
                 cursor: pointer;
             }
- 
+
             .submit-button:hover {
-                background: #d97c30;
-            }
- 
-            .back-button {
-                display: inline-block;
-                padding: 12px 35px;
-                background: #718096;
-                color: white;
-                text-decoration: none;
-                border-radius: 8px;
-                font-size: 16px;
-                font-weight: bold;
-            }
- 
-            .back-button:hover {
-                background: #5b6878;
-            }
- 
+				                background: #d97c30;
+				            }
+				
+				            .back-button {
+				    display: inline-block;
+				    padding: 12px 35px;
+				    background: #fff;
+				    color: #24476b;
+				    border: 1px solid #ccd5df;
+				    text-decoration: none;
+				    border-radius: 8px;
+				    font-size: 16px;
+				    font-weight: bold;
+				}
+				
+				.back-button:hover {
+				    background: #f5f7fa;
+				    color: #24476b;
+				}
             /* 入力エラー */
             .error-message {
                 color: #d93025;
@@ -152,19 +152,19 @@
                 border-radius: 6px;
                 margin-bottom: 15px;
             }
- 
+
             /* スマホ表示 */
             @media(max-width: 768px) {
                 .newpost-layout {
                     flex-direction: column;
                 }
- 
+
                 .newpost-sidebar {
                     width: 100%;
                     flex-basis: auto;
                     box-sizing: border-box;
                 }
- 
+
                 .newpost-main {
                     width: 100%;
                     padding: 20px;
@@ -172,43 +172,41 @@
                 }
             }
         </style>
- 
+
         <div class="newpost-layout">
- 
+
             <%-- サイドバー --%>
             <aside class="newpost-sidebar">
                 <jsp:include page="/common/sidebar.jsp" />
             </aside>
- 
+
             <%-- メイン画面 --%>
             <main class="newpost-main">
- 
+
                 <h2 class="newpost-title">新規投稿</h2>
- 
-                <p class="newpost-description">
-                    投稿したい内容を入力してください。
-                </p>
- 
+
+                
+
                 <%-- エラーメッセージ --%>
                 <c:if test="${not empty errorMessage}">
                     <div class="error-message">
                         <c:out value="${errorMessage}" />
                     </div>
                 </c:if>
- 
+
                 <%-- 投稿フォーム --%>
                 <form class="newpost-form"
                       action="${pageContext.request.contextPath}/scoremanager/main/NewRegistrationDone.action"
                       method="post"
                       accept-charset="UTF-8">
- 
+
                     <%-- 投稿タイトル --%>
                     <div class="form-group">
- 
+
                         <label class="form-label" for="title">
                             タイトル
                         </label>
- 
+
                         <input
                             type="text"
                             id="title"
@@ -219,16 +217,16 @@
                             value="<c:out value='${param.title}'/>"
                             required
                         >
- 
+
                     </div>
- 
+
                     <%-- 投稿内容 --%>
                     <div class="form-group">
- 
+
                         <label class="form-label" for="content">
                             投稿内容
                         </label>
- 
+
                         <textarea
                             id="content"
                             name="content"
@@ -237,29 +235,32 @@
                             maxlength="2000"
                             required
                         ><c:out value="${param.content}" /></textarea>
- 
+
                     </div>
- 
+
                     <%-- ボタン --%>
                     <div class="newpost-buttons">
- 
-                        <button type="submit" class="submit-button">
-                            投稿する
-                        </button>
- 
+
+                        <%-- 戻るボタン（左側） --%>
                         <a
                             href="${pageContext.request.contextPath}/scoremanager/main/RetrievePosts.action"
                             class="back-button">
                             戻る
                         </a>
- 
+
+                        <%-- 投稿ボタン（右側） --%>
+                        <button type="submit" class="submit-button">
+                            投稿する
+                        </button>
+
                     </div>
- 
+
                 </form>
- 
+
             </main>
- 
+
         </div>
- 
+
     </c:param>
+
 </c:import>

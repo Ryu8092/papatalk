@@ -147,7 +147,7 @@ public class UserDao extends Dao {
             st.setString(12, user.getChild_gender());
             st.setInt(13, 0);
             st.setString(14, user.getAvatar_url());
- 
+            System.out.println("性別: [" + user.getChild_gender() + "]");
             return st.executeUpdate();
         }
     }
@@ -182,21 +182,22 @@ public class UserDao extends Dao {
     // アカウント情報の更新
     public int update(User user) throws Exception {
  
-        String sql = "UPDATE users SET "
-                + "user_name = ?, "
-                + "user_age = ?, "
-                + "nickname = ?, "
-                + "password = ?, "
-                + "email = ?, "
-                + "tel = ?, "
-                + "postal_code = ?, "
-                + "prefecture = ?, "
-                + "city = ?, "
-                + "address1 = ?, "
-                + "address2 = ?, "
-                + "child_age = ?, "
-                + "child_gender = ? "
-                + "WHERE user_id = ?";
+    	String sql =
+    		    "UPDATE users SET "
+    		    + "user_name = ?, "
+    		    + "user_age = ?, "
+    		    + "nickname = ?, "
+    		    + "email = ?, "
+    		    + "tel = ?, "
+    		    + "postal_code = ?, "
+    		    + "prefecture = ?, "
+    		    + "city = ?, "
+    		    + "address1 = ?, "
+    		    + "address2 = ?, "
+    		    + "child_age = ?, "
+    		    + "child_gender = ?, "
+    		    + "avatar_url = ? "
+    		    + "WHERE user_id = ?";
  
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -204,18 +205,34 @@ public class UserDao extends Dao {
             st.setString(1, user.getUser_name());
             st.setInt(2, user.getUser_age());
             st.setString(3, user.getNickname());
-            st.setString(4, user.getPassword());
-            st.setString(5, user.getEmail());
-            st.setString(6, user.getTel());
-            st.setString(7, user.getPostal_code());
-            st.setString(8, user.getPrefecture());
-            st.setString(9, user.getCity());
-            st.setString(10, user.getAddress1());
-            st.setString(11, user.getAddress2());
-            st.setInt(12, user.getChild_age());
-            st.setString(13, user.getChild_gender());
+            st.setString(4, user.getEmail());
+            st.setString(5, user.getTel());
+            st.setString(6, user.getPostal_code());
+            st.setString(7, user.getPrefecture());
+            st.setString(8, user.getCity());
+            st.setString(9, user.getAddress1());
+            st.setString(10, user.getAddress2());
+            st.setInt(11, user.getChild_age());
+            st.setString(12, user.getChild_gender());
+            st.setString(13, user.getAvatar_url());
             st.setInt(14, user.getUser_id());
+
             
+ 
+            return st.executeUpdate();
+        }
+    }
+    
+ // パスワード変更
+    public int update(int user_id, String password) throws Exception {
+ 
+        String sql = "UPDATE users SET password = ? WHERE user_id = ?";
+ 
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+ 
+            st.setString(1, password);
+            st.setInt(2, user_id);
  
             return st.executeUpdate();
         }
@@ -357,8 +374,7 @@ public class UserDao extends Dao {
         List<User> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder(
-                "SELECT DISTINCT users.user_id, users.user_name, "
-                + "users.user_age, users.child_age, users.prefecture "
+                "SELECT DISTINCT * "
                 + "FROM users "
                 + "WHERE users.user_id <> ? "
                 + "AND users.user_status = 0"
@@ -527,8 +543,20 @@ public class UserDao extends Dao {
                     user.setUser_id(rs.getInt("user_id"));
                     user.setUser_name(rs.getString("user_name"));
                     user.setUser_age(rs.getInt("user_age"));
-                    user.setChild_age(rs.getInt("child_age"));
+                    user.setNickname(rs.getString("nickname"));
+                    user.setPassword(rs.getString("password"));
+                    user.setEmail(rs.getString("email"));
+                    user.setTel(rs.getString("tel"));
+                    user.setPostal_code(rs.getString("postal_code"));
                     user.setPrefecture(rs.getString("prefecture"));
+                    user.setCity(rs.getString("city"));
+                    user.setAddress1(rs.getString("address1"));
+                    user.setAddress2(rs.getString("address2"));
+                    user.setChild_age(rs.getInt("child_age"));
+                    user.setChild_gender(rs.getString("child_gender"));
+                    user.setUser_status(rs.getInt("user_status"));
+                    user.setComment(rs.getString("comment"));
+                    user.setAvatar_url(rs.getString("avatar_url"));
 
                     list.add(user);
                 }

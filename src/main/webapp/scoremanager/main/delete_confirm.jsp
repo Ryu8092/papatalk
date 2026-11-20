@@ -157,18 +157,22 @@
             </p>
 
             <div class="buttons">
-                <form action="Process.action" method="post">
-                    <button type="submit" class="delete-button">
-                        アカウントを削除する
-                    </button>
-                </form>
 
-                <form action="AccountinFormation.action" method="get">
-                    <button type="submit" class="cancel-button">
-                        キャンセル
-                    </button>
-                </form>
-            </div>
+    <!-- キャンセル -->
+    <form action="AccountinFormation.action" method="get">
+        <button type="submit" class="cancel-button">
+            キャンセル
+        </button>
+    </form>
+
+    <!-- アカウント削除 -->
+    <form action="Process.action" method="post">
+        <button type="submit" class="delete-button">
+            アカウントを削除する
+        </button>
+    </form>
+
+</div>
 
         </div>
     </c:param>

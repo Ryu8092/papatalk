@@ -267,9 +267,7 @@
 
                     </form>
 
-                    <div class="papa-login-footer">
-                        安心して利用できる、あなたのコミュニティ。
-                    </div>
+                    
 
                 </div>
             </div>

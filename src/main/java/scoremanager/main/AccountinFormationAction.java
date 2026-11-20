@@ -1,4 +1,3 @@
-
 package scoremanager.main;
 
 import java.util.List;
@@ -31,20 +30,23 @@ public class AccountinFormationAction extends Action {
             return;
         }
 
-        // データベースから登録済みの趣味を取得
+        // DBから登録済みの趣味を取得
         HobbyDao hobbyDao = new HobbyDao();
 
         List<String> selectedHobbies =
                 hobbyDao.getUserHobbies(user.getUser_id());
 
-        // JSPへ趣味を渡す
+        // JSPへユーザー情報と趣味を渡す
+        req.setAttribute("user", user);
         req.setAttribute("selectedHobbies", selectedHobbies);
 
         // デバッグ用ログ
-        System.out.println("アカウント画面のユーザーID: "
-                + user.getUser_id());
-        System.out.println("アカウント画面に表示する趣味: "
-                + selectedHobbies);
+        System.out.println("===== アカウント画面確認 =====");
+        System.out.println("ユーザーID: " + user.getUser_id());
+        System.out.println("プロフィール画像: " + user.getAvatar_url());
+        System.out.println("お子さんの性別: " + user.getChild_gender());
+        System.out.println("趣味: " + selectedHobbies);
+        System.out.println("==============================");
 
         // アカウント情報画面へ転送
         req.getRequestDispatcher(

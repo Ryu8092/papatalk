@@ -2,12 +2,13 @@ package bean;
  
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
  
 public class Event implements Serializable {
  
     private int event_id;
     private String title;
-    private Date event_date;
+    private Timestamp event_date;
     private String event_place;
     private Date deadline;
     private String event_details;
@@ -30,11 +31,11 @@ public class Event implements Serializable {
         this.title = title;
     }
  
-    public Date getEvent_date() {
+    public Timestamp getEvent_date() {
         return event_date;
     }
  
-    public void setEvent_date(Date event_date) {
+    public void setEvent_date(Timestamp event_date) {
         this.event_date = event_date;
     }
  

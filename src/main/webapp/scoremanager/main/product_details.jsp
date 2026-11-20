@@ -1,7 +1,13 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<c:import url="/common/base.jsp">
+    <c:param name="title">商品詳細｜パパトークシステム</c:param>
+    <c:param name="scripts"></c:param>
+
+    <c:param name="content">
 
 <style>
     /* 全体レイアウト */
@@ -177,14 +183,7 @@
     }
 
     .description-content {
-        min-height: 80px;
-        padding: 14px;
-        color: #40556b;
-        line-height: 1.8;
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-        background: #f8fafc;
-        border-radius: 6px;
+        text-align: left !important;
     }
 
     /* 右側：商品情報 */
@@ -282,15 +281,7 @@
 
     /* 通報・戻るエリア */
     .bottom-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
         margin-top: 28px;
-        padding: 20px;
-        background: #f8fafc;
-        border: 1px solid #e5eaf0;
-        border-radius: 8px;
     }
 
     /* 戻るボタン */
@@ -573,12 +564,6 @@
 
             </form>
 
-            <!-- 商品一覧 -->
-            <a href="<c:url value='/scoremanager/main/AssignmentTop.action' />"
-               class="header-button">
-                商品一覧
-            </a>
-
         </div>
 
         <!-- 通報メッセージ -->
@@ -732,113 +717,98 @@
 
                 </div>
 
-            </section>
+                <!-- 通報 -->
+                <div class="info-row">
 
-        </div>
+                    <button type="button"
+                            class="report-open-button"
+                            id="reportOpenButton"
+                            onclick="toggleReportForm()">
+                        ⚑ 通報する
+                    </button>
 
-        <!-- 通報・戻るエリア -->
-        <div class="bottom-buttons">
+                    <div class="report-form-area" id="reportFormArea">
 
-            <!-- 戻るボタン -->
-            <a href="<c:url value='/scoremanager/main/AssignmentTop.action' />"
-               class="btn-back">
-                ← 戻る
-            </a>
+                        <form action="<c:url value='/scoremanager/main/Report.action' />"
+                              method="post">
 
-            <!-- 通報エリア -->
-            <div class="report-form">
+                            <h3 class="report-title">⚑ 商品を通報する</h3>
 
-                <!-- 通報フォームを開くボタン -->
-                <button type="button"
-                        class="report-open-button"
-                        id="reportOpenButton"
-                        onclick="toggleReportForm()">
-                    ⚑ 通報する
-                </button>
+                            <!-- 通報種別 -->
+                            <input type="hidden"
+                                   name="report_type"
+                                   value="product">
 
-                <!-- 通報入力フォーム -->
-                <div class="report-form-area" id="reportFormArea">
+                            <!-- 商品ID -->
+                            <input type="hidden"
+                                   name="product_id"
+                                   value="${product.product_id}">
 
-                    <form action="<c:url value='/scoremanager/main/Report.action' />"
-                          method="post">
+                            <!-- 通報内容ID -->
+                            <input type="hidden"
+                                   name="report_content_id"
+                                   value="1">
 
-                        <h3 class="report-title">
-                            ⚑ 商品を通報する
-                        </h3>
+                            <div class="report-input-area">
 
-                        <!-- 通報種別：今回追加 -->
-                        <input type="hidden"
-                               name="report_type"
-                               value="product">
+                                <label class="report-label">
+                                    通報理由
+                                </label>
 
-                        <!-- 商品ID -->
-                        <input type="hidden"
-                               name="product_id"
-                               value="${product.product_id}">
+                                <select name="report_reason_id"
+                                        class="report-select"
+                                        required>
 
-                        <!-- 通報内容ID -->
-                        <input type="hidden"
-                               name="report_content_id"
-                               value="1">
-
-                        <!-- 通報理由 -->
-                        <div class="report-input-area">
-
-                            <label class="report-label">
-                                通報理由
-                            </label>
-
-                            <select name="report_reason_id"
-                                    class="report-select"
-                                    required>
-
-                                <option value="">
-                                    通報理由を選択してください
-                                </option>
-
-                                <c:forEach var="reason" items="${reportReasons}">
-
-                                    <option value="${reason.report_reason_id}">
-                                        <c:out value="${reason.report_reason_name}" />
+                                    <option value="">
+                                        通報理由を選択してください
                                     </option>
 
-                                </c:forEach>
+                                    <c:forEach var="reason"
+                                               items="${reportReasons}">
+                                        <option value="${reason.report_reason_id}">
+                                            <c:out value="${reason.report_reason_name}" />
+                                        </option>
+                                    </c:forEach>
 
-                            </select>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <!-- 通報内容 -->
-                        <div class="report-input-area">
+                            <div class="report-input-area">
 
-                            <label class="report-label">
-                                通報内容
-                            </label>
+                                <label class="report-label">
+                                    通報内容
+                                </label>
 
-                            <textarea name="content"
-                                      class="report-textarea"
-                                      maxlength="1000"
-                                      required
-                                      placeholder="通報内容を入力してください"></textarea>
+                                <textarea name="content"
+                                          class="report-textarea"
+                                          maxlength="1000"
+                                          required
+                                          placeholder="通報内容を入力してください"></textarea>
 
-                        </div>
+                            </div>
 
-                        <!-- 通報送信ボタン -->
-                        <button type="submit" class="btn-report">
-                            ⚑ 送信
-                        </button>
+                            <button type="submit"
+                                    class="btn-report">
+                                ⚑ 送信
+                            </button>
 
-                    </form>
+                        </form>
+
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
         </div>
 
     </main>
 
 </div>
+
+    </c:param>
+</c:import>
 
 <!-- 通報フォームの表示切り替え -->
 <script>

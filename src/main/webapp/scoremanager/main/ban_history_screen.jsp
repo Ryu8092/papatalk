@@ -124,7 +124,7 @@
             <div class="history-container">
  
                 <!-- 戻るボタン -->
-                <a href="operation_management.jsp"
+                <a href="SingleScreenDisplay.action"
                    class="back-button">
                     戻る
                 </a>

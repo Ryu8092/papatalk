@@ -29,7 +29,7 @@ public class EventDAO extends Dao {
  
             bean.setEvent_id(rs.getInt("EVENT_ID"));
             bean.setTitle(rs.getString("TITLE"));
-            bean.setEvent_date(rs.getDate("EVENT_DATE"));
+            bean.setEvent_date(rs.getTimestamp("EVENT_DATE"));
             bean.setEvent_place(rs.getString("EVENT_PLACE"));
             bean.setDeadline(rs.getDate("DEADLINE"));
             bean.setEvent_details(rs.getString("EVENT_DETAILS"));
@@ -46,32 +46,36 @@ public class EventDAO extends Dao {
         return list;
     }
  
-    // イベント登録
+ // イベント登録してイベントIDを取得
     public int insert(Event bean) throws Exception {
- 
-        Connection con = getConnection();
- 
+
         String sql = "INSERT INTO EVENTS "
                 + "(TITLE, EVENT_DATE, EVENT_PLACE, DEADLINE, "
                 + "EVENT_DETAILS, CAPACITY, EVENT_URL) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
- 
-        PreparedStatement st = con.prepareStatement(sql);
- 
-        st.setString(1, bean.getTitle());
-        st.setDate(2, bean.getEvent_date());
-        st.setString(3, bean.getEvent_place());
-        st.setDate(4, bean.getDeadline());
-        st.setString(5, bean.getEvent_details());
-        st.setInt(6, bean.getCapacity());
-        st.setString(7, bean.getEvent_url());
- 
-        int line = st.executeUpdate();
- 
-        st.close();
-        con.close();
- 
-        return line;
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(
+                 sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            st.setString(1, bean.getTitle());
+            st.setTimestamp(2, bean.getEvent_date());
+            st.setString(3, bean.getEvent_place());
+            st.setDate(4, bean.getDeadline());
+            st.setString(5, bean.getEvent_details());
+            st.setInt(6, bean.getCapacity());
+            st.setString(7, bean.getEvent_url());
+
+            st.executeUpdate();
+
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+
+        throw new Exception("イベントIDを取得できませんでした。");
     }
  
     // deadlineを条件にイベント一覧を取得
@@ -94,7 +98,7 @@ public class EventDAO extends Dao {
  
             event.setEvent_id(rs.getInt("event_id"));
             event.setTitle(rs.getString("title"));
-            event.setEvent_date(rs.getDate("event_date"));
+            event.setEvent_date(rs.getTimestamp("event_date"));
             event.setEvent_place(rs.getString("event_place"));
             event.setDeadline(rs.getDate("deadline"));
             event.setEvent_details(rs.getString("event_details"));
@@ -132,7 +136,7 @@ public class EventDAO extends Dao {
  
             bean.setEvent_id(rs.getInt("EVENT_ID"));
             bean.setTitle(rs.getString("TITLE"));
-            bean.setEvent_date(rs.getDate("EVENT_DATE"));
+            bean.setEvent_date(rs.getTimestamp("EVENT_DATE"));
             bean.setEvent_place(rs.getString("EVENT_PLACE"));
             bean.setDeadline(rs.getDate("DEADLINE"));
             bean.setEvent_details(rs.getString("EVENT_DETAILS"));

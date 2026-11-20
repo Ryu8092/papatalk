@@ -27,17 +27,18 @@
             }
 
             .complete-icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 82px;
-                height: 82px;
-                margin: 0 auto 24px;
-                border-radius: 26px;
-                background: #eaf5ed;
-                color: #39845a;
-                font-size: 42px;
-            }
+			    display: flex;
+			    justify-content: center;
+			    align-items: center;
+			    width: 82px;
+			    height: 82px;
+			    margin: 0 auto 24px;
+			    border-radius: 50%;
+			    background: #eaf5ed;
+			    color: #39845a;
+			    font-size: 42px;
+			    font-weight: 700;
+			}
 
             .complete-title {
                 margin-bottom: 16px;

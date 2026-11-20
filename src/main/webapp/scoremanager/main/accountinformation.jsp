@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -5,8 +6,8 @@
 <c:import url="/common/base.jsp">
     <c:param name="title">パパトークシステム｜アカウント情報</c:param>
     <c:param name="scripts"></c:param>
-
     <c:param name="content">
+
         <style>
             .account-layout {
                 display: flex;
@@ -77,21 +78,27 @@
 
             .account-hobbies {
                 min-height: 70px;
-    			display: flex;
-    			align-items: center;
-   				align-content: center;
-    			flex-wrap: wrap;
-    			gap: 10px;
-    			padding: 18px;
-    			white-space: normal;
+                display: flex;
+                align-items: center;
+                align-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 18px;
+                white-space: normal;
             }
 
+            /* ボタン */
             .account-buttons {
                 display: flex;
                 justify-content: center;
-                gap: 14px;
+                align-items: center;
+                gap: 10px;
                 flex-wrap: wrap;
                 margin-top: 30px;
+            }
+
+            .account-buttons form {
+                margin: 0;
             }
 
             .account-button {
@@ -104,57 +111,63 @@
                 text-decoration: none;
                 text-align: center;
                 cursor: pointer;
-                background: #00b9c7;
+                background: #ed9145;
                 color: #ffffff;
             }
 
             .account-button:hover {
-                opacity: 0.85;
+                background: #d97c32;
+                opacity: 0.95;
             }
 
+            /* アカウント削除ボタン */
             .account-delete {
                 background: #e85d5d;
             }
-            
+
+            .account-delete:hover {
+                background: #d94b4b;
+            }
+
             /* プロフィール画像 */
-			.account-profile {
-			    display: flex;
-			    align-items: center;
-			    gap: 20px;
-			    margin-bottom: 25px;
-			    padding: 20px;
-			    background: #f8fafc;
-			    border-radius: 12px;
-			}
-			
-			.account-profile-image {
-			    width: 110px;
-			    height: 110px;
-			    border-radius: 50%;
-			    object-fit: cover;
-			    border: 3px solid #dce5ed;
-			}
-			
-			.account-profile-form {
-			    display: flex;
-			    flex-direction: column;
-			    gap: 10px;
-			}
-			
-			.account-profile-form input {
-			    max-width: 260px;
-			}
-			
-			.account-profile-button {
-			    width: fit-content;
-			    padding: 10px 18px;
-			    border: none;
-			    border-radius: 8px;
-			    background: #00b9c7;
-			    color: white;
-			    font-weight: 600;
-			    cursor: pointer;
-			}
+            .account-profile {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 25px;
+                padding: 20px;
+                background: #f8fafc;
+                border-radius: 12px;
+            }
+
+            .account-profile-image {
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #dce5ed;
+            }
+
+            .account-profile-form {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .account-profile-form input {
+                max-width: 260px;
+            }
+
+            .account-profile-button {
+                width: fit-content;
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                background: #00b9c7;
+                color: white;
+                font-weight: 600;
+                cursor: pointer;
+            }
 
             @media (max-width: 768px) {
                 .account-layout {
@@ -263,44 +276,53 @@
                     </div>
 
                     <div class="account-row account-full">
-    					<label class="account-label">趣味</label>
-    						<div class="account-value account-hobbies">
-        						<c:choose>
-            						<c:when test="${not empty selectedHobbies}">
-                						<c:forEach var="hobby"
-                          	 				items="${selectedHobbies}"
-											varStatus="status">
-                    						<c:if test="${!status.first}">、</c:if>
-                    						<c:out value="${hobby}"/>
-                						</c:forEach>
-            						</c:when>
-            						
-            						<c:otherwise>
-                					趣味は未登録です
-            						</c:otherwise>
-        						</c:choose>
-    						</div>
-						</div>
+                        <label class="account-label">趣味</label>
+                        <div class="account-value account-hobbies">
 
-            
+                            <c:choose>
+                                <c:when test="${not empty selectedHobbies}">
+                                    <c:forEach var="hobby"
+                                        items="${selectedHobbies}"
+                                        varStatus="status">
 
-                <div class="account-buttons">
-                    <form action="AccountChange.action" method="get">
-                        <button type="submit" class="account-button">
-                            アカウント情報変更
-                        </button>
-                    </form>
+                                        <c:if test="${!status.first}">、</c:if>
+                                        <c:out value="${hobby}"/>
 
-                    <form action="ScreenDisplay.action" method="get">
-                        <button type="submit"
-                                class="account-button account-delete">
-                            アカウント削除
-                        </button>
-                    </form>
-                    
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    趣味は未登録です
+                                </c:otherwise>
+                            </c:choose>
+
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- ボタン -->
+				<div class="account-buttons">
+				
+				    <!-- アカウント削除 -->
+				    <form action="ScreenDisplay.action" method="get">
+				        <button type="submit"
+				                class="account-button account-delete">
+				            アカウント削除
+				        </button>
+				    </form>
+				
+				    <!-- アカウント情報変更 -->
+				    <form action="AccountChange.action" method="get">
+				        <button type="submit" class="account-button">
+				            アカウント情報変更
+				        </button>
+				    </form>
+				
+				</div>
 
             </main>
         </div>
+
     </c:param>
 </c:import>

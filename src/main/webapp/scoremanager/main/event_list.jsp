@@ -210,7 +210,7 @@
             <!-- タイトル・参加予定ボタン -->
             <div class="event-header">
  
-                <h2 class="event-title">イベント一覧</h2>
+                <h2 class="event-title">イベント</h2>
  
                 <form action="<c:url value='/scoremanager/main/ListExpectedParticipants.action'/>"
                       method="get">

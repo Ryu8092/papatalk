@@ -196,7 +196,7 @@ public class ProductDao extends Dao {
         return product;
     }
 
-    // 商品を登録
+ // 商品を登録して、生成されたPRODUCT_IDを返す
     public int insert(Product product) throws Exception {
 
         String sql =
@@ -206,7 +206,8 @@ public class ProductDao extends Dao {
             "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = getConnection();
-             PreparedStatement st = con.prepareStatement(sql)) {
+             PreparedStatement st = con.prepareStatement(
+                     sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             st.setInt(1, product.getSeller_id());
             st.setString(2, product.getProduct_name());
@@ -216,8 +217,16 @@ public class ProductDao extends Dao {
             st.setInt(6, product.getCategory_id());
             st.setInt(7, product.getItem_condition_id());
 
-            return st.executeUpdate();
+            st.executeUpdate();
+
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
         }
+
+        throw new Exception("商品IDを取得できませんでした。");
     }
 
     // 商品の状態を取得

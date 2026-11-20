@@ -407,7 +407,7 @@
                     <h2 class="matching-title">${chat.user_name}チャット</h2>
 
                     <!-- 一覧に戻る -->
-                    <form action="${pageContext.request.contextPath}/scoremanager/main/MatchingList.action"
+                    <form action="/papatalk/scoremanager/main/MatchingList.action"
                           method="get">
 
                         <button type="submit" class="back-button">
@@ -482,7 +482,7 @@
                                             <div class="report-form-area"
                                                  id="reportFormArea_${status.index}">
 
-                                                <form action="${pageContext.request.contextPath}/scoremanager/main/MatchReport.action"
+                                                <form action="/papatalk/scoremanager/main/MatchReport.action"
                                                       method="post"
                                                       id="reportFormElement_${status.index}">
 
@@ -577,7 +577,7 @@
 
                 <!-- メッセージ送信フォーム -->
                 <form class="chat-form"
-                      action="${pageContext.request.contextPath}/scoremanager/main/MatchingChatAdd.action"
+                      action="/papatalk/scoremanager/main/MatchingChatAdd.action"
                       method="post"
                       onsubmit="return checkMessage();">
 

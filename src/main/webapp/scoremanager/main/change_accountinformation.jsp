@@ -1,3 +1,4 @@
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -7,6 +8,7 @@
     <c:param name="scripts" value="" />
 
     <c:param name="content">
+
         <style>
             .account-layout {
                 display: flex;
@@ -142,12 +144,12 @@
                 flex-shrink: 0;
             }
 
+            /* 2つのボタンを中央に配置 */
             .account-buttons {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 14px;
-                flex-wrap: wrap;
+                gap: 16px;
                 margin-top: 32px;
                 padding-top: 24px;
                 border-top: 1px solid #e8edf2;
@@ -155,8 +157,8 @@
 
             .account-button {
                 display: inline-block;
-                min-width: 150px;
-                padding: 12px 24px;
+                min-width: 170px;
+                padding: 12px 20px;
                 border: none;
                 border-radius: 8px;
                 font-size: 14px;
@@ -165,20 +167,23 @@
                 text-align: center;
                 cursor: pointer;
                 transition: opacity 0.2s;
+                box-sizing: border-box;
             }
 
             .account-button:hover {
                 opacity: 0.85;
             }
 
+            /* 保存ボタン：オレンジ */
             .account-save {
-                background: #00b9c7;
+                background: #ed9145;
                 color: #fff;
             }
 
-            .account-back {
-                background: #edf2f7;
-                color: #40536a;
+            /* パスワード変更：紺色 */
+            .account-password {
+                background: #24476b;
+                color: #fff;
             }
 
             .error-message {
@@ -220,9 +225,13 @@
                     font-size: 22px;
                 }
 
+                .account-buttons {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
                 .account-button {
                     width: 100%;
-                    box-sizing: border-box;
                 }
 
                 .hobby-list {
@@ -272,7 +281,9 @@
                         </div>
 
                         <div class="account-row">
-                            <label class="account-label" for="user_age">年齢</label>
+                            <label class="account-label" for="user_age">
+                                年齢
+                            </label>
                             <input class="account-input"
                                    type="number" id="user_age" name="user_age"
                                    value="<c:out value='${user.user_age}'/>"
@@ -289,19 +300,6 @@
                                    maxlength="50" required>
                         </div>
 
-                        <div class="account-row">
-                            <label class="account-label" for="password">
-                                新しいパスワード
-                            </label>
-                            <input class="account-input"
-                                   type="password" id="password" name="password"
-                                   autocomplete="new-password"
-                                   placeholder="変更する場合のみ入力">
-                            <span class="account-help">
-                                変更しない場合は空欄にしてください。
-                            </span>
-                        </div>
-
                         <h3 class="account-section-title">連絡先</h3>
 
                         <div class="account-row account-full">
@@ -315,7 +313,9 @@
                         </div>
 
                         <div class="account-row">
-                            <label class="account-label" for="tel">電話番号</label>
+                            <label class="account-label" for="tel">
+                                電話番号
+                            </label>
                             <input class="account-input"
                                    type="tel" id="tel" name="tel"
                                    value="<c:out value='${user.tel}'/>"
@@ -358,7 +358,9 @@
                         </div>
 
                         <div class="account-row account-full">
-                            <label class="account-label" for="address1">番地</label>
+                            <label class="account-label" for="address1">
+                                番地
+                            </label>
                             <input class="account-input"
                                    type="text" id="address1" name="address1"
                                    value="<c:out value='${user.address1}'/>"
@@ -393,78 +395,96 @@
                             </label>
                             <select class="account-input"
                                     id="child_gender" name="child_gender">
+
                                 <option value="">選択してください</option>
+
                                 <option value="男の子"
                                     <c:if test="${user.child_gender eq '男の子'}">selected</c:if>>
                                     男の子
                                 </option>
+
                                 <option value="女の子"
                                     <c:if test="${user.child_gender eq '女の子'}">selected</c:if>>
                                     女の子
                                 </option>
+
                                 <option value="回答しない"
                                     <c:if test="${user.child_gender eq '回答しない'}">selected</c:if>>
                                     回答しない
                                 </option>
+
                             </select>
                         </div>
-                        
 
                         <!-- 趣味 -->
                         <h3 class="account-section-title">趣味</h3>
 
                         <div class="account-row account-full">
+
                             <span class="account-label">
                                 当てはまる趣味を選択してください
                             </span>
 
                             <div class="hobby-list">
+
                                 <c:choose>
                                     <c:when test="${not empty allHobbies}">
+
                                         <c:forEach var="hobby" items="${allHobbies}">
+
                                             <label class="hobby-option">
                                                 <input type="checkbox"
                                                        name="hobbies"
                                                        value="<c:out value='${hobby}'/>"
                                                        <c:if test="${not empty selectedHobbies and selectedHobbies.contains(hobby)}">checked</c:if>>
+
                                                 <c:out value="${hobby}" />
                                             </label>
+
                                         </c:forEach>
+
                                     </c:when>
+
                                     <c:otherwise>
                                         趣味一覧を取得できませんでした。
                                     </c:otherwise>
                                 </c:choose>
+
                             </div>
 
                             <span class="account-help">
                                 複数選択できます。すべてのチェックを外して保存すると、
                                 登録済みの趣味が解除されます。
                             </span>
+
                         </div>
 
                     </div>
 
+                    <!-- 2つのボタン -->
                     <div class="account-buttons">
+
+                        <!-- パスワード変更 -->
+                        <button type="button"
+                                class="account-button account-password"
+                                onclick="location.href='PasswordChange.action'">
+                            パスワード変更
+                        </button>
+
+                        <!-- アカウント情報保存 -->
                         <button type="submit"
                                 class="account-button account-save">
                             アカウント情報保存
                         </button>
+
                     </div>
 
                 </form>
 
-                <!-- 戻るボタン -->
-                <div class="account-buttons">
-                    <form action="AccountinFormation.action" method="get">
-                        <button type="submit"
-                                class="account-button account-back">
-                            戻る
-                        </button>
-                    </form>
-                </div>
-
             </main>
+
         </div>
+
     </c:param>
 </c:import>
+```
