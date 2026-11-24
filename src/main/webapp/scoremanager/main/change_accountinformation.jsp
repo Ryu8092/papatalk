@@ -1,4 +1,4 @@
-```jsp
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -116,6 +116,70 @@
                 border-bottom: 1px solid #e8edf2;
             }
 
+            /* プロフィール画像 */
+            .avatar-area {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                flex-wrap: wrap;
+                padding: 16px;
+                border: 1px solid #dce5ed;
+                border-radius: 8px;
+                background: #f8fafc;
+            }
+
+            .avatar-preview {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #dce5ed;
+                background: #fff;
+                flex-shrink: 0;
+            }
+
+            .avatar-placeholder {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #8492a6;
+                font-size: 13px;
+            }
+
+            .avatar-file-area {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                min-width: 0;
+            }
+
+            .avatar-file-input {
+                display: none;
+            }
+
+            .avatar-file-button {
+                display: inline-block;
+                padding: 11px 20px;
+                background: #24476b;
+                color: #fff;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: opacity 0.2s;
+            }
+
+            .avatar-file-button:hover {
+                opacity: 0.85;
+            }
+
+            .avatar-file-name {
+                color: #718096;
+                font-size: 12px;
+                overflow-wrap: anywhere;
+            }
+
             /* 趣味チェックボックス */
             .hobby-list {
                 display: grid;
@@ -193,6 +257,7 @@
                 border-radius: 8px;
                 padding: 12px;
                 margin-bottom: 20px;
+                white-space: pre-line;
             }
 
             @media (max-width: 768px) {
@@ -237,6 +302,25 @@
                 .hobby-list {
                     grid-template-columns: repeat(2, minmax(0, 1fr));
                 }
+
+                .avatar-preview {
+                    width: 85px;
+                    height: 85px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .avatar-area {
+                    align-items: flex-start;
+                }
+
+                .avatar-file-area {
+                    width: 100%;
+                }
+
+                .hobby-list {
+                    grid-template-columns: 1fr;
+                }
             }
         </style>
 
@@ -264,11 +348,69 @@
                 </c:if>
 
                 <!-- アカウント情報変更フォーム -->
-                <form action="Change.action" method="post">
+                <form action="Change.action"
+                      method="post"
+                      enctype="multipart/form-data">
 
                     <div class="account-grid">
 
                         <h3 class="account-section-title">基本情報</h3>
+
+                        <!-- プロフィール画像 -->
+                        <div class="account-row account-full">
+
+                            <label class="account-label">
+                                プロフィール画像
+                            </label>
+
+                            <div class="avatar-area">
+
+                                <c:choose>
+                                    <c:when test="${not empty user.avatar_url}">
+                                        <img
+                                            id="avatar-preview"
+                                            class="avatar-preview"
+                                            src="${pageContext.request.contextPath}${user.avatar_url}"
+                                            alt="プロフィール画像">
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <div
+                                            id="avatar-preview"
+                                            class="avatar-preview avatar-placeholder">
+                                            未登録
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <div class="avatar-file-area">
+
+                                    <input
+                                        type="file"
+                                        id="avatar"
+                                        name="avatar"
+                                        class="avatar-file-input"
+                                        accept="image/jpeg,image/png,image/gif">
+
+                                    <label for="avatar"
+                                           class="avatar-file-button">
+                                        画像を選択
+                                    </label>
+
+                                    <span id="avatar-file-name"
+                                          class="avatar-file-name">
+                                        選択されていません
+                                    </span>
+
+                                </div>
+
+                                <small class="account-help">
+                                    JPEG・PNG・GIF形式、5MB以内。
+                                    画像を選択しなければ現在の画像を維持します。
+                                </small>
+
+                            </div>
+                        </div>
 
                         <div class="account-row">
                             <label class="account-label" for="user_name">
@@ -277,7 +419,7 @@
                             <input class="account-input"
                                    type="text" id="user_name" name="user_name"
                                    value="<c:out value='${user.user_name}'/>"
-                                   maxlength="100" required>
+                                   maxlength="30" required>
                         </div>
 
                         <div class="account-row">
@@ -287,7 +429,7 @@
                             <input class="account-input"
                                    type="number" id="user_age" name="user_age"
                                    value="<c:out value='${user.user_age}'/>"
-                                   min="0" max="120">
+                                   min="0" max="150" required>
                         </div>
 
                         <div class="account-row">
@@ -297,7 +439,7 @@
                             <input class="account-input"
                                    type="text" id="nickname" name="nickname"
                                    value="<c:out value='${user.nickname}'/>"
-                                   maxlength="50" required>
+                                   maxlength="30" required>
                         </div>
 
                         <h3 class="account-section-title">連絡先</h3>
@@ -309,7 +451,7 @@
                             <input class="account-input"
                                    type="email" id="email" name="email"
                                    value="<c:out value='${user.email}'/>"
-                                   maxlength="254" required>
+                                   maxlength="100" required>
                         </div>
 
                         <div class="account-row">
@@ -319,7 +461,7 @@
                             <input class="account-input"
                                    type="tel" id="tel" name="tel"
                                    value="<c:out value='${user.tel}'/>"
-                                   maxlength="20">
+                                   maxlength="11">
                         </div>
 
                         <div class="account-row">
@@ -330,7 +472,7 @@
                                    type="text" id="postal_code"
                                    name="postal_code"
                                    value="<c:out value='${user.postal_code}'/>"
-                                   maxlength="10"
+                                   maxlength="8"
                                    placeholder="例：123-4567">
                         </div>
 
@@ -343,8 +485,7 @@
                             <input class="account-input"
                                    type="text" id="prefecture"
                                    name="prefecture"
-                                   value="<c:out value='${user.prefecture}'/>"
-                                   maxlength="20">
+                                   value="<c:out value='${user.prefecture}'/>">
                         </div>
 
                         <div class="account-row">
@@ -354,7 +495,7 @@
                             <input class="account-input"
                                    type="text" id="city" name="city"
                                    value="<c:out value='${user.city}'/>"
-                                   maxlength="100">
+                                   maxlength="50">
                         </div>
 
                         <div class="account-row account-full">
@@ -364,7 +505,7 @@
                             <input class="account-input"
                                    type="text" id="address1" name="address1"
                                    value="<c:out value='${user.address1}'/>"
-                                   maxlength="200">
+                                   maxlength="100">
                         </div>
 
                         <div class="account-row account-full">
@@ -374,7 +515,7 @@
                             <input class="account-input"
                                    type="text" id="address2" name="address2"
                                    value="<c:out value='${user.address2}'/>"
-                                   maxlength="200">
+                                   maxlength="100">
                         </div>
 
                         <h3 class="account-section-title">お子さんの情報</h3>
@@ -386,7 +527,7 @@
                             <input class="account-input"
                                    type="number" id="child_age" name="child_age"
                                    value="<c:out value='${user.child_age}'/>"
-                                   min="0" max="120">
+                                   min="0" max="17" required>
                         </div>
 
                         <div class="account-row">
@@ -398,19 +539,14 @@
 
                                 <option value="">選択してください</option>
 
-                                <option value="男の子"
-                                    <c:if test="${user.child_gender eq '男の子'}">selected</c:if>>
+                                <option value="男子"
+                                    <c:if test="${user.child_gender eq '男子'}">selected</c:if>>
                                     男の子
                                 </option>
 
-                                <option value="女の子"
-                                    <c:if test="${user.child_gender eq '女の子'}">selected</c:if>>
+                                <option value="女子"
+                                    <c:if test="${user.child_gender eq '女子'}">selected</c:if>>
                                     女の子
-                                </option>
-
-                                <option value="回答しない"
-                                    <c:if test="${user.child_gender eq '回答しない'}">selected</c:if>>
-                                    回答しない
                                 </option>
 
                             </select>
@@ -433,12 +569,14 @@
                                         <c:forEach var="hobby" items="${allHobbies}">
 
                                             <label class="hobby-option">
+
                                                 <input type="checkbox"
                                                        name="hobbies"
                                                        value="<c:out value='${hobby}'/>"
                                                        <c:if test="${not empty selectedHobbies and selectedHobbies.contains(hobby)}">checked</c:if>>
 
                                                 <c:out value="${hobby}" />
+
                                             </label>
 
                                         </c:forEach>
@@ -485,6 +623,78 @@
 
         </div>
 
+        <!-- プロフィール画像プレビュー -->
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const avatarInput = document.getElementById("avatar");
+            const fileName = document.getElementById("avatar-file-name");
+
+            if (!avatarInput) {
+                return;
+            }
+
+            avatarInput.addEventListener("change", function () {
+
+                const file = this.files[0];
+
+                if (!file) {
+                    fileName.textContent = "選択されていません";
+                    return;
+                }
+
+                // ファイル形式チェック
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif"
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+                    alert("JPEG・PNG・GIF形式の画像を選択してください。");
+                    this.value = "";
+                    fileName.textContent = "選択されていません";
+                    return;
+                }
+
+                // 5MBチェック
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("画像サイズは5MB以内にしてください。");
+                    this.value = "";
+                    fileName.textContent = "選択されていません";
+                    return;
+                }
+
+                fileName.textContent = file.name;
+
+                // 画像プレビュー
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+
+                    let preview = document.getElementById("avatar-preview");
+
+                    if (preview.tagName !== "IMG") {
+
+                        const newImage = document.createElement("img");
+
+                        newImage.id = "avatar-preview";
+                        newImage.className = "avatar-preview";
+                        newImage.alt = "プロフィール画像";
+
+                        preview.replaceWith(newImage);
+                        preview = newImage;
+                    }
+
+                    preview.src = event.target.result;
+                };
+
+                reader.readAsDataURL(file);
+
+            });
+
+        });
+        </script>
+
     </c:param>
 </c:import>
-```

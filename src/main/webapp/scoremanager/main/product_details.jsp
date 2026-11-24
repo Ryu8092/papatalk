@@ -148,6 +148,27 @@
         border-radius: 6px;
         text-align: center;
         font-size: 13px;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .photo-thumbnail.active {
+        border: 2px solid #ed9145;
+    }
+
+    .thumbnail-image {
+        width: 100%;
+        height: 72px;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+    }
+
+    .main-product-image {
+        width: 100%;
+        max-height: 420px;
+        object-fit: contain;
+        display: block;
     }
 
     .main-photo {
@@ -161,6 +182,7 @@
         border: 1px solid #dce3eb;
         border-radius: 8px;
         text-align: center;
+        overflow: hidden;
     }
 
     .photo-icon {
@@ -184,6 +206,8 @@
 
     .description-content {
         text-align: left !important;
+        overflow-wrap: anywhere;
+        line-height: 1.7;
     }
 
     /* 右側：商品情報 */
@@ -563,7 +587,6 @@
                 </button>
 
             </form>
-
         </div>
 
         <!-- 通報メッセージ -->
@@ -587,18 +610,64 @@
 
                 <div class="photo-content">
 
+                    <!-- サムネイル一覧 -->
                     <div class="photo-thumbnails">
-                        <div class="photo-thumbnail">写真 1</div>
-                        <div class="photo-thumbnail">写真 2</div>
-                        <div class="photo-thumbnail">写真 3</div>
+
+                        <c:choose>
+                            <c:when test="${not empty imageList}">
+
+                                <c:forEach var="imageUrl"
+                                           items="${imageList}"
+                                           varStatus="status">
+
+                                    <div class="photo-thumbnail ${status.first ? 'active' : ''}"
+                                         onclick="changeMainImage(this, '${pageContext.request.contextPath}${imageUrl}')">
+
+                                        <img
+                                            src="${pageContext.request.contextPath}${imageUrl}"
+                                            alt="商品画像${status.count}"
+                                            class="thumbnail-image">
+
+                                    </div>
+
+                                </c:forEach>
+
+                            </c:when>
+
+                            <c:otherwise>
+                                <div class="photo-thumbnail">
+                                    写真なし
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
                     </div>
 
+                    <!-- メイン画像 -->
                     <div class="main-photo">
-                        <div>
-                            <div class="photo-icon">📷</div>
-                            <div>商品写真</div>
-                            <small>商品画像表示欄</small>
-                        </div>
+
+                        <c:choose>
+                            <c:when test="${not empty imageList}">
+
+                                <img
+                                    id="mainProductImage"
+                                    src="${pageContext.request.contextPath}${imageList[0]}"
+                                    alt="${product.product_name}の商品画像"
+                                    class="main-product-image">
+
+                            </c:when>
+
+                            <c:otherwise>
+
+                                <div>
+                                    <div class="photo-icon">📷</div>
+                                    <div>商品写真</div>
+                                    <small>商品画像は登録されていません</small>
+                                </div>
+
+                            </c:otherwise>
+                        </c:choose>
+
                     </div>
 
                 </div>
@@ -626,32 +695,49 @@
                 <!-- お気に入りと問い合わせ -->
                 <div class="info-buttons">
 
-                    <!-- お気に入り登録 -->
+                    <!-- お気に入り登録・解除 -->
                     <c:choose>
-
+ 
+                        <%-- 登録済みの場合 --%>
                         <c:when test="${favoriteExists}">
-                            <button type="button"
-                                    class="btn-favorite"
-                                    disabled>
-                                ★ 登録済み
-                            </button>
-                        </c:when>
-
-                        <c:otherwise>
+ 
                             <form action="<c:url value='/scoremanager/main/AddFavorite.action' />"
                                   method="post">
-
+ 
                                 <input type="hidden"
                                        name="product_id"
                                        value="${product.product_id}">
-
+ 
+                                <input type="hidden"
+                                       name="action"
+                                       value="remove">
+ 
+                                <button type="submit" class="btn-favorite">
+                                    ★ 登録解除
+                                </button>
+ 
+                            </form>
+ 
+                        </c:when>
+ 
+                        <%-- 未登録の場合 --%>
+                        <c:otherwise>
+ 
+                            <form action="<c:url value='/scoremanager/main/AddFavorite.action' />"
+                                  method="post">
+ 
+                                <input type="hidden"
+                                       name="product_id"
+                                       value="${product.product_id}">
+ 
                                 <button type="submit" class="btn-favorite">
                                     ★ お気に入り登録
                                 </button>
-
+ 
                             </form>
+ 
                         </c:otherwise>
-
+ 
                     </c:choose>
 
                     <!-- メールで問い合わせ -->
@@ -765,9 +851,11 @@
 
                                     <c:forEach var="reason"
                                                items="${reportReasons}">
+
                                         <option value="${reason.report_reason_id}">
                                             <c:out value="${reason.report_reason_name}" />
                                         </option>
+
                                     </c:forEach>
 
                                 </select>
@@ -810,8 +898,27 @@
     </c:param>
 </c:import>
 
-<!-- 通報フォームの表示切り替え -->
+<!-- サムネイルをクリックしたときのメイン画像切り替え -->
 <script>
+    function changeMainImage(element, imageUrl) {
+
+        const mainImage = document.getElementById("mainProductImage");
+
+        if (mainImage) {
+            mainImage.src = imageUrl;
+        }
+
+        // 選択中のサムネイルの枠線を切り替える
+        const thumbnails = document.querySelectorAll(".photo-thumbnail");
+
+        thumbnails.forEach(function(thumbnail) {
+            thumbnail.classList.remove("active");
+        });
+
+        element.classList.add("active");
+    }
+
+    <!-- 通報フォームの表示切り替え -->
     function toggleReportForm() {
 
         const form = document.getElementById("reportFormArea");

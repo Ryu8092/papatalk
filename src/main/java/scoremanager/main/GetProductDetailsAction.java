@@ -10,6 +10,7 @@ import bean.User;
 import dao.ProductCategoryDao;
 import dao.ProductDao;
 import dao.ProductFavoritesDao;
+import dao.ProductImageDAO;
 import dao.ReportReasonDAO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,11 +55,17 @@ public class GetProductDetailsAction extends Action {
                    .forward(request, response);
             return;
         }
-        
-        
-     // カテゴリ一覧取得
-        ProductCategoryDao productcategoryDao = new ProductCategoryDao();
-        
+
+        // 商品画像一覧取得
+        ProductImageDAO imageDao = new ProductImageDAO();
+
+        List<String> imageList =
+                imageDao.selectByProductId(productId);
+
+        // カテゴリ一覧取得
+        ProductCategoryDao productcategoryDao =
+                new ProductCategoryDao();
+
         List<Category> categories = productcategoryDao.select();
 
         // 通報理由一覧取得
@@ -107,8 +114,15 @@ public class GetProductDetailsAction extends Action {
         System.out.println("投稿者名：" + product.getSeller_name());
         System.out.println("お気に入り登録済み：" + isFavorite);
 
+        System.out.println("商品画像一覧：");
+
+        for (String imageUrl : imageList) {
+            System.out.println(imageUrl);
+        }
+
         // JSPに渡す
         request.setAttribute("product", product);
+        request.setAttribute("imageList", imageList);
         request.setAttribute("categoryName", product.getCategory_name());
         request.setAttribute("itemConditionName", product.getItem_condition_name());
         request.setAttribute("sellerName", product.getSeller_name());

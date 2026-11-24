@@ -129,6 +129,14 @@
                 text-align: center;
                 font-size: 14px;
             }
+
+			.product-image {
+			    width: 100%;
+			    height: 100%;
+			    object-fit: cover;
+			    display: block;
+			}
+
  
             .photo-icon {
                 margin-bottom: 8px;
@@ -304,12 +312,28 @@
                                 <div class="product-card">
  
                                     <!-- 商品写真 -->
-                                    <div class="product-photo">
-                                        <div>
-                                            <div class="photo-icon">📷</div>
-                                            <div>商品写真</div>
-                                        </div>
-                                    </div>
+									
+									<div class="product-photo">
+
+									
+									    <c:choose>
+									        <c:when test="${not empty imageMap[product.product_id]}">
+									            <img
+											    src="${pageContext.request.contextPath}${imageMap[product.product_id]}"
+											    alt="商品画像"
+											    class="product-image">
+									        </c:when>
+									
+									        <c:otherwise>
+									            <div>
+									                <div class="photo-icon">📷</div>
+									                <div>商品写真</div>
+									            </div>
+									        </c:otherwise>
+									    </c:choose>
+									
+									</div>
+
  
                                     <!-- 商品情報 -->
                                     <div class="product-info">

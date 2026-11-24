@@ -79,20 +79,26 @@
             color: inherit;
         }
  
-        /* 写真部分 */
-        .event-image {
+        /* イベント写真 */
+        .event-photo {
             width: 100%;
             height: 125px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 13px;
+            display: block;
+            margin-bottom: 10px;
+            object-fit: cover;
             background: #f4f7fb;
             border: 1px solid #dce4ed;
             border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        /* 写真がない場合 */
+        div.event-photo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #718096;
             font-size: 13px;
-            box-sizing: border-box;
         }
  
         /* イベント名 */
@@ -242,9 +248,26 @@
                                 <div class="event-card">
  
                                     <!-- 写真 -->
-                                    <div class="event-image">
-                                        写真
-                                    </div>
+                                    <c:choose>
+
+                                        <c:when test="${not empty imageMap[event.event_id]}">
+
+                                            <img
+                                                src="${pageContext.request.contextPath}${imageMap[event.event_id][0].url}"
+                                                class="event-photo"
+                                                alt="イベント写真">
+
+                                        </c:when>
+
+                                        <c:otherwise>
+
+                                            <div class="event-photo">
+                                                写真
+                                            </div>
+
+                                        </c:otherwise>
+
+                                    </c:choose>
  
                                     <!-- イベント名 -->
                                     <h3 class="event-name">

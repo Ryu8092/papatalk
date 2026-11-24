@@ -1,13 +1,17 @@
+
 package scoremanager.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.Category;
 import bean.Product;
 import bean.User;
 import dao.ProductCategoryDao;
 import dao.ProductDao;
+import dao.ProductImageDAO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +38,12 @@ public class AssignmentTopAction extends Action {
         // 自分が出品した商品を除外
         List<Product> products = new ArrayList<>();
 
+        // 商品IDと画像URLを管理
+        Map<Integer, String> imageMap = new HashMap<>();
+
+        // 画像DAO
+        ProductImageDAO imageDao = new ProductImageDAO();
+
         for (Product product : allProducts) {
 
             // 未ログインの場合は全商品を表示
@@ -42,11 +52,18 @@ public class AssignmentTopAction extends Action {
                     product.getSeller_id() != user.getUser_id()) {
 
                 products.add(product);
+
+                // 商品の1枚目の画像URLを取得
+                String imageUrl =
+                    imageDao.selectFirstImage(product.getProduct_id());
+
+                imageMap.put(product.getProduct_id(), imageUrl);
             }
         }
 
-        // 商品一覧をJSPに渡す
+        // 商品一覧と画像情報をJSPに渡す
         request.setAttribute("products", products);
+        request.setAttribute("imageMap", imageMap);
 
         // ジャンル一覧をCategoryDaoから取得
         ProductCategoryDao categoryDao = new ProductCategoryDao();

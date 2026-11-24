@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
 <c:set var="content">
 
@@ -59,20 +61,70 @@
             box-sizing: border-box;
         }
 
-        /* 写真部分 */
-        .event-image {
+        /* 写真ギャラリー */
+        .event-image-gallery {
+            position: relative;
             width: 100%;
-            height: 220px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 300px;
             margin-bottom: 20px;
             background: #f4f7fb;
             border: 1px solid #dce4ed;
             border-radius: 8px;
-            color: #718096;
-            font-size: 15px;
+            overflow: hidden;
             box-sizing: border-box;
+        }
+
+        .gallery-image {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-image.active {
+            display: block;
+        }
+
+        /* 写真切り替えボタン */
+        .gallery-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(36, 71, 107, 0.8);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2;
+            transition: background .2s;
+        }
+
+        .gallery-button:hover {
+            background: #ed9145;
+        }
+
+        .gallery-prev {
+            left: 12px;
+        }
+
+        .gallery-next {
+            right: 12px;
+        }
+
+        /* 写真枚数 */
+        .gallery-counter {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 12px;
+            background: rgba(36, 71, 107, 0.8);
+            color: #fff;
+            border-radius: 15px;
+            font-size: 12px;
         }
 
         /* イベント名 */
@@ -117,16 +169,20 @@
         /* イベント内容 */
         .event-details-area {
             margin-top: 10px;
+            width: 100%;
         }
 
         .event-details-label {
             display: block;
             color: #718096;
             font-size: 14px;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
         .event-details-value {
+            display: block;
+            width: 100%;
             min-height: 120px;
             padding: 15px;
             background: #f7f9fc;
@@ -135,8 +191,19 @@
             color: #334155;
             font-size: 15px;
             line-height: 1.8;
+
+            /* 左上から表示 */
+            text-align: left;
+            vertical-align: top;
+
+            /* 改行を維持 */
             white-space: pre-wrap;
+
+            /* 長い文字列も枠内で折り返す */
             overflow-wrap: anywhere;
+            word-break: normal;
+
+            box-sizing: border-box;
         }
 
         /* ボタン */
@@ -163,8 +230,18 @@
             color: #fff;
         }
 
+        .participation-button:hover {
+            background: #d77a2e;
+            color: #fff;
+        }
+
         .back-button {
             background: #718096;
+            color: #fff;
+        }
+
+        .back-button:hover {
+            background: #526174;
             color: #fff;
         }
 
@@ -181,7 +258,17 @@
 
         /* スマートフォン */
         @media (max-width: 576px) {
+            .event-page-layout {
+                flex-direction: column;
+            }
+
+            .event-sidebar {
+                width: 100%;
+                flex-basis: auto;
+            }
+
             .event-container {
+                width: 100%;
                 padding: 18px;
             }
 
@@ -193,8 +280,12 @@
                 grid-template-columns: 1fr;
             }
 
-            .event-image {
+            .event-image-gallery {
                 height: 170px;
+            }
+
+            .event-buttons {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -225,9 +316,64 @@
 
                     <div class="event-detail-card">
 
-                        <!-- 写真 -->
-                        <div class="event-image">
-                            写真
+                        <!-- 写真ギャラリー -->
+                        <div class="event-image-gallery">
+
+                            <c:choose>
+
+                                <c:when test="${not empty imageList}">
+
+                                    <c:forEach var="image"
+                                        items="${imageList}"
+                                        varStatus="status">
+
+                                        <img
+                                            src="${pageContext.request.contextPath}${image.url}"
+                                            class="gallery-image ${status.first ? 'active' : ''}"
+                                            alt="イベント写真">
+
+                                    </c:forEach>
+
+                                    <!-- 写真が2枚以上の場合 -->
+                                    <c:if test="${fn:length(imageList) > 1}">
+
+                                        <button type="button"
+                                            class="gallery-button gallery-prev"
+                                            onclick="changeEventImage(-1)">
+                                            &#10094;
+                                        </button>
+
+                                        <button type="button"
+                                            class="gallery-button gallery-next"
+                                            onclick="changeEventImage(1)">
+                                            &#10095;
+                                        </button>
+
+                                        <div class="gallery-counter">
+                                            <span id="currentImage">1</span>
+                                            /
+                                            <span id="totalImages">${fn:length(imageList)}</span>
+                                        </div>
+
+                                    </c:if>
+
+                                </c:when>
+
+                                <c:otherwise>
+
+                                    <div style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        height: 100%;
+                                        color: #718096;">
+                                        写真はありません
+                                    </div>
+
+                                </c:otherwise>
+
+                            </c:choose>
+
                         </div>
 
                         <!-- イベント名 -->
@@ -261,7 +407,9 @@
                                     開催日
                                 </span>
                                 <span class="event-info-value">
-                                    <c:out value="${event.event_date}" />
+                                    <fmt:formatDate
+                                        value="${event.event_date}"
+                                        pattern="yyyy年MM月dd日 HH:mm" />
                                 </span>
                             </div>
 
@@ -270,7 +418,9 @@
                                     申し込み締め切り
                                 </span>
                                 <span class="event-info-value">
-                                    <c:out value="${event.deadline}" />
+                                    <fmt:formatDate
+                                        value="${event.deadline}"
+                                        pattern="yyyy年MM月dd日" />
                                 </span>
                             </div>
 
@@ -278,28 +428,28 @@
 
                         <!-- イベント内容 -->
                         <div class="event-details-area">
+
                             <span class="event-details-label">
                                 イベント内容
                             </span>
 
-                            <div class="event-details-value">
-                                <c:out value="${event.event_details}" />
-                            </div>
+                            <div class="event-details-value"><c:out value="${event.event_details}" /></div>
+
                         </div>
 
                         <!-- ボタン -->
                         <div class="event-buttons">
 
-                            <!-- 戻るボタン（左側） -->
+                            <!-- 戻るボタン -->
                             <a href="<c:url value='/scoremanager/main/RetrieveEvents.action'/>"
-                               class="back-button">
+                                class="back-button">
                                 戻る
                             </a>
 
-                            <!-- 参加するボタン（右側） -->
+                            <!-- 参加するボタン -->
                             <c:if test="${canApply}">
                                 <a href="<c:url value='/scoremanager/main/ReferenceConfirmationDisplay.action'/>?event_id=${event.event_id}"
-                                   class="participation-button">
+                                    class="participation-button">
                                     参加する
                                 </a>
                             </c:if>
@@ -314,6 +464,37 @@
 
         </div>
     </div>
+
+    <!-- 写真切り替え処理 -->
+    <script>
+        let currentImageIndex = 0;
+
+        function changeEventImage(direction) {
+
+            const images = document.querySelectorAll(".gallery-image");
+
+            if (images.length <= 1) {
+                return;
+            }
+
+            images[currentImageIndex].classList.remove("active");
+
+            currentImageIndex += direction;
+
+            if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            }
+
+            images[currentImageIndex].classList.add("active");
+
+            document.getElementById("currentImage").textContent =
+                currentImageIndex + 1;
+        }
+    </script>
 
 </c:set>
 

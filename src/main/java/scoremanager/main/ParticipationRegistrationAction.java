@@ -35,11 +35,48 @@ public class ParticipationRegistrationAction extends Action {
  
         // 大人の人数が未入力の場合
         if (adultNumber == null || adultNumber.trim().isEmpty()) {
+ 
             req.setAttribute("errorMessage", "大人の人数を入力してください。");
  
             req.getRequestDispatcher(
-                    "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
-                    + eventId
+                "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
+                + eventId
+            ).forward(req, res);
+ 
+            return;
+        }
+ 
+        // 大人の人数を取得
+        int adult = Integer.parseInt(adultNumber);
+ 
+        // 子供が未入力の場合は0人にする
+        int child = 0;
+ 
+        if (childNumber != null && !childNumber.trim().isEmpty()) {
+            child = Integer.parseInt(childNumber);
+        }
+ 
+        // 大人と子供が両方0人の場合
+        if (adult == 0 && child == 0) {
+ 
+            req.setAttribute("errorMessage", "人数は1人以上入力してください。");
+ 
+            req.getRequestDispatcher(
+                "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
+                + eventId
+            ).forward(req, res);
+ 
+            return;
+        }
+ 
+        // 大人が0人で、子供が1人以上の場合
+        if (adult == 0) {
+ 
+            req.setAttribute("errorMessage", "大人の人数は1人以上入力してください。");
+ 
+            req.getRequestDispatcher(
+                "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
+                + eventId
             ).forward(req, res);
  
             return;
@@ -50,8 +87,8 @@ public class ParticipationRegistrationAction extends Action {
  
         bean.setUser_id(loginUser.getUser_id());
         bean.setEvent_id(Integer.parseInt(eventId));
-        bean.setAdultnumber(Integer.parseInt(adultNumber));
-        bean.setChildnumber(Integer.parseInt(childNumber));
+        bean.setAdultnumber(adult);
+        bean.setChildnumber(child);
  
         // DB処理
         ExpectedParticipantsDao dao = new ExpectedParticipantsDao();
@@ -62,8 +99,8 @@ public class ParticipationRegistrationAction extends Action {
             req.setAttribute("errorMessage", "このイベントはすでに予約済みです。");
  
             req.getRequestDispatcher(
-                    "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
-                    + eventId
+                "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
+                + eventId
             ).forward(req, res);
  
             return;
@@ -85,7 +122,7 @@ public class ParticipationRegistrationAction extends Action {
  
         // 今回入力した人数を追加
         int newTotalNumber =
-                totalNumber + bean.getAdultnumber() + bean.getChildnumber();
+            totalNumber + bean.getAdultnumber() + bean.getChildnumber();
  
         // 定員を超えている場合
         if (newTotalNumber > event.getCapacity()) {
@@ -93,8 +130,8 @@ public class ParticipationRegistrationAction extends Action {
             req.setAttribute("errorMessage", "定員を超えています。");
  
             req.getRequestDispatcher(
-                    "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
-                    + eventId
+                "/scoremanager/main/ReferenceConfirmationDisplay.action?event_id="
+                + eventId
             ).forward(req, res);
  
             return;
@@ -105,6 +142,6 @@ public class ParticipationRegistrationAction extends Action {
  
         // 完了画面へリダイレクト
         res.sendRedirect(req.getContextPath()
-                + "/scoremanager/main/ParticipationCompletedDisplay.action");
+            + "/scoremanager/main/ParticipationCompletedDisplay.action");
     }
 }

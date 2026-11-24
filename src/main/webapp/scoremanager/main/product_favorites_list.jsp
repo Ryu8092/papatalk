@@ -349,10 +349,25 @@
                                      }">
  
                                     <%-- 商品写真枠 --%>
-                                    <div class="favorite-photo">
-                                        <span class="camera-icon">📷</span>
-                                        <span>写真なし</span>
-                                    </div>
+									<div class="favorite-photo">
+									
+									    <c:choose>
+									        <%-- 画像が登録されている場合 --%>
+									        <c:when test="${not empty imageMap[favorite.product_id]}">
+									            <img
+									                src="${pageContext.request.contextPath}${imageMap[favorite.product_id]}"
+									                alt="商品画像"
+									                style="width: 100%; height: 100%; object-fit: cover;">
+									        </c:when>
+									
+									        <%-- 画像がない場合 --%>
+									        <c:otherwise>
+									            <span class="camera-icon">📷</span>
+									            <span>写真なし</span>
+									        </c:otherwise>
+									    </c:choose>
+									
+									</div>
  
                                     <%-- 商品情報 --%>
                                     <div class="favorite-info">

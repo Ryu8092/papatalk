@@ -1,13 +1,12 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
-    <c:param name="title">パパトークシステム｜アカウント情報</c:param>
-    <c:param name="scripts"></c:param>
-    <c:param name="content">
+    <c:param name="title" value="パパトークシステム｜アカウント情報" />
+    <c:param name="scripts" value="" />
 
+    <c:param name="content">
         <style>
             .account-layout {
                 display: flex;
@@ -18,7 +17,7 @@
 
             .account-sidebar {
                 flex: 0 0 240px;
-                background: #ffffff;
+                background: #fff;
                 border-radius: 14px;
                 box-shadow: 0 4px 16px rgba(31, 55, 85, 0.08);
                 padding: 20px;
@@ -28,7 +27,7 @@
                 flex: 1;
                 min-width: 0;
                 padding: 28px;
-                background: #ffffff;
+                background: #fff;
                 border-radius: 14px;
                 box-shadow: 0 4px 16px rgba(31, 55, 85, 0.08);
             }
@@ -40,6 +39,47 @@
                 padding-bottom: 16px;
                 border-bottom: 3px solid #ed9145;
                 margin-bottom: 24px;
+            }
+
+            /* プロフィール画像 */
+            .account-profile {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 25px;
+                padding: 20px;
+                background: #f8fafc;
+                border-radius: 12px;
+            }
+
+            .account-profile-image {
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #dce5ed;
+                background: #fff;
+                flex-shrink: 0;
+            }
+
+            .account-profile-placeholder {
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                border: 3px solid #dce5ed;
+                background: #edf2f7;
+                color: #718096;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 13px;
+            }
+
+            .account-profile-name {
+                color: #24476b;
+                font-size: 18px;
+                font-weight: 700;
             }
 
             .account-grid {
@@ -87,7 +127,6 @@
                 white-space: normal;
             }
 
-            /* ボタン */
             .account-buttons {
                 display: flex;
                 justify-content: center;
@@ -112,7 +151,7 @@
                 text-align: center;
                 cursor: pointer;
                 background: #ed9145;
-                color: #ffffff;
+                color: #fff;
             }
 
             .account-button:hover {
@@ -120,53 +159,12 @@
                 opacity: 0.95;
             }
 
-            /* アカウント削除ボタン */
             .account-delete {
                 background: #e85d5d;
             }
 
             .account-delete:hover {
                 background: #d94b4b;
-            }
-
-            /* プロフィール画像 */
-            .account-profile {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-                margin-bottom: 25px;
-                padding: 20px;
-                background: #f8fafc;
-                border-radius: 12px;
-            }
-
-            .account-profile-image {
-                width: 110px;
-                height: 110px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 3px solid #dce5ed;
-            }
-
-            .account-profile-form {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .account-profile-form input {
-                max-width: 260px;
-            }
-
-            .account-profile-button {
-                width: fit-content;
-                padding: 10px 18px;
-                border: none;
-                border-radius: 8px;
-                background: #00b9c7;
-                color: white;
-                font-weight: 600;
-                cursor: pointer;
             }
 
             @media (max-width: 768px) {
@@ -193,6 +191,11 @@
                 .account-full {
                     grid-column: auto;
                 }
+
+                .account-profile {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
             }
         </style>
 
@@ -208,21 +211,51 @@
 
                 <h2 class="account-title">アカウント情報</h2>
 
+                <!-- プロフィール画像 -->
+                <div class="account-profile">
+
+                    <c:choose>
+                        <c:when test="${not empty user.avatar_url}">
+                            <img
+                                src="${pageContext.request.contextPath}${user.avatar_url}"
+                                alt="プロフィール画像"
+                                class="account-profile-image">
+                        </c:when>
+
+                        <c:otherwise>
+                            <div class="account-profile-placeholder">
+                                画像未登録
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <div class="account-profile-name">
+                        <c:out value="${user.nickname}" />
+                    </div>
+
+                </div>
+
                 <div class="account-grid">
 
                     <div class="account-row">
                         <label class="account-label">名前</label>
-                        <div class="account-value">${user.user_name}</div>
+                        <div class="account-value">
+                            <c:out value="${user.user_name}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">年齢</label>
-                        <div class="account-value">${user.user_age}歳</div>
+                        <div class="account-value">
+                            <c:out value="${user.user_age}" />歳
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">ニックネーム</label>
-                        <div class="account-value">${user.nickname}</div>
+                        <div class="account-value">
+                            <c:out value="${user.nickname}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
@@ -232,53 +265,77 @@
 
                     <div class="account-row account-full">
                         <label class="account-label">メールアドレス</label>
-                        <div class="account-value">${user.email}</div>
+                        <div class="account-value">
+                            <c:out value="${user.email}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">電話番号</label>
-                        <div class="account-value">${user.tel}</div>
+                        <div class="account-value">
+                            <c:out value="${user.tel}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">郵便番号</label>
-                        <div class="account-value">${user.postal_code}</div>
+                        <div class="account-value">
+                            <c:out value="${user.postal_code}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">都道府県</label>
-                        <div class="account-value">${user.prefecture}</div>
+                        <div class="account-value">
+                            <c:out value="${user.prefecture}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">市区町村</label>
-                        <div class="account-value">${user.city}</div>
+                        <div class="account-value">
+                            <c:out value="${user.city}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">番地</label>
-                        <div class="account-value">${user.address1}</div>
+                        <div class="account-value">
+                            <c:out value="${user.address1}" />
+                        </div>
                     </div>
 
                     <div class="account-row account-full">
                         <label class="account-label">建物名・部屋番号</label>
-                        <div class="account-value">${user.address2}</div>
+                        <div class="account-value">
+                            <c:out value="${user.address2}" />
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">お子さんの年齢</label>
-                        <div class="account-value">${user.child_age}歳</div>
+                        <div class="account-value">
+                            <c:out value="${user.child_age}" />歳
+                        </div>
                     </div>
 
                     <div class="account-row">
                         <label class="account-label">お子さんの性別</label>
-                        <div class="account-value">${user.child_gender}</div>
+                        <div class="account-value">
+                            <c:choose>
+                                <c:when test="${not empty user.child_gender}">
+                                    <c:out value="${user.child_gender}" />
+                                </c:when>
+                                <c:otherwise>
+                                    未登録
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
 
                     <div class="account-row account-full">
                         <label class="account-label">趣味</label>
                         <div class="account-value account-hobbies">
-
                             <c:choose>
                                 <c:when test="${not empty selectedHobbies}">
                                     <c:forEach var="hobby"
@@ -286,7 +343,7 @@
                                         varStatus="status">
 
                                         <c:if test="${!status.first}">、</c:if>
-                                        <c:out value="${hobby}"/>
+                                        <c:out value="${hobby}" />
 
                                     </c:forEach>
                                 </c:when>
@@ -295,31 +352,31 @@
                                     趣味は未登録です
                                 </c:otherwise>
                             </c:choose>
-
                         </div>
                     </div>
 
                 </div>
 
                 <!-- ボタン -->
-				<div class="account-buttons">
-				
-				    <!-- アカウント削除 -->
-				    <form action="ScreenDisplay.action" method="get">
-				        <button type="submit"
-				                class="account-button account-delete">
-				            アカウント削除
-				        </button>
-				    </form>
-				
-				    <!-- アカウント情報変更 -->
-				    <form action="AccountChange.action" method="get">
-				        <button type="submit" class="account-button">
-				            アカウント情報変更
-				        </button>
-				    </form>
-				
-				</div>
+                <div class="account-buttons">
+
+                    <!-- アカウント削除 -->
+                    <form action="ScreenDisplay.action" method="get">
+                        <button type="submit"
+                                class="account-button account-delete">
+                            アカウント削除
+                        </button>
+                    </form>
+
+                    <!-- アカウント情報変更 -->
+                    <form action="AccountChange.action" method="get">
+                        <button type="submit"
+                                class="account-button">
+                            アカウント情報変更
+                        </button>
+                    </form>
+
+                </div>
 
             </main>
         </div>
