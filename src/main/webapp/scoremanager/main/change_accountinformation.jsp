@@ -414,7 +414,7 @@
 
                         <div class="account-row">
                             <label class="account-label" for="user_name">
-                                名前<span class="required">必須</span>
+                                名前<span class="required"></span>
                             </label>
                             <input class="account-input"
                                    type="text" id="user_name" name="user_name"
@@ -434,7 +434,7 @@
 
                         <div class="account-row">
                             <label class="account-label" for="nickname">
-                                ニックネーム<span class="required">必須</span>
+                                ニックネーム<span class="required"></span>
                             </label>
                             <input class="account-input"
                                    type="text" id="nickname" name="nickname"
@@ -446,7 +446,7 @@
 
                         <div class="account-row account-full">
                             <label class="account-label" for="email">
-                                メールアドレス<span class="required">必須</span>
+                                メールアドレス<span class="required"></span>
                             </label>
                             <input class="account-input"
                                    type="email" id="email" name="email"

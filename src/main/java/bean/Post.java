@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 public class Post implements Serializable {
  
     private static final long serialVersionUID = 1L;
- 
+    
     // 投稿ID
     private int post_id;
  
@@ -27,7 +27,8 @@ public class Post implements Serializable {
  
     // 閲覧期限
     private Timestamp view_limit;
- 
+    
+    
  
     // 投稿ID
     public int getPost_id() {

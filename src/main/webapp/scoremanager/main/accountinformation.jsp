@@ -229,9 +229,6 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <div class="account-profile-name">
-                        <c:out value="${user.nickname}" />
-                    </div>
 
                 </div>
 

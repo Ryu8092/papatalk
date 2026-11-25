@@ -159,7 +159,18 @@ public class PostDAO extends Dao {
     
     public Post selectId(int post_id) throws Exception {
 
-        String sql = "SELECT * FROM posts WHERE post_id = ?";
+        String sql =
+            "SELECT " +
+            "    P.POST_ID, " +
+            "    P.POST_USER_ID, " +
+            "    P.TITLE, " +
+            "    P.CONTENT, " +
+            "    P.CREATE_AT, " +
+            "    U.USER_NAME " +
+            "FROM POSTS P " +
+            "INNER JOIN USERS U " +
+            "    ON P.POST_USER_ID = U.USER_ID " +
+            "WHERE P.POST_ID = ?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -178,6 +189,8 @@ public class PostDAO extends Dao {
                     post.setPost_content(rs.getString("CONTENT"));
                     post.setPost_date(rs.getTimestamp("CREATE_AT"));
 
+                    // 投稿者の名前を取得
+                    post.setUser_name(rs.getString("USER_NAME"));
 
                     return post;
                 }
