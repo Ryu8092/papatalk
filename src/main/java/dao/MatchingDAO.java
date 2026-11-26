@@ -39,7 +39,7 @@ public class MatchingDAO extends Dao {
         List<Matching> matchingList = new ArrayList<>();
  
         String sql =
-            "SELECT m.MATCH_ID, u.USER_NAME " +
+            "SELECT m.MATCH_ID, u.NICKNAME " +
             "FROM MATCHINGS m " +
             "JOIN USERS u ON " +
             "(m.ACTION_USER_ID = ? AND u.USER_ID = m.TARGET_USER_ID) " +
@@ -61,7 +61,7 @@ public class MatchingDAO extends Dao {
                     Matching matching = new Matching();
  
                     matching.setMatch_id(rs.getInt("MATCH_ID"));
-                    matching.setUser_name(rs.getString("USER_NAME"));
+                    matching.setNickname(rs.getString("NICKNAME"));
  
                     matchingList.add(matching);
                 }

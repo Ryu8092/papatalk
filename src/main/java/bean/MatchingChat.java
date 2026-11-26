@@ -11,6 +11,15 @@ public class MatchingChat implements Serializable {
     private String content;
     private Timestamp create_at;
     private String user_name;
+    private String nickname;
+    
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public int getChat_id() {
         return chat_id;

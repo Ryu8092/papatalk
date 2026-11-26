@@ -53,7 +53,7 @@ public class MatchingListAction extends Action {
                 if (latestChat != null) {
                     matching.setLatestContent(latestChat.getContent());
                     matching.setLatestCreateAt(latestChat.getCreate_at());
-                    matching.setLatestSenderName(latestChat.getUser_name());
+                    matching.setLatestSenderName(latestChat.getNickname());
             
                 }
             }

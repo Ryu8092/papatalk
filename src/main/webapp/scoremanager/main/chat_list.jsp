@@ -321,7 +321,7 @@
                                     <!-- 相手の名前 -->
                                     <span class="user-name">
 
-                                        <c:out value="${matching.user_name}" />さん
+                                        <c:out value="${matching.nickname}" />さん
 
                                     </span>
 
