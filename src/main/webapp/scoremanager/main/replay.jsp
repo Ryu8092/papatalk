@@ -1,13 +1,12 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <c:import url="/common/base.jsp">
     <c:param name="title">返信一覧｜パパトークシステム</c:param>
     <c:param name="scripts"></c:param>
-
     <c:param name="content">
 
         <style>
@@ -224,12 +223,16 @@
             .reply-list {
                 display: none;
                 flex-direction: column;
+                align-items: stretch;
                 gap: 18px;
+                width: 100%;
+                box-sizing: border-box;
                 margin-top: 18px;
                 padding: 20px;
                 background: #f8fafc;
                 border: 1px solid #e2e8f0;
                 border-radius: 12px;
+                text-align: left;
             }
 
             .reply-list.show {
@@ -250,6 +253,11 @@
 
             /* 返信カード */
             .reply-card {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                align-self: stretch;
+                text-align: left;
                 background: #ffffff;
                 border: 1px solid #e2e8f0;
                 border-left: 4px solid #ed9145;
@@ -307,6 +315,7 @@
             /* 返信本文 */
             .reply-content {
                 position: relative;
+                text-align: left;
                 background: #f1f5f9;
                 color: #334155;
                 font-size: 15px;
@@ -458,10 +467,10 @@
                 border: 1px dashed #cbd5e1;
                 font-size: 14px;
             }
+            
 
             /* スマホ対応 */
             @media (max-width: 768px) {
-
                 .reply-layout {
                     padding: 20px 15px;
                 }
@@ -519,9 +528,12 @@
                 }
 
                 .reply-content {
-                    padding: 14px;
-                    font-size: 14px;
-                }
+				    white-space: pre-wrap;
+				    text-align: left;
+				    padding: 12px;
+				    margin: 0;
+				    line-height: 1.6;
+				}
 
                 .reply-toggle-button {
                     padding: 14px;
@@ -534,7 +546,6 @@
 
             <!-- タイトルと戻るボタン -->
             <div class="reply-header">
-
                 <h2 class="reply-title">返信一覧</h2>
 
                 <form action="/papatalk/scoremanager/main/RetrievePosts.action"
@@ -544,9 +555,7 @@
                     <button type="submit" class="back-button">
                         戻る
                     </button>
-
                 </form>
-
             </div>
 
             <!-- エラーメッセージ -->
@@ -565,7 +574,6 @@
 
             <!-- 元投稿 -->
             <c:if test="${not empty post}">
-
                 <div class="original-post-card">
 
                     <h3 class="original-post-title">
@@ -577,9 +585,8 @@
                     </div>
 
                     <div class="reply-info">
-
                         <span>
-                            投稿者：<c:out value="${post.user_id}" />
+                            投稿者：<c:out value="${post.user_name}" />
                         </span>
 
                         <span>
@@ -590,16 +597,12 @@
                                     pattern="yyyy年MM月dd日 HH時mm分" />
                             </c:if>
                         </span>
-
                     </div>
-
                 </div>
-
             </c:if>
 
             <!-- 返信入力フォーム -->
             <div class="reply-form-section">
-
                 <form action="<c:url value='/scoremanager/main/RegisterReply.action' />"
                       method="post">
 
@@ -608,16 +611,13 @@
                            value="${post.post_id}">
 
                     <div class="reply-input-row">
-
                         <div class="form-group">
-
                             <textarea name="reply_content"
                                       id="replyContentArea"
                                       class="reply-textarea"
                                       placeholder="返信内容を入力してください"
                                       oninput="validateReplyInput()"
                                       required></textarea>
-
                         </div>
 
                         <button type="submit"
@@ -626,11 +626,8 @@
                                 disabled>
                             送信
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
 
             <!-- 返信一覧 -->
@@ -645,19 +642,14 @@
                         onclick="toggleReplyList()">
 
                     <span class="reply-toggle-left">
-
                         <span>✉</span>
-
                         <span>返信</span>
-
                         <span class="reply-count">
                             <c:out value="${empty replyList ? 0 : replyList.size()}" />
                         </span>
-
                     </span>
 
                     <span class="reply-toggle-icon">▼</span>
-
                 </button>
 
                 <!-- 返信一覧の中身 -->
@@ -667,17 +659,13 @@
                     </div>
 
                     <c:choose>
-
                         <c:when test="${empty replyList}">
-
                             <div class="no-reply-message">
                                 まだ返信はありません。
                             </div>
-
                         </c:when>
 
                         <c:otherwise>
-
                             <c:forEach var="reply"
                                        items="${replyList}"
                                        varStatus="status">
@@ -688,7 +676,6 @@
                                     <div class="reply-card-header">
 
                                         <div class="reply-number">
-
                                             <span class="reply-number-icon">
                                                 👤
                                             </span>
@@ -696,27 +683,21 @@
                                             <span>
                                                 <c:out value="${reply.user_name}" />
                                             </span>
-
                                         </div>
 
                                         <span class="reply-date">
                                             <c:if test="${not empty reply.reply_date}">
-                                                <fmt:formatDate
-                                                    value="${reply.reply_date}"
-                                                    pattern="yyyy年MM月dd日 HH時mm分" />
+                                                <c:out value="${fn:substring(reply.reply_date, 0, 4)}年${fn:substring(reply.reply_date, 5, 7)}月${fn:substring(reply.reply_date, 8, 10)}日 ${fn:substring(reply.reply_date, 11, 13)}時${fn:substring(reply.reply_date, 14, 16)}分" />
                                             </c:if>
                                         </span>
-
                                     </div>
 
-                                    <!-- 返信内容 -->
-                                    <div class="reply-content">
-                                        <c:out value="${reply.reply_content}" />
-                                    </div>
+ 
+									<!-- 返信内容 -->
+									<div class="reply-content"><c:out value="${fn:trim(reply.reply_content)}" /></div>
 
                                     <!-- 通報ボタン -->
                                     <div class="bottom-buttons">
-
                                         <div class="report-form">
 
                                             <button type="button"
@@ -730,7 +711,7 @@
                                             <div class="report-form-area"
                                                  id="reportFormArea_${status.index}">
 
-                                                <form action="<c:url value='/papatalk/scoremanager/main/ChatReportRegistration.action' />"
+                                                <form action="<c:url value='/scoremanager/main/ChatReportRegistration.action' />"
                                                       method="post"
                                                       id="reportFormElement_${status.index}">
 
@@ -748,7 +729,6 @@
 
                                                     <!-- 通報理由 -->
                                                     <div class="report-input-area">
-
                                                         <label class="report-label">
                                                             通報理由
                                                         </label>
@@ -765,20 +745,15 @@
 
                                                             <c:forEach var="reason"
                                                                        items="${reportReasons}">
-
                                                                 <option value="${reason.report_reason_id}">
                                                                     <c:out value="${reason.report_reason_name}" />
                                                                 </option>
-
                                                             </c:forEach>
-
                                                         </select>
-
                                                     </div>
 
                                                     <!-- 通報内容 -->
                                                     <div class="report-input-area">
-
                                                         <label class="report-label">
                                                             通報内容
                                                         </label>
@@ -790,7 +765,6 @@
                                                                   maxlength="1000"
                                                                   required
                                                                   placeholder="通報内容を入力してください"></textarea>
-
                                                     </div>
 
                                                     <button type="submit"
@@ -799,37 +773,23 @@
                                                             disabled>
                                                         ⚑ 送信
                                                     </button>
-
                                                 </form>
-
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                 </article>
-
                             </c:forEach>
-
                         </c:otherwise>
-
                     </c:choose>
-
                 </div>
-
             </div>
-
         </div>
-
     </c:param>
 </c:import>
 
 <script>
-
     // 返信入力バリデーション
     function validateReplyInput() {
-
         const textarea =
             document.getElementById("replyContentArea");
 
@@ -837,12 +797,10 @@
             document.getElementById("replySubmitBtn");
 
         submitBtn.disabled = textarea.value.trim() === "";
-
     }
 
     // 返信一覧の開閉
     function toggleReplyList() {
-
         const replyList =
             document.getElementById("replyListArea");
 
@@ -853,24 +811,18 @@
             replyList.classList.contains("show");
 
         if (isOpen) {
-
             replyList.classList.remove("show");
             toggleButton.classList.remove("open");
             toggleButton.setAttribute("aria-expanded", "false");
-
         } else {
-
             replyList.classList.add("show");
             toggleButton.classList.add("open");
             toggleButton.setAttribute("aria-expanded", "true");
-
         }
-
     }
 
     // 通報フォーム開閉
     function toggleReplyReportForm(index) {
-
         const form =
             document.getElementById("reportFormArea_" + index);
 
@@ -878,24 +830,17 @@
             document.getElementById("reportOpenButton_" + index);
 
         if (form.classList.contains("show")) {
-
             form.classList.remove("show");
             button.textContent = "⚑ 通報する";
-
         } else {
-
             form.classList.add("show");
             button.textContent = "通報フォームを閉じる";
-
             validateReportForm(index);
-
         }
-
     }
 
     // 通報フォーム入力バリデーション
     function validateReportForm(index) {
-
         const reasonSelect =
             document.getElementById("reasonSelect_" + index);
 
@@ -915,7 +860,5 @@
             submitBtn.disabled = false;
 
         }
-
     }
-
 </script>

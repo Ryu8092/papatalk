@@ -96,6 +96,27 @@
     .papa-sidebar .sidebar-logout a:hover {
         color: #b43c3c;
     }
+    /* サブスク未加入時のボタン */
+	.papa-sidebar button:disabled {
+	    background: rgba(255, 255, 255, 0.12);
+	    color: rgba(255, 255, 255, 0.5);
+	    cursor: not-allowed;
+	    opacity: 0.65;
+	    transform: none;
+	}
+	
+	/* 無効時はホバーしても色を変えない */
+	.papa-sidebar button:disabled:hover {
+	    background: rgba(255, 255, 255, 0.12);
+	    color: rgba(255, 255, 255, 0.5);
+	    transform: none;
+	}
+	
+	/* ロックアイコン */
+	.subscription-lock {
+	    margin-left: auto;
+	    font-size: 13px;
+	}
 
     @media (max-width: 768px) {
         .papa-sidebar {
@@ -154,14 +175,22 @@
         </li>
 
         <!-- おさがり -->
-        <li>
-            <form action="${pageContext.request.contextPath}/scoremanager/main/AssignmentTop.action" method="get">
-                <button type="submit">
-                    <span class="sidebar-icon">🧸</span>
-                    <span>おさがり</span>
-                </button>
-            </form>
-        </li>
+		<li>
+		    <form action="${pageContext.request.contextPath}/scoremanager/main/AssignmentTop.action" method="get">
+		        <button type="submit"
+		            <c:if test="${sessionScope.subscription ne true}">
+		                disabled="disabled"
+		            </c:if>
+		        >
+		            <span class="sidebar-icon">🧸</span>
+		            <span>おさがり</span>
+		
+		            <c:if test="${sessionScope.subscription ne true}">
+		                <span class="subscription-lock">🔒</span>
+		            </c:if>
+		        </button>
+		    </form>
+		</li>
 
         <!-- サブスク限定 -->
         <li>

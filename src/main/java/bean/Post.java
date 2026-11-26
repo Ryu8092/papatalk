@@ -3,6 +3,10 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
+=======
+    
+>>>>>>> refs/remotes/origin/master
     // 投稿ID
     private int post_id;
     // 投稿したユーザーのID
@@ -17,7 +21,13 @@ public class Post implements Serializable {
     private Timestamp post_date;
     // 閲覧期限
     private Timestamp view_limit;
+<<<<<<< HEAD
 
+=======
+    
+    
+ 
+>>>>>>> refs/remotes/origin/master
     // 投稿ID
     public int getPost_id() {
         return post_id;

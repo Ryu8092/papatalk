@@ -65,6 +65,13 @@ public class PaymentDoneAction extends Action {
  
         // 契約情報を登録
         int result = dao.insert(user_id, plan);
+        
+        SubscriptionDAO subscriptionDao = new SubscriptionDAO();
+        // サブスク加入状態を取得
+        boolean subscription = subscriptionDao.select(user_id);
+
+        // サブスク状態をセッションに格納
+        session.setAttribute("subscription", subscription);
  
         // 登録成功
         if (result > 0) {
