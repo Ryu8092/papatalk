@@ -337,7 +337,6 @@
                     </div>
 
                 </div>
-<<<<<<< HEAD
 
                 <!-- ===== メインコンテンツ ===== -->
                 <div class="operation-content">
@@ -417,37 +416,8 @@
                         PAPATALK SYSTEM ｜ ADMINISTRATION
                     </div>
 
-=======
  
-                <!-- 管理メニュー -->
-                <div class="operation-menu">
- 
-                    <!-- 投稿 -->
-                    <a href="PostList.action"
-                       class="operation-button">
-                        投稿
-                    </a>
- 
-                    <!-- 通報履歴 -->
-                    <a href="/papatalk/scoremanager/main/BanList.action"
-                       class="operation-button">
-                        通報履歴
-                    </a>
- 
-                    <!-- 通報一覧 -->
-                    <a href="/papatalk/scoremanager/main/SingleScreenDisplay.action"
-                       class="operation-button">
-                        通報一覧
-                    </a>
- 
-                    <!-- イベント -->
-                    <a href="/papatalk/scoremanager/main/RetrieveListOrganizers.action"
-                       class="operation-button">
-                        イベント
-                    </a>
- 
->>>>>>> refs/remotes/origin/master
-                </div>
+              
 
             </div>
 

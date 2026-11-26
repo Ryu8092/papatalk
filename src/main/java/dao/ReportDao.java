@@ -14,6 +14,7 @@ import bean.User;
 public class ReportDao extends Dao {
 
     // 通報内容IDからユーザー情報・通報情報を取得
+    // 有効なアカウント（user_status = 0）のみ取得
     // おさがり譲渡の場合は商品(3)とチャット(4)の両方を取得
     public List<Report> selectByReportContentId(
             int report_content_id) throws Exception {
@@ -32,6 +33,8 @@ public class ReportDao extends Dao {
             "ON r.report_reason_id = rr.report_reason_id " +
             "WHERE (r.report_content_id = ? " +
             "OR (? = 3 AND r.report_content_id = 4)) " +
+            "AND u.user_status = 0 " +
+            "AND r.state = 0" +
             "ORDER BY r.create_at DESC";
 
         try (
@@ -80,6 +83,7 @@ public class ReportDao extends Dao {
                     bean.setReport_reason_name(
                         rs.getString("report_reason_name"));
 
+                    // ユーザー情報
                     User user = new User();
 
                     user.setUser_id(
@@ -101,7 +105,9 @@ public class ReportDao extends Dao {
         return list;
     }
 
+
     // ユーザーIDからおさがりの商品・チャットの通報情報を取得
+    // 停止済みユーザーも詳細確認できるようにする
     public List<Report> selectByUserId(
             int user_id) throws Exception {
 
@@ -166,6 +172,7 @@ public class ReportDao extends Dao {
                     bean.setReport_reason_name(
                         rs.getString("report_reason_name"));
 
+                    // ユーザー情報
                     User user = new User();
 
                     user.setUser_id(
@@ -186,6 +193,7 @@ public class ReportDao extends Dao {
 
         return list;
     }
+
 
     // 通報情報を登録
     public int insert(Report bean) throws Exception {
@@ -212,6 +220,7 @@ public class ReportDao extends Dao {
         }
     }
 
+
     // 投稿IDから投稿者のユーザーIDを取得
     public int getUserIdByPostId(int postId) throws Exception {
 
@@ -236,6 +245,7 @@ public class ReportDao extends Dao {
 
         return userId;
     }
+
 
     // 返信IDから返信者のユーザーIDを取得
     public int getUserIdByReplyId(int replyId) throws Exception {
