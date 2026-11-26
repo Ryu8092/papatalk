@@ -2,6 +2,7 @@ package bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 public class Post implements Serializable {
+
     // 投稿ID
     private int post_id;
     // 投稿したユーザーのID
