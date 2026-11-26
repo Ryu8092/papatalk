@@ -11,7 +11,6 @@
 
     <c:param name="scripts">
         <style>
-
             * {
                 box-sizing: border-box;
             }
@@ -110,16 +109,6 @@
                 padding: 40px;
             }
 
-            .operation-description {
-                margin-bottom: 30px;
-                padding-bottom: 20px;
-                border-bottom: 1px solid #e3dac9;
-                color: #776b57;
-                font-size: 13px;
-                letter-spacing: 1px;
-                text-align: center;
-            }
-
             /* ===== メニュー ===== */
             .operation-menu {
                 display: grid;
@@ -161,8 +150,7 @@
                 box-shadow: 0 7px 18px rgba(64, 54, 37, 0.12);
             }
 
-            .operation-button:focus-visible,
-            .logout-button:focus-visible {
+            .operation-button:focus-visible {
                 outline: 3px solid #b49a65;
                 outline-offset: 3px;
             }
@@ -177,57 +165,6 @@
             .operation-button:hover .operation-arrow {
                 color: #8b3d35;
                 transform: translateX(4px);
-            }
-
-            /* ===== ログアウト ===== */
-            .logout-area {
-                display: flex;
-                justify-content: center;
-                margin-top: 40px;
-                padding-top: 25px;
-                border-top: 1px solid #e3dac9;
-            }
-
-            .logout-form {
-                width: 100%;
-                max-width: 230px;
-                margin: 0;
-            }
-
-            .logout-button {
-                width: 100%;
-                min-height: 48px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 10px 20px;
-                background: #292c29;
-                border: 1px solid #292c29;
-                border-radius: 4px;
-                color: #f1ebdd;
-                font-size: 13px;
-                font-weight: bold;
-                letter-spacing: 2px;
-                cursor: pointer;
-                transition: 0.2s;
-            }
-
-            .logout-button:hover {
-                background: #454943;
-                border-color: #b49a65;
-                color: #fffdf8;
-                transform: translateY(-2px);
-            }
-
-            /* ===== 下部 ===== */
-            .operation-bottom {
-                margin-top: 30px;
-                padding-top: 20px;
-                border-top: 1px solid #e3dac9;
-                text-align: center;
-                color: #a69a83;
-                font-size: 10px;
-                letter-spacing: 2px;
             }
 
             /* ===== タブレット ===== */
@@ -258,7 +195,6 @@
                     padding: 20px;
                     font-size: 16px;
                 }
-
             }
 
             /* ===== スマートフォン ===== */
@@ -291,13 +227,7 @@
                 .operation-arrow {
                     font-size: 24px;
                 }
-
-                .operation-bottom {
-                    font-size: 9px;
-                }
-
             }
-
         </style>
     </c:param>
 
@@ -337,18 +267,15 @@
                     </div>
 
                 </div>
-<<<<<<< HEAD
 
                 <!-- ===== メインコンテンツ ===== -->
                 <div class="operation-content">
-
-                    
 
                     <!-- ===== 管理メニュー ===== -->
                     <div class="operation-menu">
 
                         <!-- 投稿 -->
-                        <form action="/papatalk/scoremanager/main/RetrievePosts.action"
+                        <form action="${pageContext.request.contextPath}/scoremanager/main/PostList.action"
                               method="get"
                               class="operation-form">
 
@@ -360,7 +287,7 @@
                         </form>
 
                         <!-- 通報履歴 -->
-                        <form action="/papatalk/scoremanager/main/BanList.action"
+                        <form action="${pageContext.request.contextPath}/scoremanager/main/BanList.action"
                               method="get"
                               class="operation-form">
 
@@ -372,7 +299,7 @@
                         </form>
 
                         <!-- 通報一覧 -->
-                        <form action="/papatalk/scoremanager/main/SingleScreenDisplay.action"
+                        <form action="${pageContext.request.contextPath}/scoremanager/main/SingleScreenDisplay.action"
                               method="get"
                               class="operation-form">
 
@@ -384,7 +311,7 @@
                         </form>
 
                         <!-- イベント -->
-                        <form action="/papatalk/scoremanager/main/RetrieveListOrganizers.action"
+                        <form action="${pageContext.request.contextPath}/scoremanager/main/RetrieveListOrganizers.action"
                               method="get"
                               class="operation-form">
 
@@ -397,56 +324,6 @@
 
                     </div>
 
-                    <!-- ===== ログアウト ===== -->
-                    <div class="logout-area">
-
-                        <form action="/papatalk/scoremanager/main/Logout.action"
-                              method="get"
-                              class="logout-form">
-
-                            <button type="submit" class="logout-button">
-                                ログアウト
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                    <!-- ===== 下部 ===== -->
-                    <div class="operation-bottom">
-                        PAPATALK SYSTEM ｜ ADMINISTRATION
-                    </div>
-
-=======
- 
-                <!-- 管理メニュー -->
-                <div class="operation-menu">
- 
-                    <!-- 投稿 -->
-                    <a href="PostList.action"
-                       class="operation-button">
-                        投稿
-                    </a>
- 
-                    <!-- 通報履歴 -->
-                    <a href="/papatalk/scoremanager/main/BanList.action"
-                       class="operation-button">
-                        通報履歴
-                    </a>
- 
-                    <!-- 通報一覧 -->
-                    <a href="/papatalk/scoremanager/main/SingleScreenDisplay.action"
-                       class="operation-button">
-                        通報一覧
-                    </a>
- 
-                    <!-- イベント -->
-                    <a href="/papatalk/scoremanager/main/RetrieveListOrganizers.action"
-                       class="operation-button">
-                        イベント
-                    </a>
- 
->>>>>>> refs/remotes/origin/master
                 </div>
 
             </div>
