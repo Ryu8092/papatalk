@@ -5,346 +5,641 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
+
     <c:param name="title">
         パパトークシステム｜通報詳細
     </c:param>
 
-    <c:param name="content">
+    <c:param name="scripts">
         <style>
+
             * {
                 box-sizing: border-box;
             }
 
-            .matching-layout {
+            /* ===== 全体 ===== */
+            .detail-page {
+                width: 100%;
+                min-height: 75vh;
+                padding: 40px 30px;
+                background: #f1ebdd;
+            }
+
+            /* ===== メインカード ===== */
+            .detail-container {
+                width: 100%;
+                max-width: 1100px;
+                margin: 0 auto;
+                background: #fffdf8;
+                border: 1px solid #d8ccb4;
+                border-radius: 5px;
+                overflow: hidden;
+                box-shadow: 0 8px 30px rgba(48, 43, 32, 0.10);
+            }
+
+            /* ===== ヘッダー ===== */
+            .detail-header {
+                padding: 28px 40px 30px;
+                background: #292c29;
+                border-bottom: 4px solid #b49a65;
+            }
+
+            .detail-header-top {
                 display: flex;
-                gap: 24px;
-                min-height: 70vh;
-                margin: 20px;
-            }
-
-            .matching-main {
-                flex: 1;
-                min-width: 0;
-                background: #fff;
-                border-radius: 12px;
-                padding: 28px;
-            }
-
-            .page-title {
-                font-size: 25px;
-                font-weight: bold;
-                color: #24476b;
-                margin-bottom: 10px;
-            }
-
-            .page-description {
-                color: #666;
+                justify-content: space-between;
+                align-items: center;
                 margin-bottom: 25px;
             }
 
-            .report-category {
+            .detail-admin-label {
                 display: inline-block;
-                background: #fff0df;
-                color: #d87925;
-                padding: 7px 16px;
-                border-radius: 20px;
-                font-size: 14px;
+                padding: 7px 14px;
+                border: 1px solid #88774f;
+                color: #d8c39a;
+                font-size: 10px;
                 font-weight: bold;
-                margin-bottom: 20px;
+                letter-spacing: 2px;
             }
 
-            .section-title {
-                font-size: 18px;
+            .detail-system-label {
+                font-size: 10px;
+                color: #b9ad94;
+                letter-spacing: 2px;
+            }
+
+            .detail-title {
+                margin: 0;
+                text-align: center;
+                color: #f1ebdd;
+                font-size: 28px;
                 font-weight: bold;
-                color: #24476b;
-                border-left: 5px solid #ed9145;
-                padding-left: 12px;
-                margin: 25px 0 15px;
+                letter-spacing: 4px;
+            }
+
+            .detail-subtitle {
+                margin-top: 10px;
+                text-align: center;
+                color: #b49a65;
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            /* ===== 装飾 ===== */
+            .detail-decoration {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .detail-decoration-line {
+                width: 45px;
+                height: 1px;
+                background: #b49a65;
+            }
+
+            .detail-decoration-diamond {
+                width: 7px;
+                height: 7px;
+                background: #b49a65;
+                transform: rotate(45deg);
+            }
+
+            /* ===== コンテンツ ===== */
+            .detail-content {
+                padding: 40px;
+            }
+
+            .page-description {
+                margin-bottom: 25px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #e3dac9;
+                color: #776b57;
+                font-size: 13px;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+
+            /* ===== メッセージ ===== */
+            .message {
+                margin-bottom: 20px;
+                padding: 14px 18px;
+                background: #f5eee0;
+                border: 1px solid #b49a65;
+                border-left: 4px solid #b49a65;
+                color: #725f39;
+                border-radius: 3px;
+            }
+
+            /* ===== セクションタイトル ===== */
+            .section-title {
+                margin: 30px 0 15px;
+                padding: 10px 15px;
+                background: #f5eee0;
+                border-left: 4px solid #b49a65;
+                color: #38372f;
+                font-size: 17px;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+
+            /* ===== 通報カテゴリ ===== */
+            .report-category {
+                display: inline-block;
+                margin-bottom: 5px;
+                padding: 8px 18px;
+                background: #eee5d2;
+                border: 1px solid #b49a65;
+                border-radius: 3px;
+                color: #725f39;
+                font-size: 14px;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+
+            /* ===== テーブル ===== */
+            .table-wrapper {
+                width: 100%;
+                overflow-x: auto;
+                border: 1px solid #ded4c1;
             }
 
             .detail-table {
                 width: 100%;
                 border-collapse: collapse;
+                background: #fffdf8;
             }
 
             .detail-table th {
-                width: 30%;
-                background: #24476b;
-                color: white;
                 padding: 14px;
+                background: #292c29;
+                color: #f1ebdd;
+                border-bottom: 1px solid #b49a65;
                 text-align: left;
-                border-bottom: 1px solid #ddd;
                 white-space: nowrap;
+                font-size: 13px;
             }
 
             .detail-table td {
                 padding: 14px;
-                color: #444;
-                border-bottom: 1px solid #ddd;
+                color: #504a3f;
+                border-bottom: 1px solid #e3dac9;
+                font-size: 13px;
                 overflow-wrap: anywhere;
             }
 
-            .detail-table tr:hover {
-                background: #f5f8fb;
+            .detail-table tbody tr:hover {
+                background: #faf6ed;
             }
 
+            /* ===== 詳細情報テーブル ===== */
+            .user-detail-table th {
+                width: 30%;
+            }
+
+            /* ===== 通報内容 ===== */
             .report-content {
+                min-width: 180px;
                 min-height: 100px;
                 white-space: pre-wrap;
                 line-height: 1.8;
             }
 
+            /* ===== 対応状態 ===== */
             .status {
                 display: inline-block;
-                padding: 5px 12px;
-                border-radius: 15px;
-                background: #fff0df;
-                color: #d87925;
-                font-size: 13px;
+                padding: 6px 13px;
+                border: 1px solid #b49a65;
+                border-radius: 3px;
+                background: #f5eee0;
+                color: #725f39;
+                font-size: 12px;
+                white-space: nowrap;
             }
 
-            .message {
-                background: #fff0df;
-                color: #d87925;
-                padding: 12px;
-                border-radius: 6px;
-                margin-bottom: 20px;
-            }
-
-            /* 下部ボタン */
+            /* ===== 下部ボタン ===== */
             .bottom-buttons {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-top: 25px;
+                gap: 15px;
+                margin-top: 35px;
+                padding-top: 25px;
+                border-top: 1px solid #e3dac9;
+            }
+
+            .back-form {
+                width: 100%;
+                max-width: 230px;
+                margin: 0;
             }
 
             .back-button {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background: #24476b;
-                color: white;
-                height: 42px;
-                padding: 0 24px;
-                border-radius: 6px;
-                text-decoration: none;
-                font-size: 14px;
-                border: none;
+                width: 100%;
+                min-height: 48px;
+                padding: 10px 20px;
+                background: #292c29;
+                border: 1px solid #292c29;
+                border-radius: 4px;
+                color: #f1ebdd;
+                font-size: 13px;
+                font-weight: bold;
+                letter-spacing: 2px;
+                cursor: pointer;
+                transition: 0.2s;
             }
 
             .back-button:hover {
-                background: #18344f;
-                color: white;
+                background: #454943;
+                border-color: #b49a65;
+                color: #fffdf8;
+                transform: translateY(-2px);
             }
 
-            /* アカウント停止ボタン */
+            /* ===== アカウント停止 ===== */
             .account-stop-area {
                 display: flex;
                 align-items: center;
             }
 
-            .account-stop-area form {
+            .account-stop-form {
                 margin: 0;
             }
 
             .stop-button {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background: #dc3545;
-                color: white;
-                border: none;
-                height: 42px;
-                padding: 0 25px;
-                border-radius: 6px;
-                font-size: 14px;
+                min-height: 48px;
+                padding: 10px 25px;
+                background: #8b3d35;
+                border: 1px solid #8b3d35;
+                border-radius: 4px;
+                color: #fffdf8;
+                font-size: 13px;
                 font-weight: bold;
+                letter-spacing: 1px;
                 cursor: pointer;
+                transition: 0.2s;
             }
 
             .stop-button:hover {
-                background: #b02a37;
+                background: #6f302b;
+                border-color: #6f302b;
+                transform: translateY(-2px);
             }
 
-            @media (max-width: 768px) {
-                .matching-layout {
-                    flex-direction: column;
-                    margin: 10px;
+            .back-button:focus-visible,
+            .stop-button:focus-visible {
+                outline: 3px solid #b49a65;
+                outline-offset: 3px;
+            }
+
+            /* ===== 下部 ===== */
+            .detail-bottom {
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 1px solid #e3dac9;
+                text-align: center;
+                color: #a69a83;
+                font-size: 10px;
+                letter-spacing: 2px;
+            }
+
+            /* ===== タブレット ===== */
+            @media screen and (max-width: 768px) {
+
+                .detail-page {
+                    padding: 25px 12px;
                 }
 
-                .matching-main {
-                    padding: 18px;
-                    overflow-x: auto;
+                .detail-header {
+                    padding: 25px 20px;
                 }
 
-                .detail-table {
-                    min-width: 650px;
+                .detail-title {
+                    font-size: 24px;
+                }
+
+                .detail-content {
+                    padding: 25px 20px;
+                }
+
+                .user-detail-table {
+                    min-width: 450px;
+                }
+
+                .history-table {
+                    min-width: 750px;
+                }
+
+            }
+
+            /* ===== スマートフォン ===== */
+            @media screen and (max-width: 520px) {
+
+                .detail-system-label {
+                    display: none;
+                }
+
+                .detail-title {
+                    font-size: 21px;
+                    letter-spacing: 2px;
+                }
+
+                .detail-content {
+                    padding: 22px 14px;
+                }
+
+                .page-description {
+                    font-size: 12px;
+                }
+
+                .section-title {
+                    font-size: 15px;
                 }
 
                 .bottom-buttons {
-                    gap: 12px;
+                    align-items: stretch;
+                    flex-direction: column;
+                }
+
+                .back-form {
+                    max-width: none;
                 }
 
                 .back-button,
                 .stop-button {
-                    padding: 0 16px;
+                    width: 100%;
+                }
+
+                .account-stop-area {
+                    width: 100%;
+                }
+
+                .account-stop-form {
+                    width: 100%;
+                }
+
+                .detail-bottom {
+                    font-size: 9px;
                 }
             }
+
         </style>
+    </c:param>
 
-        <div class="matching-layout">
-            <main class="matching-main">
+    <c:param name="content">
 
-                <h2 class="page-title">
-                    通報詳細
-                </h2>
+        <div class="detail-page">
 
-                <p class="page-description">
-                    選択したユーザーの通報履歴を確認できます。
-                </p>
+            <div class="detail-container">
 
-                <%-- アカウント停止結果メッセージ --%>
-                <c:if test="${not empty sessionScope.stopMessage}">
-                    <div class="message">
-                        <c:out value="${sessionScope.stopMessage}" />
+                <!-- ===== ヘッダー ===== -->
+                <div class="detail-header">
+
+                    <div class="detail-header-top">
+
+                        <div class="detail-admin-label">
+                            ADMINISTRATOR
+                        </div>
+
+                        <div class="detail-system-label">
+                            PAPATALK MANAGEMENT SYSTEM
+                        </div>
+
                     </div>
-                    <c:remove var="stopMessage" scope="session" />
-                </c:if>
 
-                <%-- 通報情報 --%>
-                <c:choose>
+                    <h2 class="detail-title">
+                        通報詳細
+                    </h2>
 
-                    <c:when test="${not empty reports}">
+                    <div class="detail-subtitle">
+                        REPORT DETAILS
+                    </div>
 
-                        <div class="report-category">
-                            通報情報
-                        </div>
+                    <div class="detail-decoration">
 
-                        <%-- 通報対象ユーザー情報 --%>
-                        <h3 class="section-title">
-                            通報対象ユーザー情報
-                        </h3>
+                        <div class="detail-decoration-line"></div>
 
-                        <table class="detail-table">
-                            <tbody>
-                                <tr>
-                                    <th>ユーザーID</th>
-                                    <td>
-                                        <c:out value="${reports[0].reported_user_id}" />
-                                    </td>
-                                </tr>
+                        <div class="detail-decoration-diamond"></div>
 
-                                <tr>
-                                    <th>ユーザー名</th>
-                                    <td>
-                                        <c:out value="${reports[0].user.user_name}" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="detail-decoration-line"></div>
 
-                        <%-- 通報履歴一覧 --%>
-                        <h3 class="section-title">
-                            通報履歴一覧
-                        </h3>
-
-                        <table class="detail-table">
-                            <thead>
-                                <tr>
-                                    <th>通報ID</th>
-                                    <th>通報者ID</th>
-                                    <th>通報理由</th>
-                                    <th>通報内容</th>
-                                    <th>通報日時</th>
-                                    <th>対応状態</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <c:forEach var="report" items="${reports}">
-                                    <tr>
-                                        <td>
-                                            <c:out value="${report.report_id}" />
-                                        </td>
-
-                                        <td>
-                                            <c:out value="${report.reporter_user_id}" />
-                                        </td>
-
-                                        <td>
-                                            <c:out value="${report.report_reason_name}" />
-                                        </td>
-
-                                        <td class="report-content">
-                                            <c:out value="${report.content}" />
-                                        </td>
-
-                                        <td>
-                                            <c:out value="${report.create_at}" />
-                                        </td>
-
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${report.user.user_status == 0}">
-                                                    <span class="status">未対応</span>
-                                                </c:when>
-
-                                                <c:when test="${report.user.user_status == 1}">
-                                                    <span class="status">停止済み</span>
-                                                </c:when>
-
-                                                <c:otherwise>
-                                                    <span class="status">不明</span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-
-                    </c:when>
-
-                    <c:otherwise>
-                        <div class="message">
-                            通報情報を取得できませんでした。
-                        </div>
-                    </c:otherwise>
-
-                </c:choose>
-
-                <%-- 下部ボタン（共通・1つだけ表示） --%>
-                <div class="bottom-buttons">
-
-                    <%-- 戻るボタン --%>
-					<a href="<c:url value='/scoremanager/main/Acquisition.action' />?report_content_id=${reportContentId}"
-					   class="back-button">
-					    戻る
-					</a>
-
-                    <%-- 通報情報がある場合のみアカウント停止ボタンを表示 --%>
-                    <c:if test="${not empty reports}">
-                        <div class="account-stop-area">
-                            <form action="Update.action"
-                                  method="post"
-                                  onsubmit="return confirm('このユーザーのアカウントを停止しますか？');">
-
-                                <input type="hidden"
-                                       name="reported_user_id"
-                                       value="${reports[0].reported_user_id}">
-
-                                <button type="submit" class="stop-button">
-                                    アカウント停止
-                                </button>
-                            </form>
-                        </div>
-                    </c:if>
+                    </div>
 
                 </div>
 
-            </main>
+                <!-- ===== メインコンテンツ ===== -->
+                <div class="detail-content">
+
+                    <div class="page-description">
+                        選択したユーザーの通報履歴を確認できます。
+                    </div>
+
+                    <!-- ===== アカウント停止結果メッセージ ===== -->
+                    <c:if test="${not empty sessionScope.stopMessage}">
+
+                        <div class="message">
+                            <c:out value="${sessionScope.stopMessage}" />
+                        </div>
+
+                        <c:remove var="stopMessage" scope="session" />
+
+                    </c:if>
+
+                    <!-- ===== 通報情報 ===== -->
+                    <c:choose>
+
+                        <c:when test="${not empty reports}">
+
+                            <div class="report-category">
+                                通報情報
+                            </div>
+
+                            <!-- ===== 通報対象ユーザー情報 ===== -->
+                            <h3 class="section-title">
+                                通報対象ユーザー情報
+                            </h3>
+
+                            <div class="table-wrapper">
+
+                                <table class="detail-table user-detail-table">
+
+                                    <tbody>
+
+                                        <tr>
+                                            <th>ユーザーID</th>
+                                            <td>
+                                                <c:out value="${reports[0].reported_user_id}" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>ユーザー名</th>
+                                            <td>
+                                                <c:out value="${reports[0].user.user_name}" />
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <!-- ===== 通報履歴一覧 ===== -->
+                            <h3 class="section-title">
+                                通報履歴一覧
+                            </h3>
+
+                            <div class="table-wrapper">
+
+                                <table class="detail-table history-table">
+
+                                    <thead>
+
+                                        <tr>
+                                            <th>通報ID</th>
+                                            <th>通報者ID</th>
+                                            <th>通報理由</th>
+                                            <th>通報内容</th>
+                                            <th>通報日時</th>
+                                            <th>対応状態</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <c:forEach var="report" items="${reports}">
+
+                                            <tr>
+
+                                                <td>
+                                                    <c:out value="${report.report_id}" />
+                                                </td>
+
+                                                <td>
+                                                    <c:out value="${report.reporter_user_id}" />
+                                                </td>
+
+                                                <td>
+                                                    <c:out value="${report.report_reason_name}" />
+                                                </td>
+
+                                                <td class="report-content">
+                                                    <c:out value="${report.content}" />
+                                                </td>
+
+                                                <td>
+                                                    <c:out value="${report.create_at}" />
+                                                </td>
+
+                                                <td>
+
+                                                    <c:choose>
+
+                                                        <c:when test="${report.user.user_status == 0}">
+                                                            <span class="status">
+                                                                未対応
+                                                            </span>
+                                                        </c:when>
+
+                                                        <c:when test="${report.user.user_status == 1}">
+                                                            <span class="status">
+                                                                停止済み
+                                                            </span>
+                                                        </c:when>
+
+                                                        <c:otherwise>
+                                                            <span class="status">
+                                                                不明
+                                                            </span>
+                                                        </c:otherwise>
+
+                                                    </c:choose>
+
+                                                </td>
+
+                                            </tr>
+
+                                        </c:forEach>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </c:when>
+
+                        <c:otherwise>
+
+                            <div class="message">
+                                通報情報を取得できませんでした。
+                            </div>
+
+                        </c:otherwise>
+
+                    </c:choose>
+
+                    <!-- ===== 下部ボタン ===== -->
+                    <div class="bottom-buttons">
+
+                        <!-- 戻るボタン -->
+                        <form
+                            action="${pageContext.request.contextPath}/scoremanager/main/Acquisition.action"
+                            method="get"
+                            class="back-form">
+
+                            <input
+                                type="hidden"
+                                name="report_content_id"
+                                value="<c:out value='${reportContentId}' />">
+
+                            <button type="submit" class="back-button">
+                                戻る
+                            </button>
+
+                        </form>
+
+                        <!-- 通報情報がある場合のみアカウント停止ボタンを表示 -->
+                        <c:if test="${not empty reports}">
+
+                            <div class="account-stop-area">
+
+                                <form
+                                    action="${pageContext.request.contextPath}/scoremanager/main/Update.action"
+                                    method="post"
+                                    class="account-stop-form">
+
+                                    <input
+                                        type="hidden"
+                                        name="reported_user_id"
+                                        value="<c:out value='${reports[0].reported_user_id}' />">
+
+                                    <button type="submit" class="stop-button">
+                                        アカウント停止
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </c:if>
+
+                    </div>
+
+                    <!-- ===== 下部 ===== -->
+                    <div class="detail-bottom">
+                        PAPATALK SYSTEM ｜ REPORT MANAGEMENT
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </c:param>
+
 </c:import>
