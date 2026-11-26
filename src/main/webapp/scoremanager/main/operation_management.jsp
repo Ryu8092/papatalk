@@ -341,9 +341,7 @@
                 <!-- ===== メインコンテンツ ===== -->
                 <div class="operation-content">
 
-                    <div class="operation-description">
-                        管理する項目を選択してください。
-                    </div>
+                    
 
                     <!-- ===== 管理メニュー ===== -->
                     <div class="operation-menu">

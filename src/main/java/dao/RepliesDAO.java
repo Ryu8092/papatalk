@@ -1,4 +1,3 @@
-
 package dao;
 
 import java.sql.Connection;
@@ -43,10 +42,11 @@ public class RepliesDAO extends Dao {
                     reply.setUser_id(rs.getInt("REPLY_USER_ID"));
                     reply.setReply_content(rs.getString("CONTENT"));
 
+                    // 返信日時を取得
                     Timestamp ts = rs.getTimestamp("CREATE_AT");
 
                     if (ts != null) {
-                        reply.setReply_date(ts.toLocalDateTime());
+                        reply.setReply_date(ts);
                     }
 
                     reply.setUser_name(rs.getString("USER_NAME"));

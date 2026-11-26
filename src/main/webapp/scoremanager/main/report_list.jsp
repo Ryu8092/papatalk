@@ -334,10 +334,7 @@
                 <!-- ===== メインコンテンツ ===== -->
                 <div class="report-content">
 
-                    <div class="report-description">
-                        確認する通報カテゴリを選択してください。
-                    </div>
-
+                   
                     <!-- ===== 通報メニュー ===== -->
                     <div class="report-menu">
 

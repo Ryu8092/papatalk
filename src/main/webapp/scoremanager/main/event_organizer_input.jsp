@@ -24,17 +24,17 @@
                 letter-spacing: 0.05em;
             }
 
-            /* 外側の枠 */
+            /* 外側のカード */
             .event-input-container {
                 width: 100%;
                 max-width: 850px;
                 min-height: 540px;
                 margin: 0 auto;
-                padding: 25px 45px 30px;
+                padding: 30px 45px;
                 box-sizing: border-box;
                 background-color: #fffdf8;
                 border: 1px solid #d8ccb4;
-                border-radius: 5px;
+                border-radius: 25px;
                 box-shadow: 0 4px 12px rgba(50, 40, 20, 0.08);
             }
 
@@ -50,19 +50,20 @@
             .event-input-line {
                 border: none;
                 border-top: 2px solid #b49a65;
+                border-radius: 10px;
                 margin-bottom: 25px;
             }
 
             /* 写真エリア */
             .photo-area {
                 width: 100%;
-                margin: 0 auto 25px;
-                padding: 18px;
+                margin: 0 auto 30px;
+                padding: 25px 20px;
                 box-sizing: border-box;
                 text-align: center;
                 background-color: #f7f3ea;
                 border: 1px solid #d8ccb4;
-                border-radius: 4px;
+                border-radius: 25px;
             }
 
             .photo-area label {
@@ -75,11 +76,11 @@
 
             /* 写真追加ボタン */
             #addPhotoButton {
-                padding: 9px 20px;
+                padding: 11px 24px;
                 margin-top: 5px;
                 background-color: #292c29;
                 border: 1px solid #292c29;
-                border-radius: 4px;
+                border-radius: 25px;
                 color: #fffdf8;
                 font-size: 14px;
                 cursor: pointer;
@@ -98,7 +99,7 @@
                 margin-top: 12px;
             }
 
-            /* プレビュー */
+            /* 写真プレビュー */
             .preview-area {
                 display: flex;
                 flex-wrap: wrap;
@@ -117,17 +118,18 @@
                 height: 100px;
                 object-fit: cover;
                 border: 1px solid #d8ccb4;
-                border-radius: 4px;
+                border-radius: 20px;
             }
 
             /* 写真削除ボタン */
             .delete-photo {
                 width: 100%;
-                padding: 6px;
+                padding: 8px;
+                margin-top: 5px;
                 background-color: #a94442;
                 color: white;
                 border: none;
-                border-radius: 3px;
+                border-radius: 20px;
                 cursor: pointer;
                 font-size: 12px;
             }
@@ -138,54 +140,92 @@
 
             /* 入力項目 */
             .input-group {
-                margin-bottom: 17px;
+                margin-bottom: 25px;
             }
 
+            /* ラベル */
             .input-group label,
             .overview-group label {
-                display: block;
-                font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 15px;
                 font-weight: bold;
                 color: #292c29;
-                margin-bottom: 7px;
+                margin-bottom: 10px;
             }
 
-            .input-group input {
+            /* 必須マーク */
+            .required {
+                display: inline-block;
+                padding: 4px 10px;
+                background-color: #a94442;
+                color: white;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: normal;
+            }
+
+            /* すべての入力欄 */
+            .input-group input,
+            .overview-group textarea {
+                display: block;
                 width: 100%;
-                max-width: 420px;
-                height: 38px;
-                padding: 6px 10px;
                 box-sizing: border-box;
-                border: 1px solid #cbbd9e;
-                border-radius: 4px;
+                padding: 13px 18px;
+                border: 1px solid #d8ccb4;
+                border-radius: 20px !important;
                 background-color: #fff;
                 color: #292c29;
-                font-size: 14px;
+                font-family: inherit;
+                font-size: 15px;
+                transition: 0.2s;
             }
 
-            .input-group input:focus,
-            .overview-group textarea:focus {
-                outline: none;
-                border-color: #b49a65;
-                box-shadow: 0 0 0 2px rgba(180, 154, 101, 0.15);
+            /* テキスト・数値・日付・日時入力欄 */
+            .input-group input[type="text"],
+            .input-group input[type="number"],
+            .input-group input[type="date"],
+            .input-group input[type="datetime-local"] {
+                height: 52px;
+                border-radius: 20px !important;
+                -webkit-appearance: none;
+                appearance: none;
             }
 
             /* イベント概要 */
             .overview-group {
-                margin-top: 22px;
+                margin-top: 28px;
+                margin-bottom: 20px;
             }
 
             .overview-group textarea {
-                width: 100%;
-                height: 120px;
-                padding: 10px;
-                box-sizing: border-box;
-                border: 1px solid #cbbd9e;
-                border-radius: 4px;
-                background-color: #fff;
-                color: #292c29;
-                font-size: 14px;
+                height: 180px;
+                line-height: 1.8;
                 resize: vertical;
+                border-radius: 20px !important;
+            }
+
+            /* プレースホルダー */
+            .input-group input::placeholder,
+            .overview-group textarea::placeholder {
+                color: #aaa18e;
+            }
+
+            /* 入力中 */
+            .input-group input:focus,
+            .overview-group textarea:focus {
+                outline: none;
+                border-color: #b49a65;
+                box-shadow: 0 0 0 3px rgba(180, 154, 101, 0.18);
+                background-color: #fffefa;
+            }
+
+            /* 入力補足 */
+            .input-note {
+                margin-top: 7px;
+                font-size: 12px;
+                color: #81765f;
             }
 
             /* ボタンエリア */
@@ -194,7 +234,7 @@
                 justify-content: center;
                 align-items: center;
                 gap: 30px;
-                margin-top: 30px;
+                margin-top: 35px;
             }
 
             .button-area form {
@@ -202,9 +242,9 @@
             }
 
             .button-area button {
-                min-width: 115px;
-                padding: 11px 22px;
-                border-radius: 4px;
+                min-width: 125px;
+                padding: 13px 25px;
+                border-radius: 25px;
                 font-size: 14px;
                 letter-spacing: 0.08em;
                 cursor: pointer;
@@ -237,7 +277,8 @@
             /* タブレット */
             @media screen and (max-width: 768px) {
                 .event-input-container {
-                    padding: 20px 20px 30px;
+                    padding: 25px;
+                    border-radius: 25px;
                 }
 
                 .event-input-title {
@@ -252,7 +293,8 @@
                 }
 
                 .event-input-container {
-                    padding: 18px 13px 25px;
+                    padding: 20px 13px 25px;
+                    border-radius: 22px;
                 }
 
                 .event-input-title {
@@ -260,7 +302,8 @@
                 }
 
                 .photo-area {
-                    padding: 15px 8px;
+                    padding: 18px 8px;
+                    border-radius: 22px;
                 }
 
                 .preview-item {
@@ -270,6 +313,26 @@
                 .preview-item img {
                     width: 100px;
                     height: 85px;
+                    border-radius: 18px;
+                }
+
+                .input-group input,
+                .overview-group textarea {
+                    border-radius: 20px !important;
+                    font-size: 14px;
+                }
+
+                .input-group input {
+                    height: 50px;
+                }
+
+                .input-group label,
+                .overview-group label {
+                    font-size: 14px;
+                }
+
+                .overview-group textarea {
+                    height: 150px;
                 }
 
                 .button-area {
@@ -278,8 +341,9 @@
 
                 .button-area button {
                     min-width: 100px;
-                    padding: 10px 15px;
+                    padding: 11px 15px;
                     font-size: 13px;
+                    border-radius: 22px;
                 }
             }
         </style>
@@ -288,7 +352,6 @@
 
             <div class="event-input-container">
 
-                <!-- タイトル -->
                 <h1 class="event-input-title">
                     イベント投稿
                 </h1>
@@ -297,7 +360,7 @@
 
                 <!-- イベント投稿フォーム -->
                 <form id="eventForm"
-                      action="${pageContext.request.contextPath}/scoremanager/main/EventOrganizerRegistration.action"
+                      action="/papatalk/scoremanager/main/EventOrganizerRegistration.action"
                       method="post"
                       enctype="multipart/form-data">
 
@@ -305,7 +368,8 @@
                     <div class="photo-area">
 
                         <label>
-                            イベント写真（1〜6枚）
+                            イベント写真
+                            <span class="required">必須</span>
                         </label>
 
                         <div>
@@ -328,77 +392,117 @@
                         <div class="preview-area" id="previewArea">
                         </div>
 
+                        <p class="input-note">
+                            JPEG・PNG・GIF形式、最大6枚まで選択できます。
+                        </p>
+
                     </div>
 
-                    <!-- タイトル -->
+                    <!-- イベントタイトル -->
                     <div class="input-group">
+
                         <label for="eventTitle">
-                            タイトル
+                            イベントタイトル
+                            <span class="required">必須</span>
                         </label>
 
                         <input
                             type="text"
                             id="eventTitle"
-                            name="title">
+                            name="title"
+                            placeholder="例：親子で楽しむ公園イベント"
+                            required>
+
                     </div>
 
                     <!-- 開催日時 -->
                     <div class="input-group">
+
                         <label for="eventDate">
                             開催日時
+                            <span class="required">必須</span>
                         </label>
 
                         <input
                             type="datetime-local"
                             id="eventDate"
-                            name="event_date">
+                            name="event_date"
+                            required>
+
+                       
                     </div>
 
-                    <!-- 締切日 -->
+                    <!-- 申込締切日時 -->
                     <div class="input-group">
+
                         <label for="deadline">
-                            締切日
+                            申込締切日
+                            <span class="required">必須</span>
                         </label>
 
                         <input
                             type="date"
                             id="deadline"
-                            name="deadline">
+                            name="deadline"
+                            required>
+
+                       
+
                     </div>
 
                     <!-- 定員 -->
                     <div class="input-group">
+
                         <label for="capacity">
                             定員
+                            <span class="required">必須</span>
                         </label>
 
                         <input
                             type="number"
                             id="capacity"
-                            name="capacity">
+                            name="capacity"
+                            min="1"
+                            placeholder="例：20"
+                            required>
+
+                        
+
                     </div>
 
                     <!-- 開催場所 -->
                     <div class="input-group">
+
                         <label for="eventPlace">
                             開催場所
+                            <span class="required">必須</span>
                         </label>
 
                         <input
                             type="text"
                             id="eventPlace"
-                            name="event_place">
+                            name="event_place"
+                            placeholder="例：東京都〇〇区〇〇公園"
+                            required>
+
                     </div>
 
                     <!-- イベント概要 -->
                     <div class="overview-group">
+
                         <label for="eventDetails">
                             イベント概要
+                            <span class="required">必須</span>
                         </label>
 
                         <textarea
                             id="eventDetails"
-                            name="event_details"></textarea>
+                            name="event_details"
+                            placeholder="イベントの内容、対象年齢、持ち物、当日の流れなどを入力してください。"
+                            required></textarea>
+
+                        
+
                     </div>
 
                 </form>
@@ -407,7 +511,7 @@
                 <div class="button-area">
 
                     <!-- 戻る -->
-                    <form action="${pageContext.request.contextPath}/scoremanager/main/RetrieveListOrganizers.action"
+                    <form action="/papatalk/scoremanager/main/RetrieveListOrganizers.action"
                           method="get">
 
                         <button type="submit" class="back-button">

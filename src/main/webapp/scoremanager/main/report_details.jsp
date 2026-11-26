@@ -220,8 +220,9 @@
 
             /* ===== 下部ボタン ===== */
             .bottom-buttons {
+                position: relative;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
                 gap: 15px;
                 margin-top: 35px;
@@ -229,10 +230,11 @@
                 border-top: 1px solid #e3dac9;
             }
 
+            /* ===== 戻るボタン ===== */
             .back-form {
                 width: 100%;
                 max-width: 230px;
-                margin: 0;
+                margin: 0 auto;
             }
 
             .back-button {
@@ -259,6 +261,9 @@
 
             /* ===== アカウント停止 ===== */
             .account-stop-area {
+                position: absolute;
+                right: 0;
+                top: 25px;
                 display: flex;
                 align-items: center;
             }
@@ -331,6 +336,14 @@
                     min-width: 750px;
                 }
 
+                .account-stop-area {
+                    position: static;
+                }
+
+                .bottom-buttons {
+                    flex-wrap: wrap;
+                }
+
             }
 
             /* ===== スマートフォン ===== */
@@ -358,8 +371,9 @@
                 }
 
                 .bottom-buttons {
-                    align-items: stretch;
                     flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
                 }
 
                 .back-form {
@@ -372,6 +386,7 @@
                 }
 
                 .account-stop-area {
+                    position: static;
                     width: 100%;
                 }
 
@@ -382,6 +397,7 @@
                 .detail-bottom {
                     font-size: 9px;
                 }
+
             }
 
         </style>
@@ -587,7 +603,7 @@
 
                         <!-- 戻るボタン -->
                         <form
-                            action="${pageContext.request.contextPath}/scoremanager/main/Acquisition.action"
+                            action="/papatalk/scoremanager/main/Acquisition.action"
                             method="get"
                             class="back-form">
 
@@ -608,7 +624,7 @@
                             <div class="account-stop-area">
 
                                 <form
-                                    action="${pageContext.request.contextPath}/scoremanager/main/Update.action"
+                                    action="/papatalk/scoremanager/main/Update.action"
                                     method="post"
                                     class="account-stop-form">
 

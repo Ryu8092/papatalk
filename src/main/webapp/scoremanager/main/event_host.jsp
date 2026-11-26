@@ -321,7 +321,7 @@
 
                                                 <fmt:formatDate
                                                     value="${event.event_date}"
-                                                    pattern="yyyy年MM月dd日 HH:mm" />
+                                                    pattern="yyyy年MM月dd日 HH時mm分" />
 
                                             </div>
 

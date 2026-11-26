@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <c:import url="/common/base.jsp">
 
@@ -363,7 +364,6 @@
                 .detail-card {
                     padding: 20px;
                 }
-
             }
 
             /* ===== スマートフォン ===== */
@@ -405,10 +405,10 @@
 
                 .button-area {
                     flex-direction: column;
+                    align-items: stretch;
                 }
 
-                .button-area form,
-                .button-area button {
+                .button-area form {
                     width: 100%;
                 }
 
@@ -416,7 +416,6 @@
                 .btn-reply {
                     width: 100%;
                 }
-
             }
 
         </style>
@@ -462,20 +461,16 @@
 
                     <!-- エラーメッセージ -->
                     <c:if test="${not empty errorMessage}">
-
                         <div class="message error-message">
                             <c:out value="${errorMessage}" />
                         </div>
-
                     </c:if>
 
                     <!-- 成功メッセージ -->
                     <c:if test="${not empty replyMessage}">
-
                         <div class="message success-message">
                             <c:out value="${replyMessage}" />
                         </div>
-
                     </c:if>
 
                     <c:if test="${not empty post}">
@@ -505,7 +500,16 @@
                                     投稿日時
                                 </span>
 
-                                <c:out value="${post.post_date}" />
+                                <c:choose>
+                                    <c:when test="${not empty post.post_date}">
+                                        <fmt:formatDate
+                                            value="${post.post_date}"
+                                            pattern="yyyy年MM月dd日 HH時mm分" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        日時情報がありません
+                                    </c:otherwise>
+                                </c:choose>
 
                             </div>
 
@@ -553,7 +557,18 @@
                                             </div>
 
                                             <div class="reply-date">
-                                                <c:out value="${reply.reply_date}" />
+
+                                                <c:choose>
+                                                    <c:when test="${not empty reply.reply_date}">
+                                                        <fmt:formatDate
+                                                            value="${reply.reply_date}"
+                                                            pattern="yyyy年MM月dd日 HH時mm分" />
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        日時情報がありません
+                                                    </c:otherwise>
+                                                </c:choose>
+
                                             </div>
 
                                         </div>
@@ -573,38 +588,46 @@
                                 管理者からの返信
                             </h3>
 
-                            <form action="/papatalk/scoremanager/main/PostReply.action"
-                                  method="post">
+                            <!-- 返信入力欄 -->
+                            <textarea
+                                id="reply_content"
+                                name="reply_content"
+                                form="replyForm"
+                                class="reply-textarea"
+                                maxlength="1000"
+                                placeholder="返信内容を入力してください。"
+                                required></textarea>
 
-                                <input type="hidden"
-                                       name="post_id"
-                                       value="<c:out value='${post.post_id}' />">
+                            <div class="button-area">
 
-                                <textarea
-                                    name="reply_content"
-                                    class="reply-textarea"
-                                    maxlength="1000"
-                                    placeholder="返信内容を入力してください。"
-                                    required></textarea>
+                                <!-- 投稿一覧に戻る -->
+                                <form action="/papatalk/scoremanager/main/RetrievePosts.action"
+                                      method="get">
 
-                                <div class="button-area">
-
-                                    <!-- 投稿一覧に戻る -->
-                                    <button type="button"
-                                            class="btn-back"
-                                            onclick="location.href='/papatalk/scoremanager/main/RetrievePosts.action'">
-                                        ‹ 投稿一覧に戻る
+                                    <button type="submit"
+                                            class="btn-back">
+                                        戻る
                                     </button>
 
-                                    <!-- 返信登録 -->
+                                </form>
+
+                                <!-- 返信登録 -->
+                                <form id="replyForm"
+                                      action="/papatalk/scoremanager/main/PostReply.action"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="post_id"
+                                           value="<c:out value='${post.post_id}' />">
+
                                     <button type="submit"
                                             class="btn-reply">
                                         返信を登録する
                                     </button>
 
-                                </div>
+                                </form>
 
-                            </form>
+                            </div>
 
                         </div>
 

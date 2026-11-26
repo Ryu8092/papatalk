@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <c:import url="/common/base.jsp">
 
@@ -239,22 +240,27 @@
             /* ===== 戻るボタン ===== */
             .back-button-area {
                 display: flex;
-                justify-content: flex-start;
-                margin-top: 30px;
-                padding-top: 22px;
+                justify-content: center;
+                align-items: center;
+                margin-top: 35px;
+                padding: 25px 0 30px;
                 border-top: 1px solid #e3dac9;
             }
 
+            .back-button-area form {
+                margin: 0;
+            }
+
             .back-button {
-                min-width: 170px;
-                min-height: 42px;
-                padding: 10px 20px;
+                width: 230px;
+                height: 48px;
                 background: #292c29;
-                border: 1px solid #292c29;
+                border: none;
                 border-radius: 4px;
-                color: #f1ebdd;
-                font-size: 13px;
+                color: #fffdf8;
+                font-size: 14px;
                 font-weight: bold;
+                text-align: center;
                 cursor: pointer;
                 transition: 0.2s;
             }
@@ -263,7 +269,6 @@
                 background: #454943;
                 border-color: #b49a65;
                 color: #fffdf8;
-                transform: translateY(-2px);
             }
 
             .back-button:focus-visible {
@@ -273,7 +278,7 @@
 
             /* ===== 下部 ===== */
             .post-bottom {
-                margin-top: 30px;
+                margin-top: 5px;
                 padding-top: 20px;
                 border-top: 1px solid #e3dac9;
                 text-align: center;
@@ -341,12 +346,9 @@
                     width: 100%;
                 }
 
-                .back-button-area {
-                    justify-content: center;
-                }
-
                 .back-button {
-                    width: 100%;
+                    width: 230px;
+                    max-width: 100%;
                 }
             }
         </style>
@@ -447,7 +449,9 @@
                                             投稿日時
                                         </span>
 
-                                        <c:out value="${post.post_date}" />
+                                        <fmt:formatDate
+                                            value="${post.post_date}"
+                                            pattern="yyyy年MM月dd日 HH時mm分" />
 
                                     </div>
 
@@ -486,12 +490,11 @@
                     <!-- ===== 運営管理画面に戻るボタン ===== -->
                     <div class="back-button-area">
 
-                        <form action="/papatalk/scoremanager/main/operation_management.jsp"
+                        <form action="/papatalk/scoremanager/main/Operation.action"
                               method="get">
 
-                            <button type="submit"
-                                    class="back-button">
-                                ‹ 運営管理画面に戻る
+                            <button type="submit" class="back-button">
+                                戻る
                             </button>
 
                         </form>

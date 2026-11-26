@@ -3,6 +3,7 @@
     pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <c:import url="/common/base.jsp">
 
@@ -217,38 +218,36 @@
             /* ===== 戻るボタン ===== */
             .bottom-buttons {
                 display: flex;
-                justify-content: flex-start;
-                margin-top: 30px;
-                padding-top: 25px;
+                justify-content: center;
+                align-items: center;
+                margin-top: 35px;
+                padding: 25px 0 30px;
                 border-top: 1px solid #e3dac9;
             }
 
             .back-form {
-                width: 100%;
-                max-width: 230px;
+                width: 230px;
                 margin: 0;
             }
 
             .back-button {
-                width: 100%;
-                min-height: 48px;
+                width: 230px;
+                height: 48px;
                 padding: 10px 20px;
                 background: #292c29;
-                border: 1px solid #292c29;
+                border: none;
                 border-radius: 4px;
-                color: #f1ebdd;
-                font-size: 13px;
+                color: #fffdf8;
+                font-size: 14px;
                 font-weight: bold;
-                letter-spacing: 2px;
+                text-align: center;
                 cursor: pointer;
                 transition: 0.2s;
             }
 
             .back-button:hover {
                 background: #454943;
-                border-color: #b49a65;
                 color: #fffdf8;
-                transform: translateY(-2px);
             }
 
             .back-button:focus-visible {
@@ -258,7 +257,7 @@
 
             /* ===== 下部 ===== */
             .violator-bottom {
-                margin-top: 30px;
+                margin-top: 5px;
                 padding-top: 20px;
                 border-top: 1px solid #e3dac9;
                 text-align: center;
@@ -325,6 +324,12 @@
                     font-size: 12px;
                 }
 
+                .back-form,
+                .back-button {
+                    width: 230px;
+                    max-width: 100%;
+                }
+
                 .violator-bottom {
                     font-size: 9px;
                 }
@@ -377,10 +382,7 @@
                 <!-- ===== メインコンテンツ ===== -->
                 <div class="violator-content">
 
-                    <div class="page-description">
-                        通報されたユーザーの情報を確認できます。
-                    </div>
-
+                    
                     <!-- ===== 通報カテゴリ ===== -->
                     <div class="report-category">
                         <c:out value="${title}" />
@@ -450,10 +452,12 @@
 
                                                 </td>
 
-                                                <!-- 通報日時 -->
+                                                <!-- 通報日時（Timestamp形式） -->
                                                 <td>
-                                                    <c:out value="${report.create_at}" />
-                                                </td>
+												    <fmt:formatDate
+												        value="${report.create_at}"
+												        pattern="M月d日 HH時mm分" />
+												</td>
 
                                             </tr>
 
