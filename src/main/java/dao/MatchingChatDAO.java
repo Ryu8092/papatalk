@@ -17,7 +17,7 @@ public class MatchingChatDAO extends Dao {
  
         String sql =
             "SELECT mc.CHAT_ID, mc.MATCH_ID, mc.USER_ID, " +
-            "mc.CONTENT, mc.CREATE_AT, u.USER_NAME " +
+            "mc.CONTENT, mc.CREATE_AT, u.USER_NAME,u.NICKNAME " +
             "FROM MATCHING_CHATS mc " +
             "JOIN USERS u ON mc.USER_ID = u.USER_ID " +
             "WHERE mc.MATCH_ID = ? " +
@@ -40,6 +40,7 @@ public class MatchingChatDAO extends Dao {
                     chat.setContent(rs.getString("CONTENT"));
                     chat.setCreate_at(rs.getTimestamp("CREATE_AT"));
                     chat.setUser_name(rs.getString("USER_NAME"));
+                    chat.setNickname(rs.getString("NICKNAME"));
  
                     chatList.add(chat);
                 }
@@ -59,7 +60,7 @@ public class MatchingChatDAO extends Dao {
  
         String sql =
             "SELECT mc.CHAT_ID, mc.MATCH_ID, mc.USER_ID, " +
-            "mc.CONTENT, mc.CREATE_AT, u.USER_NAME " +
+            "mc.CONTENT, mc.CREATE_AT, u.USER_NAME,u.NICKNAME " +
             "FROM MATCHING_CHATS mc " +
             "JOIN USERS u ON mc.USER_ID = u.USER_ID " +
             "WHERE mc.MATCH_ID = ? " +
@@ -83,6 +84,7 @@ public class MatchingChatDAO extends Dao {
                     chat.setContent(rs.getString("CONTENT"));
                     chat.setCreate_at(rs.getTimestamp("CREATE_AT"));
                     chat.setUser_name(rs.getString("USER_NAME"));
+                    chat.setNickname(rs.getString("NICKNAME"));
  
                     return chat;
                 }

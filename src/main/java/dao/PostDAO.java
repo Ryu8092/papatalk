@@ -149,16 +149,7 @@ public class PostDAO extends Dao {
             "FROM POSTS p " +
             "INNER JOIN USERS u ON p.POST_USER_ID = u.USER_ID " +
             "WHERE p.POST_ID = ?";
-//            "    P.POST_ID, " +
-//            "    P.POST_USER_ID, " +
-//            "    P.TITLE, " +
-//            "    P.CONTENT, " +
-//            "    P.CREATE_AT, " +
-//            "    U.USER_NAME " +
-//            "FROM POSTS P " +
-//            "INNER JOIN USERS U " +
-//            "    ON P.POST_USER_ID = U.USER_ID " +
-//            "WHERE P.POST_ID = ?";
+
 
         try (
             Connection con = getConnection();
@@ -178,9 +169,6 @@ public class PostDAO extends Dao {
                     post.setPost_title(rs.getString("TITLE"));
                     post.setPost_content(rs.getString("CONTENT"));
                     post.setPost_date(rs.getTimestamp("CREATE_AT"));
-
-
-                    // 投稿者の名前を取得
                     post.setUser_name(rs.getString("USER_NAME"));
 
                     return post;

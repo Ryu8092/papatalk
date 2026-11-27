@@ -12,7 +12,16 @@ public class Matching implements Serializable {
     private Timestamp latestCreateAt;
     private String latestSenderName;
     private String user_name;
+    private String nickname;
+    
+    public String getNickname() {
+        return nickname;
+    }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    
     public String getUser_name() {
         return user_name;
     }
