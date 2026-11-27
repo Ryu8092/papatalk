@@ -75,7 +75,7 @@ public class AcquisitionAction extends Action {
         }
 
         request.setAttribute("title", title);
-
+//        	aaa
         // 違反者一覧画面へ遷移
         request.getRequestDispatcher(
                 "/scoremanager/main/violator_list.jsp"
