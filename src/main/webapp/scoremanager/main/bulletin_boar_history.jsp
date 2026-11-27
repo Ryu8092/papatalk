@@ -269,15 +269,15 @@
 
             </div>
 
-            <%-- 一番下の戻るボタン --%>
-            <div class="history-footer">
-
-                <a href="/papatalk/scoremanager/main/RetrievePosts.action"
-                   class="back-button">
-                    ← 戻る
-                </a>
-
-            </div>
+            <!-- 戻るボタン -->
+			<div class="back-button-area">
+			    <form action="/papatalk/scoremanager/main/RetrievePosts.action"
+			          method="get">
+			        <button type="submit" class="back-button">
+			            ← 戻る
+			        </button>
+			    </form>
+			</div>
 
         </div>
 

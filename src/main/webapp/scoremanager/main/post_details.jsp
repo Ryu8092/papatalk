@@ -489,15 +489,15 @@
                             <div class="post-info">
 
                                 <span class="post-info-label">
-                                    投稿者
+                                    投稿者：
                                 </span>
 
-                                <c:out value="${post.user_name}" />
+                                <c:out value="${post.user_name}さん" />
 
                                 <br>
 
                                 <span class="post-info-label">
-                                    投稿日時
+                                    投稿日時：
                                 </span>
 
                                 <c:choose>
@@ -549,7 +549,7 @@
                                         <div class="reply-card">
 
                                             <div class="reply-name">
-                                                <c:out value="${reply.user_name}" />
+                                                <c:out value="${reply.user_name}さん" />
                                             </div>
 
                                             <div class="reply-content">

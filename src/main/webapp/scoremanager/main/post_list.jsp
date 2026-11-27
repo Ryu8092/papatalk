@@ -438,15 +438,15 @@
                                     <div class="post-info">
 
                                         <span class="post-info-label">
-                                            投稿者
+                                            投稿者：
                                         </span>
 
-                                        <c:out value="${post.user_name}" />
+                                        <c:out value="${post.user_name}さん" />
 
                                         <br>
 
                                         <span class="post-info-label">
-                                            投稿日時
+                                            投稿日時：
                                         </span>
 
                                         <fmt:formatDate

@@ -33,7 +33,7 @@ public class ReportDao extends Dao {
             "ON r.report_reason_id = rr.report_reason_id " +
             "WHERE (r.report_content_id = ? " +
             "OR (? = 3 AND r.report_content_id = 4)) " +
-            "AND u.user_status = 0 " +
+            "AND u.user_status = 0" +
             "AND r.state = 0" +
             "ORDER BY r.create_at DESC";
 

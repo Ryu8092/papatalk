@@ -437,24 +437,38 @@
 
                         </div>
 
-                        <!-- ボタン -->
-                        <div class="event-buttons">
-
-                            <!-- 戻るボタン -->
-                            <a href="<c:url value='/scoremanager/main/RetrieveEvents.action'/>"
-                                class="back-button">
-                                戻る
-                            </a>
-
-                            <!-- 参加するボタン -->
-                            <c:if test="${canApply}">
-                                <a href="<c:url value='/scoremanager/main/ReferenceConfirmationDisplay.action'/>?event_id=${event.event_id}"
-                                    class="participation-button">
-                                    参加する
-                                </a>
-                            </c:if>
-
-                        </div>
+                       <!-- ボタン -->
+						<div class="event-buttons">
+						
+						    <!-- 戻るボタン -->
+						    <form action="<c:url value='/scoremanager/main/RetrieveEvents.action'/>"
+						          method="get">
+						
+						        <button type="submit" class="back-button">
+						            戻る
+						        </button>
+						
+						    </form>
+						
+						    <!-- 参加するボタン -->
+						    <c:if test="${canApply}">
+						
+						        <form action="<c:url value='/scoremanager/main/ReferenceConfirmationDisplay.action'/>"
+						              method="get">
+						
+						            <input type="hidden"
+						                   name="event_id"
+						                   value="${event.event_id}">
+						
+						            <button type="submit" class="participation-button">
+						                参加する
+						            </button>
+						
+						        </form>
+						
+						    </c:if>
+						
+						</div>
 
                     </div>
 

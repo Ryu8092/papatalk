@@ -235,7 +235,7 @@
 
                                 <div class="history-item">
 
-                                    <form action="${pageContext.request.contextPath}/scoremanager/main/BanScreenDisplay.action"
+                                    <form action="/papatalk/scoremanager/main/BanScreenDisplay.action"
                                           method="get">
 
                                         <input type="hidden"

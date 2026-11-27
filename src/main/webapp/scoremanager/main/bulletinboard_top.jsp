@@ -352,12 +352,12 @@
                 <div class="bulletin-buttons">
 
                     <a class="bulletin-button"
-                       href="${pageContext.request.contextPath}/scoremanager/main/NewRegistration.action">
+                       href="/papatalk/scoremanager/main/NewRegistration.action">
                         ＋ 投稿する
                     </a>
 
                     <a class="bulletin-button"
-                       href="${pageContext.request.contextPath}/scoremanager/main/GetPostHistory.action">
+                       href="/papatalk/scoremanager/main/GetPostHistory.action">
                         投稿履歴
                     </a>
 
@@ -394,7 +394,7 @@
                                 <article class="post-card">
 
                                     <a class="post-open-link"
-                                       href="${pageContext.request.contextPath}/scoremanager/main/RetrieveReplies.action?post_id=${post.post_id}">
+                                       href="/papatalk/scoremanager/main/RetrieveReplies.action?post_id=${post.post_id}">
 
                                         <h3 class="post-title">
                                             <c:out value="${post.post_title}" />

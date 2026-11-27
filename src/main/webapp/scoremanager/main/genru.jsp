@@ -367,10 +367,12 @@
             <%-- 戻る・絞り込みボタン --%>
             <div class="setting-actions">
 
-                <a href="${pageContext.request.contextPath}/scoremanager/main/MatchList.action"
-                   class="back-button">
-                    戻る
-                </a>
+                <form action="${pageContext.request.contextPath}/scoremanager/main/MatchList.action"
+				      method="get">
+				    <button type="submit" class="back-button">
+				        ← 戻る
+				    </button>
+				</form>
 
                 <button type="submit" class="filter-button">
                     この条件で絞り込む

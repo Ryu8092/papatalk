@@ -603,11 +603,12 @@
                     <div class="account-buttons">
 
                         <!-- パスワード変更 -->
-                        <button type="button"
-                                class="account-button account-password"
-                                onclick="location.href='PasswordChange.action'">
-                            パスワード変更
-                        </button>
+                       <form action="PasswordChange.action" method="get">
+						    <button type="submit"
+						            class="account-button account-password">
+						        パスワード変更
+						    </button>
+						</form>
 
                         <!-- アカウント情報保存 -->
                         <button type="submit"

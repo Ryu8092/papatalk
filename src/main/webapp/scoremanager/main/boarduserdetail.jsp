@@ -158,13 +158,14 @@
         <div class="user-detail-page">
 
             <!-- 戻るボタン -->
-            <div class="back-button-area">
-                <button type="button"
-                        class="back-button"
-                        onclick="history.back()">
-                    ← 戻る
-                </button>
-            </div>
+			<div class="back-button-area">
+			    <form action="/papatalk/scoremanager/main/UserList.action"
+			          method="get">
+			        <button type="submit" class="back-button">
+			            ← 戻る
+			        </button>
+			    </form>
+			</div>
 
             <!-- 見出し -->
             <h2 class="detail-heading">
@@ -230,7 +231,7 @@
 
                 <%-- イイネボタン --%>
                 <div class="button-area">
-                    <form action="${pageContext.request.contextPath}/scoremanager/main/BoardFavoriteAdd.action"
+                    <form action="/papatalk/scoremanager/main/BoardFavoriteAdd.action"
                           method="post">
 
                         <input type="hidden"

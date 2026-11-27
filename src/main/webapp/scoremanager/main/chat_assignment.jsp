@@ -1100,13 +1100,13 @@ body {
 
         <div class="chat-buttons">
 
-            <a href="AssignmentTop.action?product_id=${product_id}"
-
-               class="btn back-btn">
-
-                戻る
-
-            </a>
+           <form action="AssignmentTop.action" method="get">
+			    <input type="hidden" name="product_id" value="${product_id}">
+			
+			    <button type="submit" class="btn back-btn">
+			        ← 戻る
+			    </button>
+			</form>
 
         </div>
 

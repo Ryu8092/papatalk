@@ -1,3 +1,4 @@
+
 package scoremanager.main;
 
 import dao.UserDao;
@@ -18,13 +19,15 @@ public class UpdateAction extends Action {
 
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(
-                request.getContextPath() + "/scoremanager/main/Operation.action"
+                request.getContextPath()
+                + "/scoremanager/main/Operation.action"
             );
             return;
         }
 
         // 通報されたユーザーIDを取得
-        String reportedUserId = request.getParameter("user_id");
+        String reportedUserId =
+            request.getParameter("reported_user_id");
 
         if (reportedUserId == null || reportedUserId.isEmpty()) {
 
@@ -43,7 +46,13 @@ public class UpdateAction extends Action {
         int reported_user_id;
 
         try {
+
             reported_user_id = Integer.parseInt(reportedUserId);
+
+            if (reported_user_id <= 0) {
+                throw new NumberFormatException();
+            }
+
         } catch (NumberFormatException e) {
 
             request.setAttribute(
@@ -61,7 +70,7 @@ public class UpdateAction extends Action {
         // DAO
         UserDao dao = new UserDao();
 
-        // アカウント停止
+        // 通報されたユーザーのアカウントを停止
         int result = dao.releaseBan(reported_user_id);
 
         if (result > 0) {
