@@ -71,7 +71,7 @@ public class UpdateAction extends Action {
         UserDao dao = new UserDao();
 
         // 通報されたユーザーのアカウントを停止
-        int result = dao.releaseBan(reported_user_id);
+        int result = dao.BanAccount(reported_user_id);
 
         if (result > 0) {
 

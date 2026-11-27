@@ -1,4 +1,3 @@
-
 package scoremanager.main;
 
 import java.util.List;
@@ -33,19 +32,22 @@ public class RetrievePostsAction extends Action {
         }
 
         User user = (User) session.getAttribute("user");
-
-        // 管理者以外は利用できない
-        if (user.getUser_status() != 9) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
-
         // 投稿一覧を取得
         PostDAO dao = new PostDAO();
 
         List<Post> postList = dao.getAll();
 
         request.setAttribute("postList", postList);
+        // 管理者以外は利用できない
+        if (user.getUser_status() != 9) {
+        	RequestDispatcher dispatcher =
+                    request.getRequestDispatcher("/scoremanager/main/bulletinboard_top.jsp");
+
+                dispatcher.forward(request, response);
+                return;
+        }
+
+
 
         // 投稿一覧画面へ遷移
         RequestDispatcher dispatcher =

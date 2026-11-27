@@ -407,7 +407,7 @@
                                         <div class="post-info">
 
                                             <span class="post-user">
-                                                投稿者：<c:out value="${post.user_name}" />
+                                                投稿者：<c:out value="${post.nickname}" />
                                             </span>
 
                                             <span>

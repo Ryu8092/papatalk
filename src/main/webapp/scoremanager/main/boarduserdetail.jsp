@@ -180,7 +180,7 @@
                     <div class="user-info-item">
                         <div class="user-info-label">名前</div>
                         <div class="user-info-value">
-                            <c:out value="${target_user.user_name}" />
+                            <c:out value="${target_user.nickname}" />
                         </div>
                     </div>
 

@@ -461,7 +461,6 @@
                         <c:remove var="stopMessage" scope="session" />
 
                     </c:if>
-
                     <!-- ===== 通報情報 ===== -->
                     <c:choose>
 

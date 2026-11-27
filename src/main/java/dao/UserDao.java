@@ -166,6 +166,25 @@ public class UserDao extends Dao {
             return st.executeUpdate();
         }
     }
+    // アカウント停止
+    public int BanAccount(int user_id) throws Exception {
+
+        String sql =
+            "UPDATE USERS " +
+            "SET USER_STATUS = 1 " +
+            "WHERE USER_ID = ? " +
+            "AND USER_STATUS = 0";
+
+        try (
+            Connection con = getConnection();
+            PreparedStatement st = con.prepareStatement(sql)
+        ) {
+
+            st.setInt(1, user_id);
+
+            return st.executeUpdate();
+        }
+    }
     
     public int releaseBan(int user_id) throws Exception {
     	 String sql = "UPDATE users SET user_status = ? WHERE user_id = ?";

@@ -426,7 +426,7 @@
                                                 <td>
 
                                                     <form
-                                                        action="/papatalk/scoremanager/main/TherearenoViolators.action"
+                                                        action="${pageContext.request.contextPath}/scoremanager/main/TherearenoViolators.action"
                                                         method="get"
                                                         class="user-name-form">
 
@@ -487,7 +487,7 @@
                     <div class="bottom-buttons">
 
                         <form
-                            action="/papatalk/scoremanager/main/SingleScreenDisplay.action"
+                            action="${pageContext.request.contextPath}/scoremanager/main/SingleScreenDisplay.action"
                             method="get"
                             class="back-form">
 

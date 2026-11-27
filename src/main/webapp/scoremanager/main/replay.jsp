@@ -586,7 +586,7 @@
 
                     <div class="reply-info">
                         <span>
-                            投稿者：<c:out value="${post.user_name}" />
+                            投稿者：<c:out value="${post.nickname}" />
                         </span>
 
                         <span>
@@ -681,7 +681,7 @@
                                             </span>
 
                                             <span>
-                                                <c:out value="${reply.user_name}" />
+                                                <c:out value="${reply.nickname}" />
                                             </span>
                                         </div>
 

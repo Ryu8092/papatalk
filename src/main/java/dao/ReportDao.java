@@ -13,97 +13,67 @@ import bean.User;
 
 public class ReportDao extends Dao {
 
-    // 通報内容IDからユーザー情報・通報情報を取得
-    // 有効なアカウント（user_status = 0）のみ取得
-    // おさがり譲渡の場合は商品(3)とチャット(4)の両方を取得
-    public List<Report> selectByReportContentId(
-            int report_content_id) throws Exception {
+	// 通報内容IDからユーザー情報・通報情報を取得
+	// 有効なアカウント（user_status = 0）のみ取得
+	public List<Report> selectByReportContentId(int report_content_id)
+	        throws Exception {
 
-        List<Report> list = new ArrayList<>();
+	    List<Report> list = new ArrayList<>();
 
-        String sql =
-            "SELECT r.*, " +
-            "u.user_name, " +
-            "u.user_status, " +
-            "rr.report_reason_name " +
-            "FROM reports r " +
-            "INNER JOIN users u " +
-            "ON r.reported_user_id = u.user_id " +
-            "INNER JOIN report_reasons rr " +
-            "ON r.report_reason_id = rr.report_reason_id " +
-            "WHERE (r.report_content_id = ? " +
-            "OR (? = 3 AND r.report_content_id = 4)) " +
-            "AND u.user_status = 0" +
-            "AND r.state = 0" +
-            "ORDER BY r.create_at DESC";
+	    String sql =
+	        "SELECT r.*, " +
+	        "u.user_name, " +
+	        "u.user_status, " +
+	        "rr.report_reason_name " +
+	        "FROM reports r " +
+	        "INNER JOIN users u " +
+	        "ON r.reported_user_id = u.user_id " +
+	        "INNER JOIN report_reasons rr " +
+	        "ON r.report_reason_id = rr.report_reason_id " +
+	        "WHERE r.report_content_id = ? " +
+	        "AND u.user_status = 0 " +
+	        "AND r.state = 0 " +
+	        "ORDER BY r.create_at DESC";
 
-        try (
-            Connection con = getConnection();
-            PreparedStatement st = con.prepareStatement(sql)
-        ) {
-            st.setInt(1, report_content_id);
-            st.setInt(2, report_content_id);
+	    try (Connection con = getConnection();
+	         PreparedStatement st = con.prepareStatement(sql)) {
 
-            try (ResultSet rs = st.executeQuery()) {
+	        st.setInt(1, report_content_id);
 
-                while (rs.next()) {
+	        try (ResultSet rs = st.executeQuery()) {
 
-                    Report bean = new Report();
+	            while (rs.next()) {
 
-                    bean.setReport_id(
-                        rs.getInt("report_id"));
+	                Report bean = new Report();
 
-                    bean.setReporter_user_id(
-                        rs.getInt("reporter_user_id"));
+	                bean.setReport_id(rs.getInt("report_id"));
+	                bean.setReporter_user_id(rs.getInt("reporter_user_id"));
+	                bean.setReported_user_id(rs.getInt("reported_user_id"));
+	                bean.setReport_reason_id(rs.getInt("report_reason_id"));
+	                bean.setContent(rs.getString("content"));
 
-                    bean.setReported_user_id(
-                        rs.getInt("reported_user_id"));
+	                Timestamp timestamp = rs.getTimestamp("create_at");
+	                bean.setCreate_at(timestamp);
 
-                    bean.setReport_reason_id(
-                        rs.getInt("report_reason_id"));
+	                bean.setState(rs.getInt("state"));
+	                bean.setReport_content(rs.getString("report_content"));
+	                bean.setReport_content_id(rs.getInt("report_content_id"));
+	                bean.setReport_reason_name(rs.getString("report_reason_name"));
 
-                    bean.setContent(
-                        rs.getString("content"));
+	                User user = new User();
+	                user.setUser_id(rs.getInt("reported_user_id"));
+	                user.setUser_name(rs.getString("user_name"));
+	                user.setUser_status(rs.getInt("user_status"));
 
-                    // Timestamp型で取得
-                    Timestamp timestamp =
-                        rs.getTimestamp("create_at");
+	                bean.setUser(user);
 
-                    bean.setCreate_at(timestamp);
+	                list.add(bean);
+	            }
+	        }
+	    }
 
-                    bean.setState(
-                        rs.getInt("state"));
-
-                    bean.setReport_content(
-                        rs.getString("report_content"));
-
-                    bean.setReport_content_id(
-                        rs.getInt("report_content_id"));
-
-                    bean.setReport_reason_name(
-                        rs.getString("report_reason_name"));
-
-                    // ユーザー情報
-                    User user = new User();
-
-                    user.setUser_id(
-                        rs.getInt("reported_user_id"));
-
-                    user.setUser_name(
-                        rs.getString("user_name"));
-
-                    user.setUser_status(
-                        rs.getInt("user_status"));
-
-                    bean.setUser(user);
-
-                    list.add(bean);
-                }
-            }
-        }
-
-        return list;
-    }
+	    return list;
+	}
 
 
     // ユーザーIDからおさがりの商品・チャットの通報情報を取得
@@ -114,18 +84,17 @@ public class ReportDao extends Dao {
         List<Report> list = new ArrayList<>();
 
         String sql =
-            "SELECT r.*, " +
-            "u.user_name, " +
-            "u.user_status, " +
-            "rr.report_reason_name " +
-            "FROM reports r " +
-            "INNER JOIN users u " +
-            "ON r.reported_user_id = u.user_id " +
-            "INNER JOIN report_reasons rr " +
-            "ON r.report_reason_id = rr.report_reason_id " +
-            "WHERE r.reported_user_id = ? " +
-            "AND r.report_content_id IN (3, 4) " +
-            "ORDER BY r.create_at DESC";
+        	    "SELECT r.*, " +
+        	    "u.user_name, " +
+        	    "u.user_status, " +
+        	    "rr.report_reason_name " +
+        	    "FROM reports r " +
+        	    "INNER JOIN users u " +
+        	    "ON r.reported_user_id = u.user_id " +
+        	    "INNER JOIN report_reasons rr " +
+        	    "ON r.report_reason_id = rr.report_reason_id " +
+        	    "WHERE r.reported_user_id = ? " +
+        	    "ORDER BY r.create_at DESC";
 
         try (
             Connection con = getConnection();
